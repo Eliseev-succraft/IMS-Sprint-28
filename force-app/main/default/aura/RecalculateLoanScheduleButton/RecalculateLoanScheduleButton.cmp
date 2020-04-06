@@ -1,0 +1,82 @@
+<aura:component controller="RecalculateButtonController" access="global">
+    <!-- Global attributes -->
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="createModal" type="Boolean" default="false"/>
+    <aura:attribute name="recordId" type="String"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <!-- Component additional attributes -->
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="mainForm" type="Boolean" default="false"/>
+    <aura:attribute name="spinners" type="List" default="[]"/>
+    <!--force attributes-->
+    <aura:attribute name="progress" type="Integer" default="0"/>
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="isProgressBar" type="Boolean" default="false"/>
+    <!-- Component methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <force:recordData recordId="{! v.recordId }" aura:id="auraRecordData"
+                      fields="sfims__Open_Ended_Loan__c"
+                      targetError="{! v.recordError }"
+                      targetRecord="{! v.record }"
+                      targetFields="{! v.simpleRecord }"
+                      recordUpdated="{! c.handleRecordUpdated }"/>
+    <!-- Global styles -->
+    <aura:html tag="style">
+        .toastMessage.forceActionsText {
+            white-space : pre-line !important;
+        }
+    </aura:html>
+    <aura:if isTrue="{! not(v.mainForm) }">
+        <aura:html tag="style">
+            .modal-container {
+                display: none;
+            }
+            .slds-backdrop--open {
+                display: none;
+            }
+        </aura:html>
+        <aura:set attribute="else">
+            <aura:html tag="style">
+                .slds-modal__container {
+                    width: 640px;
+                    max-width: 100%;
+                }
+                .cuf-content {
+                    padding: 0 0rem !important;
+                }
+                .slds-p-around--medium {
+                    padding: 0rem !important;
+                }
+                .slds-modal__content {
+                    height: unset !important;
+                    max-height: unset !important;
+                    overflow: visible !important;
+                }
+            </aura:html>
+        </aura:set>
+    </aura:if>
+    <!-- Body -->
+    <div style="position: relative;">
+        <aura:if isTrue="{! v.isLoading }">
+            <lightning:spinner size="medium" variant="brand" alternativeText="{! $Label.c.aura_label_3  + '...'}"/>
+        </aura:if>
+        <div class="modal-header slds-modal__header">
+            <h4 class="title slds-text-heading--medium">{! $Label.c.aura_label_87 }</h4>
+        </div>
+        <div class="modal-body scrollable slds-modal__content slds-p-around--medium slds-align_absolute-center" style="min-height: 50px;">
+            {! $Label.c.aura_label_88 }
+        </div>
+        <aura:if isTrue="{! v.isProgressBar }">
+            <div style="padding: 0 10px 20px 10px;">
+                <lightning:progressBar size="large" value="{! v.progress }"/>
+            </div>
+        </aura:if>
+        <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+            <lightning:button label="{! $Label.c.aura_label_12 }" disabled="{! v.isLoading }" onclick="{! c.handleCancel }"/>
+            <lightning:button variant="brand" disabled="{! v.isLoading }" label="{! $Label.c.aura_label_22 }" onclick="{! c.handleRecalculate }"/>
+        </div>
+    </div>
+</aura:component>

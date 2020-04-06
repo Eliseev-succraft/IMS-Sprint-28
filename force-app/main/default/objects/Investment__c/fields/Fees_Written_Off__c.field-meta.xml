@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fees_Written_Off__c</fullName>
+    <description>Roll-up summary of Fees written off accross all repayment schedules</description>
+    <externalId>false</externalId>
+    <label>Fees Written Off</label>
+    <summarizedField>Repayment_Schedule__c.Fees_Written_Off__c</summarizedField>
+    <summaryForeignKey>Repayment_Schedule__c.Loan__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

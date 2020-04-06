@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount_Original__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The orginal Scheduled amount for this transaction (and a copy of the actual amount for a actual transaction)
+
+This field is used to create the Investment Graph to show Actual versus original Schedule</description>
+    <externalId>false</externalId>
+    <label>Amount (Original)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

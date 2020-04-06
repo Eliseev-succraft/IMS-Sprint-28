@@ -1,0 +1,34 @@
+.THIS .customRequired {
+    font-weight: 400;
+}
+
+.THIS .customRequired.slds-has-error .slds-input {
+    border-color: rgb(194, 57, 52) !important;
+}
+
+.THIS .customRequired:before {
+    content: "*";
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52) !important;
+    float: left;
+}
+
+.THIS .add-btn {
+    margin-top: 30px;
+}
+
+.THIS .add-btn a {
+    color: rgb(62, 62, 60);
+}
+
+.THIS .add-icon {
+    padding-right: 5px;
+}
+
+.THIS .add-icon .slds-icon {
+    fill: currentColor;
+}
+
+.THIS.customSpinner {
+    z-index: 9005 !important;
+}

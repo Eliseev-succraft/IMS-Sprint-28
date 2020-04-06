@@ -1,0 +1,271 @@
+<aura:component access="global" controller="DisburseLoanButtonController">
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:attribute name="recordId" type="String"/>
+    <!-- Global attributes -->
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="spinners" type="List" default="[]"/>
+    <!-- Force attributes -->
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <!-- DisburseLoanUtilComponent -->
+    <aura:attribute name="amount" type="Double"/>
+    <aura:attribute name="transactionDate" type="String"/>
+    <aura:attribute name="status" type="String"/>
+    <!-- DataTable attributes -->
+    <aura:attribute name="data" type="Object[]"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="row" type="Object"/>
+    <aura:attribute name="selectedRow" type="Object"/>
+    <!-- Component additional attributes -->
+    <aura:attribute name="isDisplayForm" type="Boolean" default="false"/>
+    <aura:attribute name="refinance" type="Boolean" default="false"/>
+    <aura:attribute name="existingDisbursementAmount" type="Double"/>
+    <aura:attribute name="newTransactions" type="List"/>
+    <aura:attribute name="newDisbursementAmount" type="Double"/>
+    <aura:attribute name="JSONtransactionsOld" type="String"/>
+    <aura:attribute name="transactions" type="List"/>
+    <aura:attribute name="showWarning" type="Boolean" default="false"/>
+    <aura:attribute name="showPopup" type="Boolean" default="false"/>
+    <aura:attribute name="showButtons" type="Boolean" default="true"/>
+    <aura:attribute name="showAddButton" type="Boolean" default="false"/>
+    <aura:attribute name="showUpdateButton" type="Boolean" default="false"/>
+    <aura:attribute name="title" type="Object"/>
+    <aura:attribute name="disbursementAmount" type="Double"/>
+    <aura:attribute name="maxAmountToDisburse" type="Double"/>
+    <aura:attribute name="showPreview" type="Boolean" default="false"/>
+    <aura:attribute name="repaymentSchedules" type="Object"/>
+    <aura:attribute name="previewColumns" type="List"/>
+    <aura:attribute name="validationAmountError" type="Boolean" default="false"/>
+    <aura:method name="runValidation" action="{!c.runValidation}"/>
+    <aura:attribute name="showDeletePopup" type="Boolean" default="false"/>
+    <!-- Component methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <force:recordData aura:id="forceRecord"
+                      layoutType="FULL"
+                      recordId="{! v.recordId }"
+                      targetError="{! v.recordError }"
+                      targetRecord="{! v.record }"
+                      targetFields="{! v.simpleRecord }"
+                      mode="VIEW"
+                      recordUpdated="{! c.handleRecordUpdated }"/>
+    <!-- Global styles -->
+    <aura:html tag="style">
+        .toastMessage.forceActionsText {
+            white-space : pre-line !important;
+        }
+    </aura:html>
+    <aura:if isTrue="{! not(v.isDisplayForm) }">
+        <aura:html tag="style">
+            .modal-container {
+                display: none;
+            }
+            .slds-backdrop--open {
+                display: none;
+            }
+        </aura:html>
+        <aura:set attribute="else">
+            <aura:html tag="style">
+                .slds-modal__container {
+                    width: 700px;
+                    max-width: 100%;
+                }
+                .cuf-content {
+                    padding: 0 0rem !important;
+                }
+                .slds-p-around--medium {
+                    padding: 0rem !important;
+                }
+            </aura:html>
+        </aura:set>
+    </aura:if>
+    <!-- Body -->
+    <div style="position: relative;">
+        <aura:if isTrue="{! v.isLoading }">
+            <lightning:spinner size="medium" variant="brand" alternativeText="{! $Label.c.aura_label_3  + '...' }"/>
+        </aura:if>
+        <div class="modal-header slds-modal__header">
+            <h4 class="title slds-text-heading--medium">{! $Label.c.aura_label_5 }</h4>
+        </div>
+        <div class="slds-modal__content" style="min-height: 130px; padding: 1rem;">
+
+            <!-- Full disbursement at start -->
+            <aura:if isTrue="{! v.simpleRecord.sfims__Disbursement_Method__c == 'Full disbursement at start' }">
+                <aura:if isTrue="{! not(v.refinance) }">
+                    <aura:html tag="style">
+                        .slds-modal__container{
+                            width: 550px;
+                            max-width: 100%;
+                            transform: none !important;
+                        }
+                        .slds-modal__content {
+                            overflow-y: auto !important;
+                        }
+                    </aura:html>
+                </aura:if>
+                <c:DisburseLoanUtilComponent aura:id="disburseLoanUtilCmp"
+                        simpleRecord="{! v.simpleRecord }"
+                        amount="{! v.amount }"
+                        transactionDate="{! v.transactionDate }"
+                        status="{! v.status }"
+                        disableAmount="true"
+                        disableTransactionDate="{! v.transaction.sfims__Status__c == 'Disbursed' }"/>
+            </aura:if>
+            <!-- END Full disbursement at start -->
+
+            <!-- Tranched disbursement allowed -->
+            <aura:if isTrue="{! v.simpleRecord.sfims__Disbursement_Method__c == 'Tranched disbursement allowed' }">
+                <aura:html tag="style">
+                    .slds-modal__container{
+                        width: 700px;
+                        max-width: 100%;
+                        transform: none !important;
+                    }
+                </aura:html>
+                <div style="min-height: 200px; width: 100%;">
+                    <div>
+                        <lightning:datatable columns="{! v.columns }"
+                                             data="{! v.transactions }"
+                                             keyField="id"
+                                             class=""
+                                             hideCheckboxColumn="true"
+                                             onrowaction="{! c.handleRowAction }"
+                                             resizeColumnDisabled="true"/>
+                    </div>
+                </div>
+            </aura:if>
+            <!-- END Tranched disbursement allowed -->
+
+            <aura:if isTrue="{! v.showPopup }">
+                <aura:html tag="style">
+                    .slds-modal__container{
+                        max-width: 100%;
+                        transform: none !important;
+                    }
+                </aura:html>
+                <div class="disburseLoanModal">
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container" style="width: 670px;">
+                            <header class="slds-modal__header">
+                                <lightning:buttonIcon iconName="utility:close" onclick="{! c.closePopup }" alternativeText="{! $Label.c.aura_label_6 }" variant="bare-inverse" class="slds-modal__close"/>
+                                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{! v.title }</h2>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                <!--
+                                <aura:if isTrue="{! v.validationAmountError }">
+                                    <ui:message severity="error" closable="true">
+                                        The total of amounts should not be higher than the Loan Amount.
+                                    </ui:message>
+                                </aura:if>-->
+                                <aura:if isTrue="{! v.simpleRecord }">
+                                    <c:DisburseLoanUtilComponent aura:id="disburseLoanUtilCmp"
+                                            simpleRecord="{! v.simpleRecord }"
+                                            amount="{! v.amount }"
+                                            transactionDate="{! v.transactionDate }"
+                                            status="{! v.status }"
+                                            disbursementAmount="{! v.disbursementAmount }"
+                                            validationAmountError="{! v.validationAmountError }"
+                                            maxAmountToDisburse="{! v.maxAmountToDisburse }"/>
+                                </aura:if>
+                            </div>
+                            <footer class="slds-modal__footer">
+                                <lightning:button label="{! $Label.c.aura_label_7 }" variant="neutral" onclick="{! c.closePopup }"/>
+                                <aura:if isTrue="{! not(v.validationAmountError) }">
+                                    <aura:if isTrue="{! v.showAddButton }">
+                                        <lightning:button label="{! $Label.c.aura_label_8 }" variant="brand" onclick="{! c.addTransaction }"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{! v.showUpdateButton }">
+                                        <lightning:button label="{! $Label.c.aura_label_9 }" variant="brand" onclick="{! c.updateTransaction }"/>
+                                    </aura:if>
+                                </aura:if>
+                            </footer>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{! v.showPreview }">
+                <aura:html tag="style">
+                    .slds-modal__container{
+                        width: 1000px;
+                        max-width: 100%;
+                        transform: none !important;
+                    }
+                </aura:html>
+                <div style="margin-top: 15px;">
+                    <lightning:datatable keyField="Id"
+                                         data="{! v.repaymentSchedules }"
+                                         columns="{! v.previewColumns }"
+                                         hideCheckboxColumn="true"
+                                         class="hideSortHeader"/>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{! v.showDeletePopup }">
+                <aura:html tag="style">
+                    .slds-modal__container{
+                        max-width: 100%;
+                        transform: none !important;
+                    }
+                </aura:html>
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container" style="width: 500px;">
+                        <header class="slds-modal__header">
+                            <lightning:buttonIcon iconName="utility:close" onclick="{! c.handleCloseModalDeleteTransaction }" alternativeText="{! $Label.c.aura_label_6 }" variant="bare-inverse" class="slds-modal__close"/>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{! $Label.c.aura_label_10 }</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium slds-text-align_center" id="modal-content-id-1">
+                            <p>{! $Label.c.aura_label_11 }</p>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning:button variant="neutral" label="{! $Label.c.aura_label_12 }" title="{! $Label.c.aura_label_12 }" onclick="{! c.handleCloseModalDeleteTransaction }"/>
+                            <lightning:button variant="brand" label="{! $Label.c.aura_label_13 }" title="{! $Label.c.aura_label_13 }" onclick="{! c.handleDeleteTransaction }"/>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </aura:if>
+            <aura:if isTrue="{! not(v.refinance) }">
+                <aura:if isTrue="{! v.openPreview }">
+                    <aura:html tag="style">
+                        .slds-modal__container {
+                            height: auto;
+                            max-height: 100%;
+                            width: 1000px;
+                            max-width: 100%;
+                        }
+                        .slds-modal__content {
+                            overflow-y: auto !important;
+                        }
+                    </aura:html>
+                    <div class="dataTable">
+                        <lightning:datatable aura:id="repaymentSchedulesDataTable" keyField="Id" data="{! v.repaymentSchedules }" columns="{! v.columns }" hideCheckboxColumn="true"/>
+                    </div>
+                </aura:if>
+            </aura:if>
+        </div>
+        <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+            <aura:if isTrue="{! not(v.refinance) }">
+                <aura:if isTrue="{! v.showButtons }">
+                    <aura:if isTrue="{! v.simpleRecord.sfims__Disbursement_Method__c == 'Full disbursement at start' }">
+                        <lightning:button variant="neutral" name="preview" label="{! $Label.c.aura_label_14 }" type="button" onclick="{! c.openPreviewFullDisbursement }"/>
+                        <lightning:button variant="neutral" label="{! $Label.c.aura_label_15 }" onclick="{! c.openPreviewWithPlannedFullDisbursement }"/>
+                        <lightning:button label="{! $Label.c.aura_label_12 }" onclick="{! c.handleCancel }"/>
+                        <lightning:button variant="brand" label="{! $Label.c.aura_label_16 }" onclick="{! c.saveTransaction }"/>
+                        <aura:set attribute="else">
+                            <aura:if isTrue="{! and(v.transactions.length > 0, not(v.refinance)) }">
+                                <lightning:button variant="neutral" label="{! $Label.c.aura_label_14 }" onclick="{! c.openPreview }"/>
+                                <lightning:button variant="neutral" label="{! $Label.c.aura_label_15 }" onclick="{! c.openPreviewWithPlanned }"/>
+                            </aura:if>
+                            <lightning:button label="{! $Label.c.aura_label_12 }" onclick="{! c.handleCancel }"/>
+                            <lightning:button variant="brand" label="{! $Label.c.aura_label_17 }" onclick="{! c.newTransaction }"/>
+                            <aura:if isTrue="{! or(v.transactions.length > 0, v.JSONtransactionsOld != '[]') }">
+                                <lightning:button variant="brand" label="{! $Label.c.aura_label_16 }" onclick="{! c.saveTransactions }"/>
+                            </aura:if>
+                        </aura:set>
+                    </aura:if>
+                </aura:if>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

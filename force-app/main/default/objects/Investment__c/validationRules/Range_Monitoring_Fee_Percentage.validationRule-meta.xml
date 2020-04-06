@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Range_Monitoring_Fee_Percentage</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Investment__c, OR(Monitoring_Fee_Percentage__c &lt; Loan_Product__r.Minimum_Monitoring_Fee_Percentage__c, Monitoring_Fee_Percentage__c &gt; Loan_Product__r.Maximum_Monitoring_Fee_Percentage__c))</errorConditionFormula>
+    <errorDisplayField>Monitoring_Fee_Percentage__c</errorDisplayField>
+    <errorMessage>Out of allowed range (Monitoring Fee Percentage)</errorMessage>
+</ValidationRule>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_ID</field>
+    </columns>
+    <columns>
+        <field>Report_Template_Indicator__c.Report_Template__c</field>
+    </columns>
+    <columns>
+        <field>Report_Template_Indicator__c.Indicator_Name__c</field>
+    </columns>
+    <columns>
+        <field>Report_Template_Indicator__c.Indicator_Catalogue__c</field>
+    </columns>
+    <columns>
+        <field>Report_Template_Indicator__c.Metric_Level__c</field>
+    </columns>
+    <columns>
+        <field>Report_Template_Indicator__c.Standard_Custom__c</field>
+    </columns>
+    <columns>
+        <field>Report_Template_Indicator__c.Section__c</field>
+    </columns>
+    <format>Tabular</format>
+    <name>All Report Template Indicators</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Report_Template_Indicator__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>CUST_CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

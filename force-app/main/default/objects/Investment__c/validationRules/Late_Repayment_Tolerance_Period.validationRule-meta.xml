@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Late_Repayment_Tolerance_Period</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Investment__c, RecordType.DeveloperName == &#39;Loan&#39;, !Open_Ended_Loan__c, NOT(ISBLANK(TEXT(Late_Repayment_Calculation_Method__c))), TEXT(Late_Repayment_Calculation_Method__c) != &#39;No Penalty&#39;, ISBLANK(Late_Repayment_Tolerance_Period__c))</errorConditionFormula>
+    <errorDisplayField>Late_Repayment_Tolerance_Period__c</errorDisplayField>
+    <errorMessage>Complete this field (Late Repayment Tolerance Period)</errorMessage>
+</ValidationRule>

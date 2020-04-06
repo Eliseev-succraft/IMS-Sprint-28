@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Investment_Committee__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Investment Committee that the Investment Committee is a member of</description>
+    <externalId>false</externalId>
+    <label>Investment Committee</label>
+    <referenceTo>Investment_Committee__c</referenceTo>
+    <relationshipLabel>Investment Committee Members</relationshipLabel>
+    <relationshipName>Investment_Committee_Members</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

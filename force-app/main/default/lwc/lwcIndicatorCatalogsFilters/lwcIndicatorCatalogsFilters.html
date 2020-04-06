@@ -1,0 +1,22 @@
+<template>
+    <div if:true={spinner.refresh}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </div>
+    <lightning-accordion
+            allow-multiple-sections-open="true"
+            active-section-name={activeSections}>
+        <template for:each={optionsCheckboxGroup} for:index="index" for:item="item">
+            <lightning-accordion-section key={item.fieldName} name={item.fieldName} label={item.accordionSection}>
+                <lightning-checkbox-group
+                        data-index={index}
+                        name={item.fieldName}
+                        label="checkboxGroup"
+                        variant="label-hidden"
+                        value=""
+                        options={item.checkboxGroup}
+                        onchange={handleChangeFilter}>
+                </lightning-checkbox-group>
+            </lightning-accordion-section>
+        </template>
+    </lightning-accordion>
+</template>

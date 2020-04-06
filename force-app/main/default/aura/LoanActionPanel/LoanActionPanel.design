@@ -1,0 +1,3 @@
+<design:component>
+    <design:attribute name="countActiveButtons" required="true" label="Visible Action Buttons" default="10" description="If the screen's size, resolution, or orientation doesn't accommodate the buttons, they appear in a dropdown list."/>
+</design:component>

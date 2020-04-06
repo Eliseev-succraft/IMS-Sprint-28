@@ -1,0 +1,75 @@
+<aura:component controller="RescheduleLoanButtonController" access="global">
+    <!-- Libraries -->
+    <c:lwcUtilityMessage aura:id="message" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilitySystem aura:id="system" isDebugLog="{# v.isDebugLog }"/>
+    <!-- Global attributes -->
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:attribute name="recordId" type="String"/>
+    <!-- Force attributes -->
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="writeOffDate" type="Date"/>
+    <aura:attribute name="totalPrincipalWrittenOff" type="Object"/>
+    <aura:attribute name="totalInterestWrittenOff" type="Object"/>
+    <aura:attribute name="totalFeesWrittenOff" type="Object"/>
+    <aura:attribute name="totalPenaltiesWrittenOff" type="Object"/>
+    <aura:attribute name="totalAmountWrittenOff" type="Object"/>
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:html tag="style">
+        .custom-modal .slds-modal__container {
+            max-width: 25rem !important;
+        }
+        .custom-modal .slds-modal__content.slds-p-around_medium {
+            padding-top: 0;
+        }
+        .cuf-content {
+            padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }
+        .slds-modal__content {
+            height: unset !important;
+            max-height: unset !important;
+            overflow: visible !important;
+        }
+    </aura:html>
+    <force:recordData aura:id="recordData"
+                      layoutType="FULL"
+                      recordId="{! v.recordId }"
+                      targetError="{! v.recordError }"
+                      targetRecord="{! v.record }"
+                      targetFields="{! v.simpleRecord }"
+                      recordUpdated="{! c.handleRecordUpdated }"/>
+    <div style="position: relative;">
+        <c:lwcUtilitySpinner aura:id="spinner" alternativeText="{! $Label.c.aura_label_3  + '...'}" delay="30000" isDebugLog="{# v.isDebugLog }" onloaded="{! c.showSpinner }"/>
+        <header class="slds-modal__header">
+            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Write Off</h2>
+        </header>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="min-height: 500px;">
+            <lightning:recordEditForm recordId="{! v.recordId }" objectApiName="sfims__Investment__c">
+                <aura:if isTrue="{! v.simpleRecord }">
+                    <c:InvestmentWrittenOffUtilComponent
+                            recordId="{! v.recordId }"
+                            simpleRecord="{! v.simpleRecord }"
+                            writeOff="true"
+                            totalAmountWrittenOff="{! v.totalAmountWrittenOff }"
+                            totalPrincipalWrittenOff="{! v.totalPrincipalWrittenOff }"
+                            totalInterestWrittenOff="{! v.totalInterestWrittenOff }"
+                            totalFeesWrittenOff="{! v.totalFeesWrittenOff }"
+                            totalPenaltiesWrittenOff="{! v.totalPenaltiesWrittenOff }"
+                            actionDate="{! v.writeOffDate }"/>
+                </aura:if>
+            </lightning:recordEditForm>
+        </div>
+        <footer class="slds-modal__footer">
+            <div class="slds-text-align_right">
+                <lightning:button label="{! $Label.c.aura_label_12 }" onclick="{! c.handleCancel }"/>
+                <lightning:button variant="brand" label="{! $Label.c.aura_label_56 }" type="button" onclick="{! c.handleWriteOff }"/>
+            </div>
+        </footer>
+    </div>
+</aura:component>

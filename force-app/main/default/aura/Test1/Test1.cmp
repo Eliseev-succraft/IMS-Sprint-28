@@ -1,0 +1,48 @@
+<aura:component implements="flexipage:availableForAllPageTypes" controller="Test1Controller"  description="Test1">
+    <!-- Design attributes -->
+    <aura:attribute name="loading" type="Boolean" default="false"/>
+    <aura:attribute name="city" type="String" default=""/>
+    <aura:attribute name="pr1" type="String" default=""/>
+    <aura:attribute name="pr2" type="String" default=""/>
+    <aura:attribute name="pr3" type="String" default=""/>
+    <aura:attribute name="pr4" type="String" default=""/>
+
+    <aura:attribute access="global" name="environmentType" type="String"/>
+    <aura:attribute access="global" name="customTaskFields" type="String"/>
+    <aura:attribute access="global" name="showTasks" type="String"/>
+    <aura:attribute access="global" name="customObjectFields" type="String"/>
+    <aura:attribute access="global" name="isOnlyMyTasks" type="Boolean"/>
+    <aura:attribute access="global" name="isShowPaginationBar" type="Boolean"/>
+    <aura:attribute access="global" name="numberOfResults" type="Integer"/>
+    <aura:attribute access="global" name="isDebugLog" type="Boolean"/>
+
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <lightning:card variant="Narrow" title="Test2" iconName="standard:account">
+        <aura:set attribute="actions">
+            <lightning:buttonMenu alternativeText="Toggle menu" menuAlignment="auto">
+                <lightning:menuItem label="Menu Item 1" value="menuitem1" iconName="utility:table" />
+                <lightning:menuItem label="Menu Item 1" value="menuitem1" iconName="utility:table" />
+            </lightning:buttonMenu>
+        </aura:set>
+        <p class="slds-p-horizontal_small">
+
+            <aura:if isTrue="{! v.loading }">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+
+            <lightning:input name="input1" label="Enter some text" value="{! v.city }"/>
+            <lightning:button label="Get" title="Neutral action" onclick="{! c.doInit }"/>
+
+
+            TextOut 1: {! v.pr1 } <br/>
+            TextOut 2: {! v.pr2 } <br/>
+            TextOut 3: {! v.pr3 } <br/>
+            TextOut 4: {! v.pr4 } <br/>
+
+
+        </p>
+    </lightning:card>
+
+
+</aura:component>

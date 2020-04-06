@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_ID</field>
+    </columns>
+    <columns>
+        <field>Milestone_History__c.Application__c</field>
+    </columns>
+    <columns>
+        <field>Milestone_History__c.Contract__c</field>
+    </columns>
+    <columns>
+        <field>Milestone_History__c.Investment__c</field>
+    </columns>
+    <columns>
+        <field>Milestone_History__c.Milestone_Date__c</field>
+    </columns>
+    <columns>
+        <field>Milestone_History__c.Milestone__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Milestone_History__c.Days_in_Milestone__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Milestone_History__c.Sequence__c</field>
+    </columns>
+    <description>A list of the records in the Milestone History Object</description>
+    <format>Tabular</format>
+    <name>All Milestone Histories</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Milestone_History__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <sortColumn>Milestone_History__c.Sequence__c</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>Milestone_History__c.Milestone_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

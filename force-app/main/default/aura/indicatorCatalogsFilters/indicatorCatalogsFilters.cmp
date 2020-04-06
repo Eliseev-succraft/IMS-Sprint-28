@@ -1,0 +1,43 @@
+<!-- Report Template functionality * @author Alexey Eliseev * @date 2/11/19 * component indicatorCatalogsFilters -->
+
+<aura:component controller="moreFiltersController">
+    <!-- Global attributes -->
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <!-- Spinner attributes -->
+    <aura:attribute name="cmpSpinner" type="Map" default="{}"/>
+    <aura:attribute name="qSpinners" type="Map" default="{}"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="activeSections" type="List" default="[]"/>
+    <aura:attribute name="optionsCheckboxGroup" type="List" default="[]"/>
+    <aura:attribute name="picklistValuesByRecordType" type="Map" default="{}"/> <!-- from Indicator Catalog -->
+    <aura:attribute name="searchValue" type="String" default=""/> <!-- from Indicator Catalog -->
+    <aura:attribute name="selectedLibraries" type="List" default="[]"/> <!-- from Indicator Catalog -->
+    <aura:attribute name="isRefresh" type="Boolean" default="false"/>
+    <aura:attribute name="originalData" type="List" default="[]"/>
+    <aura:attribute name="data" type="List" default="[]"/>
+    <!-- Methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.optionsCheckboxGroup }" action="{! c.handleSetActiveSections }"/>
+    <aura:handler name="change" value="{! v.selectedLibraries }" action="{! c.handleRefreshData }"/>
+    <aura:handler name="change" value="{! v.searchValue }" action="{! c.handleRefreshView }"/>
+    <aura:handler name="change" value="{! v.isRefresh }" action="{! c.handleRefreshData }"/>
+    <aura:handler event="c:addSelectedIndicatorsEvent" action="{! c.handleResetFilters }"/>
+    <!-- Body -->
+    <lightning:accordion allowMultipleSectionsOpen="true" activeSectionName="{! v.activeSections }">
+        <aura:iteration var="itemGroup" items="{! v.optionsCheckboxGroup }">
+            <lightning:accordionSection
+                    name="{! 'section_' + itemGroup.fieldName }"
+                    label="{! itemGroup.accordionSection }">
+                <lightning:checkboxGroup
+                        name="{! itemGroup.fieldName }"
+                        options="{! itemGroup.checkboxGroup }"
+                        onchange="{! c.handleRefreshView }"
+                        value="{! itemGroup.fieldValue }"
+                        label="checkboxGroup"
+                        variant="label-hidden"/>
+            </lightning:accordionSection>
+        </aura:iteration>
+    </lightning:accordion>
+</aura:component>

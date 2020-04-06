@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Funds</fullName>
+    <columns>NAME</columns>
+    <columns>Fund_Size__c</columns>
+    <columns>Fund_Manager__c</columns>
+    <columns>Fund_Start_Date__c</columns>
+    <columns>Fund_Closing_Date__c</columns>
+    <filterScope>Mine</filterScope>
+    <label>All Funds</label>
+</ListView>

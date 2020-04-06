@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Metric_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Specifies whether a particular metric is a &#39;metric&#39; or &#39;submetric&#39;.  The information captured by a &#39;submetric&#39; is related to the information captured by its parent &#39;metric&#39;. For example, Client Individuals: Female (submetric) captures a subset of what is captured under its parent Client Individuals: Total (metric).  
+
+Please note that submetrics are not mutually exclusive. For example, individuals reported as part of Client Individuals: Female (submetric) may also be reported as part of Client Individuals: Rural (submetric).</description>
+    <externalId>false</externalId>
+    <label>Metric Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Metric</fullName>
+                <default>false</default>
+                <label>Metric</label>
+            </value>
+            <value>
+                <fullName>Submetric</fullName>
+                <default>false</default>
+                <label>Submetric</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

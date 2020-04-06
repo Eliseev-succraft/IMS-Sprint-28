@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Footnote__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Prompts for information that should be cited in conjunction with the metric. This information enables increased transparency in how the reported values were calculated and helps with the dissemination of contextual information that may be crucial to understanding the reported values.</description>
+    <externalId>false</externalId>
+    <label>Footnote</label>
+    <length>32768</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

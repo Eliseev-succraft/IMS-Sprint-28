@@ -1,0 +1,170 @@
+<!-- Report Template functionality * @author Alexey Eliseev * @date 2/11/19 * component SelectedIndicators -->
+
+<aura:component controller="SelectedIndicatorsController">
+    <!-- Global attributes -->
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <!-- Spinner attributes -->
+    <aura:attribute name="cmpSpinner" type="Map" default="{}"/>
+    <aura:attribute name="qSpinners" type="Map" default="{}"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="isLoadingWithSelectedFilters" type="Boolean" default="false"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="isLowMode" type="Boolean" default="false"/> <!-- from Report Template -->
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="originalData" type="List" default="[]"/>
+    <aura:attribute name="data" type="List" default="[]"/>
+    <aura:attribute name="indicatorCatalogsData" type="List" default="[]"/>
+    <aura:attribute name="indicatorCatalogsOriginal" type="List" default="[]"/>
+    <aura:attribute name="searchValue" type="String" default=""/>
+    <aura:attribute name="isShowMoreFilters" type="Boolean" default="false"/>
+    <aura:attribute name="columns" type="List" default="[]"/>
+    <!-- Methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <!-- Body -->
+    <div style="{! v.isLowMode ? 'display: block; height: 64vh; overflow-y: auto; overflow-x: hidden;' : 'display: none; '}">
+        <table ondrop="{! c.handleDrop }" ondragover="{! c.handleDragOver }" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+            <thead>
+            <tr class="slds-line-height_reset">
+                <th scope="col" style="width: 33px;">
+                    <div class="slds-truncate"></div>
+                </th>
+                <th scope="col" style="width: 45px;">
+                    <div class="slds-truncate"></div>
+                </th>
+                <aura:iteration items="{! v.columns }" indexVar="index" var="field">
+                    <aura:if isTrue="{! index == 0 }">
+                        <th scope="col">
+                            <span class="slds-truncate" title="{! field.label }">{! field.label }</span>
+                        </th>
+                    </aura:if>
+                </aura:iteration>
+                <th scope="col" style="width: 40px;">
+                    <div class="slds-truncate"></div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <aura:iteration items="{! v.data }" indexVar="index" var="result">
+                <tr class="slds-hint-parent row-height" id="{! index }" style="cursor: pointer;" draggable="true" ondragstart="{! c.handleDragStart }">
+                    <td class="slds-hint-parent slds-text-align_right">
+                        <lightning:icon alternativeText="Indicator" title="Drag and Drop" size="small" iconName="utility:drag_and_drop"/>
+                    </td>
+                    <td class="slds-text-align_center">{! index + 1 }</td>
+                    <aura:iteration items="{! result.values }" indexVar="rIndex" var="rows">
+                        <aura:if isTrue="{! rIndex == 0 }">
+                            <td class="slds-hint-parent">
+                                <div class="slds-truncate" title="{! rows.value }">
+                                    <aura:if isTrue="{! rows.type == 'url' }">
+                                        <a target="_blank" href="{!'/' + rows.typeAttributes.Id }">
+                                            {! rows.value }
+                                        </a>
+                                        <aura:set attribute="else">
+                                            {! rows.value }
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </td>
+                        </aura:if>
+                    </aura:iteration>
+                    <td class="slds-hint-parent slds-text-align_right">
+                        <lightning:buttonIcon
+                                value="{! index }"
+                                variant="brand"
+                                onclick="{! c.handleDeleteSelected }"
+                                alternativeText="Delete Indicator"
+                                iconName="utility:dash"/>
+                    </td>
+                </tr>
+            </aura:iteration>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="{! not(v.isLowMode) ? 'margin-top: -60px; display: block;' : 'margin-top: -60px; display: none;' }">
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-large-size_3-of-8 slds-medium-size_3-of-12"></div>
+        <div class="slds-col slds-large-size_2-of-8 slds-medium-size_4-of-12">
+            <lightning:input
+                    name="enter-search"
+                    label="Search when user hits the 'enter' key"
+                    placeholder="Indicator name..."
+                    type="search"
+                    value="{! v.searchValue }"
+                    variant="label-hidden"/>
+        </div>
+        <div class="slds-col slds-large-size_2-of-8 slds-medium-size_4-of-12">
+            <!-- iconName="{! v.isShowMoreFilters ? 'utility:undo' : 'utility:switch' }" -->
+            <lightning:button variant="brand"
+                              label="{! not(v.isShowMoreFilters) ? 'Show More Filters' : 'Hide More Filters' }"
+                              title="{! not(v.isShowMoreFilters)  ? 'Show More Filters' : 'Hide More Filters' }"
+                              onclick="{! c.handleShowHideMoreFilters }"/>
+        </div>
+        <div class="slds-col slds-large-size_1-of-8 slds-medium-size_1-of-12">
+        </div>
+    </div>
+    <div class="slds-grid slds-gutters" style="margin: 25px 0;">
+        <div style="{! v.isShowMoreFilters ? 'display: block; float: left;' : 'display: none; float: left;' }">
+            <c:selectedIndicatorsFilters
+                    searchValue="{! v.searchValue }"
+                    data="{! v.data }"
+                    isLoading="{! v.isLoadingWithSelectedFilters }"
+                    originalData="{! v.originalData }"/>
+        </div>
+        <div style="height: 64vh; overflow-y: auto; overflow-x: hidden;">
+            <table ondrop="{! c.handleDrop }" ondragover="{! c.handleDragOver }" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+                <thead>
+                <tr class="slds-line-height_reset">
+                    <th scope="col" style="width: 33px;">
+                        <div class="slds-truncate"></div>
+                    </th>
+                    <th scope="col" style="width: 45px;">
+                        <div class="slds-truncate"></div>
+                    </th>
+                    <aura:iteration items="{! v.columns }" indexVar="index" var="field">
+                        <th scope="col">
+                            <span class="slds-truncate" title="{! field.label }">{! field.label }</span>
+                        </th>
+                    </aura:iteration>
+                    <th scope="col" style="width: 40px;">
+                        <div class="slds-truncate"></div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <aura:iteration items="{! v.data }" indexVar="index" var="result">
+                    <tr class="slds-hint-parent row-height" id="{! index }" style="cursor: pointer;" draggable="true" ondragstart="{! c.handleDragStart }">
+                        <td class="slds-hint-parent slds-text-align_right">
+                            <lightning:icon alternativeText="Indicator" title="Drag and Drop" size="small" iconName="utility:drag_and_drop"/>
+                        </td>
+                        <td class="slds-text-align_center">{! index + 1 }</td>
+                        <aura:iteration items="{! result.values }" var="rows">
+                            <td class="slds-hint-parent">
+                                <div class="slds-truncate" title="{! rows.value }">
+                                    <aura:if isTrue="{! rows.type == 'url' }">
+                                        <a target="_blank" href="{!'/' + rows.typeAttributes.Id }">
+                                            {! rows.value }
+                                        </a>
+                                        <aura:set attribute="else">
+                                            {! rows.value }
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </td>
+                        </aura:iteration>
+                        <td class="slds-hint-parent slds-text-align_right">
+                            <lightning:buttonIcon
+                                    value="{! index }"
+                                    variant="brand"
+                                    onclick="{! c.handleDeleteSelected }"
+                                    alternativeText="Delete Indicator"
+                                    iconName="utility:dash"/>
+                        </td>
+                    </tr>
+                </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</aura:component>

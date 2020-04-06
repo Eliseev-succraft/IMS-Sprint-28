@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Range_Number_of_Grace_Periods</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Investment__c, OR(Number_of_Grace_Periods__c &lt; Loan_Product__r.Minimum_Grace_Period__c, Number_of_Grace_Periods__c &gt; Loan_Product__r.Maximum_Grace_Period__c))</errorConditionFormula>
+    <errorDisplayField>Number_of_Grace_Periods__c</errorDisplayField>
+    <errorMessage>Out of allowed range (Number of Grace Periods)</errorMessage>
+</ValidationRule>

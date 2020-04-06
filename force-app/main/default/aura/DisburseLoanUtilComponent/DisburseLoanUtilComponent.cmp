@@ -1,0 +1,81 @@
+<aura:component access="global">
+    <aura:attribute name="label" type="String"/>
+    <aura:attribute name="amount" type="Double"/>
+    <aura:attribute name="transactionDate" type="String"/>
+    <aura:attribute name="status" type="String"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="maxAmountToDisburse" type="Double"/>
+    <aura:attribute name="disbursementAmount" type="Double"/>
+    <aura:attribute name="disableAmount" type="Boolean" default="false"/>
+    <aura:attribute name="disableTransactionDate" type="Boolean" default="false"/>
+    <aura:attribute name="validationAmountError" type="Boolean"/>
+    <aura:attribute name="row" type="Object"/>
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:method name="validationForm" action="{! c.validation }"/>
+    
+    <aura:html tag="style">
+        .custom-required.error:after, .custom-required-label-date.error:after, .custom-required-field.error:after {
+            content: "{!$Label.c.aura_label_64}";
+            font-size: .75rem;
+            margin-top: .125rem;
+            display: block;
+            color: rgb(194, 57, 52) !important;
+        }
+    </aura:html>
+
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_2-of-4 slds-text-align_left">
+            <aura:if isTrue="{! not(v.disableAmount) }">
+                <lightning:input
+                        aura:id="amount"
+                        name="amount"
+                        required="true"
+                        type="number"
+                        formatter="currency"
+                        step="0.01"
+                        label="{! v.label }"
+                        value="{! v.amount }"
+                        min="0.01"
+                        max="{! v.maxAmountToDisburse - v.disbursementAmount }"
+                        onchange="{! c.validateAmount }"/>
+                <aura:set attribute="else">
+                    <div class="slds-form-element">
+                        <span data-aria="true" class="slds-assistive-text"></span>
+                        <label class="slds-form-element__label slds-no-flex">{! v.label }</label>
+                        <div class="slds-form-element__control slds-grow">
+                            <div style="margin-top: 5px;">
+                                <ui:outputCurrency value="{! v.amount }"/>
+                            </div>
+                        </div>
+                    </div>
+                </aura:set>
+            </aura:if>
+        </div>
+        <div class="slds-col slds-size_2-of-4 slds-text-align_left">
+            <lightning:select aura:id="status" name="select-disburse-transaction-status" required="true" label="{! $Label.sfims.aura_label_18 }" value="{! v.status }">
+                <option value="">{! $Label.sfims.empty_picklist_value }</option>
+                <option value="Planned">{! $Label.sfims.status_1 }</option>
+                <option value="Disbursed">{! $Label.sfims.status_2 }</option>
+            </lightning:select>
+        </div>
+    </div>
+    <div class="slds-grid slds-gutters" style="padding-bottom: 20px; padding-top: 10px;">
+        <div class="slds-col slds-size_2-of-4 slds-text-align_left">
+            <div class="slds-form-element slds-form-element_stacked" style="padding: 0 !important;">
+                <div class="slds-form-element__label custom-required-label">
+                    {! $Label.sfims.aura_label_19 }
+                </div>
+                <lightning:input
+                    aura:id="transactionDate"
+                    name="transaction date"
+                    class="custom-required-field"
+                    type="date"
+                    label="{! $Label.sfims.aura_label_19 }"
+                    variant="label-hidden"
+                    value="{! v.transactionDate }"
+                    readonly="{! v.disableTransactionDate }"
+                    autocomplete="off"/>
+            </div>
+        </div>
+    </div>
+</aura:component>

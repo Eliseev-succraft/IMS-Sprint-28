@@ -1,0 +1,114 @@
+<!-- Report Template functionality * @author Alexey Eliseev * @date 2/11/19 * component IndicatorCatalogs -->
+
+<aura:component controller="IndicatorCatalogsController">
+    <!-- Global attributes -->
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <!-- Spinner attributes -->
+    <aura:attribute name="cmpSpinner" type="Map" default="{}"/>
+    <aura:attribute name="qSpinners" type="Map" default="{}"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="isLoadingLocal" type="Boolean" default="false"/>
+    <aura:attribute name="isLoadingWithCatalogFilters" type="Boolean" default="false"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="setActiveTab" type="String"/> <!-- from Report Template -->
+    <aura:attribute name="originalData" type="List" default="[]"/>
+    <aura:attribute name="data" type="List" default="[]"/>
+    <aura:attribute name="isRefresh" type="Boolean" default="false"/>
+    <aura:attribute name="selectedLibraries" type="List" default="[]"/> <!-- from Report Template -->
+    <aura:attribute name="picklistValuesByRecordType" type="Map"/> <!-- from Report Template -->
+    <aura:attribute name="selectedIndicators" type="List" default="[]"/> <!-- from Report Template -->
+    <aura:attribute name="selectedIndicatorsOriginal" type="List" default="[]"/> <!-- from Report Template -->
+    <aura:attribute name="columns" type="List" default="[]"/>
+    <aura:attribute name="searchValue" type="String" default=""/>
+    <aura:attribute name="isShowMoreFilters" type="Boolean" default="false"/>
+    <!-- Methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.selectedLibraries }" action="{! c.handleRefresh }"/>
+    <!-- Body -->
+    <div class="slds-grid slds-gutters" style="margin-top: -60px;">
+        <div class="slds-col slds-large-size_3-of-8 slds-medium-size_3-of-12"></div>
+        <div class="slds-col slds-large-size_2-of-8 slds-medium-size_4-of-12">
+            <lightning:input
+                    name="enter-search"
+                    label="Search when user hits the 'enter' key"
+                    placeholder="Indicator name..."
+                    type="search"
+                    value="{! v.searchValue }"
+                    variant="label-hidden"/>
+        </div>
+        <div class="slds-col slds-large-size_2-of-8 slds-medium-size_4-of-12">
+            <aura:if isTrue="{! v.selectedLibraries.length == 0 }">
+                <lightning:button variant="brand" disabled="true"
+                                  iconName="utility:switch"
+                                  label="Show More Filters"
+                                  title="Show More Filters"/>
+                <aura:set attribute="else">
+                    <!--  iconName="{! v.isShowMoreFilters ? 'utility:undo' : 'utility:switch' }" -->
+                    <lightning:button variant="brand"
+                                      label="{! not(v.isShowMoreFilters) ? 'Show More Filters' : 'Hide More Filters' }"
+                                      title="{! not(v.isShowMoreFilters)  ? 'Show More Filters' : 'Hide More Filters' }"
+                                      onclick="{! c.handleShowHideMoreFilters }"/>
+                </aura:set>
+            </aura:if>
+        </div>
+        <div class="slds-col slds-large-size_1-of-8 slds-medium-size_1-of-12">
+            <c:configureColumns isRefresh="{! v.isRefresh }"/>
+        </div>
+    </div>
+    <div class="slds-grid slds-gutters" style="margin: 30px 0 0 0;">
+        <div style="{! v.isShowMoreFilters ? 'display: block; float: left;' : 'display: none; float: left;' }">
+            <aura:if isTrue="{! v.picklistValuesByRecordType }">
+                <c:indicatorCatalogsFilters
+                        data="{! v.data }"
+                        isLoading="{! v.isLoadingWithCatalogFilters }"
+                        originalData="{! v.originalData }"
+                        isRefresh="{! v.isRefresh }"
+                        selectedLibraries="{! v.selectedLibraries }"
+                        picklistValuesByRecordType="{# v.picklistValuesByRecordType }"
+                        searchValue="{! v.searchValue }"/>
+            </aura:if>
+        </div>
+        <div style="height: 64vh; overflow-y: auto; overflow-x: hidden;">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+                <thead>
+                <tr class="slds-line-height_reset">
+                    <th scope="col" style="width: 35px;">
+                        <div class="slds-truncate"></div>
+                    </th>
+                    <aura:iteration items="{! v.columns }" indexVar="index" var="field">
+                        <th scope="col">
+                            <span class="slds-truncate" title="{! field.label }">{! field.label }</span>
+                        </th>
+                    </aura:iteration>
+                </tr>
+                </thead>
+                <tbody>
+                <aura:iteration items="{! v.data }" indexVar="index" var="result">
+                    <aura:if isTrue="{! result.display }">
+                        <tr class="slds-hint-parent row-height">
+                            <td class="slds-hint-parent">
+                                <lightning:buttonIcon value="{! index }" onclick="{! c.handleAddSelected }" variant="brand" alternativeText="Add Indicator" iconName="utility:add"/>
+                            </td>
+                            <aura:iteration items="{! result.values }" var="rows">
+                                <td class="slds-hint-parent">
+                                    <div class="slds-truncate" title="{! rows.value }">
+                                        <aura:if isTrue="{! rows.type == 'url' }">
+                                            <a target="_blank" href="{!'/' + rows.typeAttributes.Id }">
+                                                {! rows.value }
+                                            </a>
+                                            <aura:set attribute="else">
+                                                {! rows.value }
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                </td>
+                            </aura:iteration>
+                        </tr>
+                    </aura:if>
+                </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</aura:component>

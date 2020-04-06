@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loan_Product__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>The Loan Product which this Loan is based on.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Loan Product which this Loan is based on.</inlineHelpText>
+    <label>Loan Product</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Loan_Product__c.Active__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>Loan_Product__c</referenceTo>
+    <relationshipLabel>Loans</relationshipLabel>
+    <relationshipName>Loans</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

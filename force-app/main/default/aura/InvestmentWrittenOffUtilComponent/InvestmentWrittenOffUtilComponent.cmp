@@ -1,0 +1,200 @@
+<aura:component access="global">
+    <!-- Libraries -->
+    <c:lwcUtilityMessage aura:id="message" isDebugLog="{# v.isDebugLog }"/>
+    <!-- Global attributes -->
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="rescheduleLoan" type="Boolean" default="false"/>
+    <aura:attribute name="writeOff" type="Boolean" default="false"/>
+    <aura:attribute name="earlyRepayment" type="Boolean" default="false"/>
+    <aura:attribute name="rescheduleAmount" type="Double"/>
+    <aura:attribute name="actionDate" type="Date"/>
+    <aura:attribute name="totalAmountWrittenOff" type="Double"/>
+    <aura:attribute name="totalEarlyRepaymentAmount" type="Double"/>
+    <aura:attribute name="totalPrincipalWrittenOff" type="Double" default="0"/>
+    <aura:attribute name="totalInterestWrittenOff" type="Double"/>
+    <aura:attribute name="totalFeesWrittenOff" type="Double"/>
+    <aura:attribute name="totalPenaltiesWrittenOff" type="Double"/>
+    <aura:attribute name="isExpandedRemainingAmounts" type="Boolean" default="true"/>
+    <aura:attribute name="isExpandedWrittenOffAmounts" type="Boolean" default="true"/>
+    <!-- Component methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <aura:html tag="style">
+        .toastMessage.forceActionsText {
+            white-space : pre-line !important;
+        }
+    </aura:html>
+
+    <lightning:recordEditForm recordId="{! v.recordId }"
+                              onload="{! c.formLoad }"
+                              objectApiName="sfims__Investment__c">
+        <c:lwcUtilitySpinner aura:id="spinner" alternativeText="{! $Label.c.aura_label_3  + '...'}" delay="30000" isDebugLog="{# v.isDebugLog }" onloaded="{! c.showSpinner }"/>
+        <!--Expanded Remaining Amounts Start-->
+        <div class="slds-p-top--small">
+            <div class="{! 'slds-section' + (v.isExpandedRemainingAmounts ? ' slds-is-open' : '') }">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <button aria-controls="divContent" aria-expanded="{! v.isExpandedRemainingAmounts }" onclick="{! c.skipRemainingAmounts }" class="slds-button slds-section__title-action">
+                        <span style="{! v.isExpandedRemainingAmounts == true ?
+                                'transform: rotate(90deg); transition: transform 0.45s ease-in-out;' :
+                                'transform: rotate(0deg); transition: transform 0.45s ease-in-out;' }">
+                            <lightning:icon iconName="utility:chevronright" size="xx-small" alternativeText="{!  $Label.c.aura_label_23  }"/>
+                        </span>
+                        <span class="slds-truncate" title="Section Title" style="margin-left: 5px;">
+                            {!  $Label.c.aura_label_24  }
+                        </span>
+                    </button>
+                </h3>
+                <div class="slds-section__content" aria-hidden="{! not(v.isExpandedRemainingAmounts) }" id="divContent">
+                    <lightning:outputField fieldName="sfims__Principal_Remaining__c"/>
+                    <aura:if isTrue="{! v.rescheduleLoan }">
+                        <lightning:outputField fieldName="sfims__Interest_Overdue__c"/>
+                    </aura:if>
+                    <aura:if isTrue="{! or(v.writeOff, v.earlyRepayment) }">
+                        <lightning:outputField fieldName="sfims__Interest_Remaining__c"/>
+                    </aura:if>
+                    <lightning:outputField fieldName="sfims__Fees_Remaining__c"/>
+                    <lightning:outputField fieldName="sfims__Late_Repayment_Fees_Remaining__c"/>
+                </div>
+            </div>
+        </div>
+        <!--Expanded Written Off Amounts Start-->
+        <div class="slds-p-top--small">
+            <div class="{! 'slds-section' + (v.isExpandedWrittenOffAmounts ? ' slds-is-open' : '') }">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <button aria-controls="divContent" aria-expanded="{! v.isExpandedWrittenOffAmounts }" onclick="{! c.skipWrittenOffAmounts }" class="slds-button slds-section__title-action">
+                        <span style="{! v.isExpandedWrittenOffAmounts == true ?
+                                'transform: rotate(90deg); transition: transform 0.45s ease-in-out;' :
+                                'transform: rotate(0deg); transition: transform 0.45s ease-in-out;' }">
+                            <lightning:icon iconName="utility:chevronright" size="xx-small" alternativeText="{! $Label.c.aura_label_23 }"/>
+                        </span>
+                        <span class="slds-truncate" title="Section Title" style="margin-left: 5px;">
+                            {! $Label.c.aura_label_25 }
+                        </span>
+                    </button>
+                </h3>
+                <div class="slds-section__content" aria-hidden="{! not(v.isExpandedWrittenOffAmounts) }" id="divContent">
+                    <aura:if isTrue="{! v.writeOff }">
+                        <div class="slds-form-element" style="margin-bottom: 10px;">
+                            <span data-aria="true" class="slds-assistive-text"></span>
+                            <label class="slds-form-element__label slds-no-flex">{! $Label.c.aura_label_26 }</label>
+                            <div class="slds-form-element__control slds-grow">
+                                <ui:outputCurrency value="{! v.totalPrincipalWrittenOff ? v.totalPrincipalWrittenOff : 0 }"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element" style="margin-bottom: 10px;">
+                            <span data-aria="true" class="slds-assistive-text"></span>
+                            <label class="slds-form-element__label slds-no-flex">{! $Label.c.aura_label_31 }</label>
+                            <div class="slds-form-element__control slds-grow">
+                                <ui:outputCurrency value="{! v.totalInterestWrittenOff ? v.totalInterestWrittenOff : 0 }"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element" style="margin-bottom: 10px;">
+                            <span data-aria="true" class="slds-assistive-text"></span>
+                            <label class="slds-form-element__label slds-no-flex">{! $Label.c.aura_label_32 }</label>
+                            <div class="slds-form-element__control slds-grow">
+                                <ui:outputCurrency value="{! v.totalFeesWrittenOff ? v.totalFeesWrittenOff : 0 }"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element" style="margin-bottom: 10px;">
+                            <span data-aria="true" class="slds-assistive-text"></span>
+                            <label class="slds-form-element__label slds-no-flex">{! $Label.c.aura_label_34 }</label>
+                            <div class="slds-form-element__control slds-grow">
+                                <ui:outputCurrency value="{! v.totalPenaltiesWrittenOff ? v.totalPenaltiesWrittenOff : 0 }"/>
+                            </div>
+                        </div>
+                    </aura:if>
+
+                    <aura:if isTrue="{! not(v.writeOff) }">
+                        <lightning:input type="number"
+                                         name="currencyInput"
+                                         label="{! $Label.c.aura_label_26 }"
+                                         value="{! v.totalPrincipalWrittenOff }"
+                                         formatter="currency"
+                                         step="0.01"
+                                         min="0"
+                                         max="{! v.simpleRecord.sfims__Principal_Remaining__c }"
+                                         onchange="{! c.onChangeWrittenOffAmount }"
+                                         onblur="{! c.handleValidation }"
+                                         readonly="{! v.writeOff }"/>
+                        <lightning:input type="number"
+                                         name="currencyInput"
+                                         label="{!  $Label.c.aura_label_31  }"
+                                         value="{! v.totalInterestWrittenOff }"
+                                         formatter="currency"
+                                         step="0.01"
+                                         min="0"
+                                         max="{! v.rescheduleLoan ? v.simpleRecord.sfims__Interest_Overdue__c : v.simpleRecord.sfims__Interest_Remaining__c }"
+                                         onblur="{! c.handleValidation }"
+                                         onchange="{! c.onChangeWrittenOffAmount }"
+                                         readonly="{! v.writeOff }"/>
+                        <lightning:input type="number"
+                                         name="currencyInput"
+                                         label="{! $Label.c.aura_label_32 }"
+                                         value="{! v.totalFeesWrittenOff }"
+                                         formatter="currency"
+                                         step="0.01"
+                                         min="0"
+                                         max="{! v.simpleRecord.sfims__Fees_Remaining__c }"
+                                         onblur="{! c.handleValidation }"
+                                         onchange="{! c.onChangeWrittenOffAmount }"
+                                         readonly="{! v.writeOff }"/>
+                        <lightning:input type="number"
+                                         name="currencyInput"
+                                         label="{! $Label.c.aura_label_34 }"
+                                         value="{! v.totalPenaltiesWrittenOff }"
+                                         formatter="currency"
+                                         step="0.01"
+                                         min="0"
+                                         max="{! v.simpleRecord.sfims__Late_Repayment_Fees_Remaining__c }"
+                                         onblur="{! c.handleValidation }"
+                                         onchange="{! c.onChangeWrittenOffAmount }"
+                                         readonly="{! v.writeOff }"/>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+        <!--Expanded Written Off Amounts End-->
+        <aura:if isTrue="{! v.rescheduleLoan }">
+            <div class="slds-form-element">
+                <span data-aria="true" class="slds-assistive-text"></span>
+                <label class="slds-form-element__label slds-no-flex">{! $Label.c.aura_label_36 }</label>
+                <div class="slds-form-element__control slds-grow">
+                    <ui:outputCurrency value="{! v.rescheduleAmount ? v.rescheduleAmount : 0 }"/>
+                </div>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{! v.writeOff }">
+            <div class="slds-form-element" style="margin-bottom: 10px;">
+                <span data-aria="true" class="slds-assistive-text"></span>
+                <label class="slds-form-element__label slds-no-flex">{! $Label.c.aura_label_38 }</label>
+                <div class="slds-form-element__control slds-grow">
+                    <ui:outputCurrency value="{! v.totalAmountWrittenOff ? v.totalAmountWrittenOff : 0 }"/>
+                </div>
+            </div>
+            <lightning:input type="date"
+                             name="dateInput"
+                             label="{! $Label.c.aura_label_39 }"
+                             value="{! v.actionDate }"
+                             autocomplete="off"/>
+        </aura:if>
+
+        <aura:if isTrue="{! v.earlyRepayment }">
+            <div class="slds-form-element" style="margin-bottom: 10px;">
+                <span data-aria="true" class="slds-assistive-text"></span>
+                <label class="slds-form-element__label slds-no-flex">{! $Label.c.aura_label_40 }</label>
+                <div class="slds-form-element__control slds-grow">
+                    <ui:outputCurrency value="{! v.totalEarlyRepaymentAmount ? v.totalEarlyRepaymentAmount : 0 }"/>
+                </div>
+            </div>
+            <lightning:input type="date"
+                             name="dateInput"
+                             label="{! $Label.c.aura_label_41 }"
+                             value="{! v.actionDate }"
+                             autocomplete="off"/>
+        </aura:if>
+    </lightning:recordEditForm>
+</aura:component>

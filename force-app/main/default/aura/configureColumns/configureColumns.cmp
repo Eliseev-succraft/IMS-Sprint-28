@@ -1,0 +1,117 @@
+<!-- Report Template functionality * @author Alexey Eliseev * @date 2/4/19 * component configureColumns -->
+
+<aura:component controller="configureColumnsController">
+    <!-- Global attributes -->
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <!-- Spinner attributes -->
+    <aura:attribute name="cmpSpinner" type="Map" default="{}"/>
+    <aura:attribute name="qSpinners" type="Map" default="{}"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="allRecordTypes" type="List" default="[]"/>
+    <aura:attribute name="selectedRecordType" type="String" default="0"/>
+    <aura:attribute name="isShowConfigureColumns" type="Boolean"/>
+    <aura:attribute name="isRefresh" type="Boolean" default="false"/>
+    <aura:attribute name="selectedLibraryName" type="String" default=""/>
+    <!-- dualListBox -->
+    <aura:attribute name="options" type="List" default="[]" />
+    <aura:attribute name="defaultFields" type="List" default="[]" />
+    <aura:attribute name="requiredFields" type="List" default="[]" />
+    <aura:attribute name="values" type="List" default="[]" />
+    <aura:attribute name="min" type="Integer" default="5" />
+    <aura:attribute name="max" type="Integer" default="10" />
+    <!-- Methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <!-- Global styles -->
+    <aura:html tag="style">
+        .slds-modal__container {
+            transform: none;
+        }
+    </aura:html>
+    <aura:if isTrue="{! v.isShowConfigureColumns }">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container dialog">
+                <div style="position: relative;">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.handleCloseModal }" alternativeText="close" variant="bare-inverse" class="slds-modal__close" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Configure Columns</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <aura:if isTrue="{! v.isLoading }">
+                        <lightning:spinner alternativeText="Loading"/>
+                    </aura:if>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="combobox-id-7">Library</label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox_container">
+                                <div aura:id="comboBoxWithActive" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                        <input type="text" value="{! v.selectedLibraryName }" readonly="readonly" onclick="{! c.clickEvent }" onblur="{! c.blurEvent }" class="slds-input slds-combobox__input slds-has-focus slds-combobox__input-value" aria-controls="listbox-id-7" autoComplete="off" role="textbox" placeholder="Select Library"/>
+                                        <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                             <lightning:icon iconName="utility:down" size="xx-small" alternativeText="down"/>
+                                        </span>
+                                    </div>
+                                    <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                            <aura:iteration items="{! v.allRecordTypes }" indexVar="index" var="recordType">
+                                                <li role="presentation" class="slds-listbox__item" id="{! recordType.value }" onmousedown="{! c.handleSelectItem }">
+                                                    <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-is-selected" role="option">
+                                                    <span class="slds-media__figure slds-listbox__option-icon" id="{! index }" onmousedown="{! c.handleActive }">
+                                                          <span class="slds-icon_container slds-icon-utility-check slds-current-color slds-icon slds-icon_x-small">
+                                                              <aura:if isTrue="{! recordType.active }">
+                                                                  <lightning:buttonIcon disabled="{! recordType.disabled }" iconName="utility:check" size="x-small" alternativeText="Inactive"/>
+                                                                  <aura:set attribute="else">
+                                                                      <lightning:buttonIcon disabled="{! recordType.disabled }" iconName="utility:uncheck" size="x-small" alternativeText="Active"/>
+                                                                  </aura:set>
+                                                              </aura:if>
+                                                          </span>
+                                                    </span>
+                                                        <span class="slds-media__body" style="margin-left: 5px;">
+                                                              <span class="slds-truncate" title="{! recordType.label }">
+                                                                <span class="slds-assistive-text">Current Selection:</span> {! recordType.label }
+                                                              </span>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </aura:iteration>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <lightning:dualListbox
+                            name="multipleOptions"
+                            label="Configure columns"
+                            variant="label-hidden"
+                            min="{! v.min }"
+                            max="{! v.max }"
+                            sourceLabel="Available Fields"
+                            selectedLabel="Selected fields"
+                            options="{! v.options }"
+                            value="{! v.values }"
+                            requiredOptions="{! v.requiredFields }"
+                            onchange="{! c.handleChangeViewConfigureDualListBox }"/>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" label="Cancel" title="Cancel" onclick="{! c.handleCloseModal }" />
+                        <lightning:button variant="brand" label="Save" title="Save" onclick="{! c.handleSave }" />
+                    </footer>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <aura:set attribute="else">
+            <lightning:buttonIcon
+                onclick="{! c.handleOpenConfigureColumn }"
+                class="slds-float_right"
+                iconName="utility:rating"
+                size="large"
+                variant="bare"
+                alternativeText="Show Configure Columns"/>
+        </aura:set>
+    </aura:if>
+</aura:component>

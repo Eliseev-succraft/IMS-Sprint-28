@@ -1,0 +1,77 @@
+<aura:component controller="LoanScheduler" access="global">
+    <aura:attribute name="recordId" type="String"/>
+    <!-- Global attributes -->
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="createModal" type="Boolean" default="false"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <!-- Component additional attributes -->
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="isForm" type="Boolean" default="false"/>
+    <aura:attribute name="spinners" type="List" default="[]"/>
+    <!--force attributes-->
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <!-- Component methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <force:recordData layoutType="FULL"
+                      recordId="{! v.recordId }"
+                      targetError="{! v.recordError }"
+                      targetRecord="{! v.record }"
+                      targetFields="{! v.simpleRecord }"
+                      mode="VIEW"
+                      recordUpdated="{! c.handleRecordUpdated }"/>
+
+    <!-- Global styles -->
+    <aura:html tag="style">
+        .toastMessage.forceActionsText {
+        white-space : pre-line !important;
+        }
+    </aura:html>
+    <aura:if isTrue="{! not(v.isForm) }">
+        <aura:html tag="style">
+            .modal-container {
+            display: none;
+            }
+            .slds-backdrop--open {
+            display: none;
+            }
+        </aura:html>
+        <aura:set attribute="else">
+            <aura:html tag="style">
+                .slds-modal__container {
+                width: 640px;
+                max-width: 100%;
+                }
+                .cuf-content {
+                padding: 0 0rem !important;
+                }
+                .slds-p-around--medium {
+                padding: 0rem !important;
+                }
+                .slds-modal__content {
+                height: unset !important;
+                max-height: unset !important;
+                overflow: visible !important;
+                }
+            </aura:html>
+        </aura:set>
+    </aura:if>
+    <!-- Body -->
+    <div style="position: relative;">
+        <aura:if isTrue="{! v.isLoading }">
+            <lightning:spinner size="medium" variant="brand" alternativeText="{! $Label.c.aura_label_3 + '...'}"/>
+        </aura:if>
+        <div class="modal-header slds-modal__header">
+            <h4 class="title slds-text-heading--medium">{! $Label.c.aura_label_20 }</h4>
+        </div>
+        <div class="modal-body scrollable slds-modal__content slds-p-around--medium slds-align_absolute-center" style="min-height: 50px;">
+            {! $Label.c.aura_label_21 }
+        </div>
+        <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+            <lightning:button label="{! $Label.c.aura_label_12 }" onclick="{! c.handleCancel }"/>
+            <lightning:button variant="brand" disabled="{! v.isLoading }" label="{! $Label.c.aura_label_22 }" onclick="{! c.handleRecalculate }"/>
+        </div>
+    </div>
+</aura:component>

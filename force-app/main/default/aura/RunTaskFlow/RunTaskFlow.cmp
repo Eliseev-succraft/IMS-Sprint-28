@@ -1,0 +1,44 @@
+<!--
+* @description         Aura component for executing a flow
+* @author              Alexey Eliseev
+* @date                8/28/19
+* @component           RunTaskFlow
+-->
+<aura:component controller="RunTaskFlowController" implements="force:lightningQuickActionWithoutHeader" access="global" description="Aura component for executing a flow">
+    <!-- Global attributes -->
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <!-- Spinner attributes -->
+    <aura:attribute name="cmpSpinner" type="Map" default="{}"/>
+    <aura:attribute name="qSpinners" type="Map" default="{}"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="taskId" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="isCompletedFlow" type="Boolean" default="false"/>
+    <!-- Methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <!-- Global styles -->
+    <aura:html tag="style">
+        .toastMessage.forceActionsText {
+            white-space : pre-line !important;
+        }
+    </aura:html>
+    <!-- Component -->
+    <aura:if isTrue="{! v.isLoading }">
+        <lightning:spinner size="medium" class="color-white" variant="brand" alternativeText="{! $Label.c.aura_label_3  + '...'}"/>
+    </aura:if>
+    <section role="dialog" aura:id="FlowShowModal" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal">
+        <div class="slds-modal__container">
+            <div style="position: relative;">
+                <header class="slds-modal__header slds-modal__header_empty">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.handleCloseModal }" alternativeText="{! $Label.c.aura_label_6 }" variant="bare-inverse" class="slds-modal__close"/>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning:flow aura:id="flowData" onstatuschange="{! c.flowStatusChange }"/>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

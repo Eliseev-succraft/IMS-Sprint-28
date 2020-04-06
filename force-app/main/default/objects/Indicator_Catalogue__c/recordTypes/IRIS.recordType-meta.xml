@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IRIS</fullName>
+    <active>true</active>
+    <description>Impact Measurement library created by the Global Impact Investing Network (GIIN)</description>
+    <label>IRIS</label>
+    <picklistValues>
+        <picklist>Indicator_Type__c</picklist>
+        <values>
+            <fullName>Currency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Number</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Percentage</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Text</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Text Area %28Long%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Individual_Communities__c</picklist>
+        <values>
+            <fullName>Communities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Metric_Level__c</picklist>
+        <values>
+            <fullName>Organization</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product%2FService</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product%2FService%2C Organization</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Metric_Quantity_Type__c</picklist>
+        <values>
+            <fullName>Flow</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stock</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Metric_Type__c</picklist>
+        <values>
+            <fullName>Metric</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submetric</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Metrics_Library__c</picklist>
+        <values>
+            <fullName>Custom</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IRIS 4%2E0</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Outcome_Area__c</picklist>
+        <values>
+            <fullName>Agriculture</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cross-Sector</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Energy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Environment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Financial Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Housing%2FCommunity Facilities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Land Conservation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Water</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reporting_Format__c</picklist>
+        <values>
+            <fullName>Date</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Decimal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Number of Metric Tons of CO2 Equivalent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reporting Currency %28OD5990%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Selection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Selection of 3 letter code</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Text</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Text %28multiple entries possible%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unit Referenced within Metric Definition</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unit of Measure %28PD1602%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unit of Measure %28PD1602%29 selection per Hectare</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes%2FNo</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Section__c</picklist>
+        <values>
+            <fullName>Financial Performance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operational Impact</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Organizational Description</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product Description</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product Impact</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sector__c</picklist>
+        <values>
+            <fullName>Agriculture</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cross-Sector</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Education</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Energy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Environment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Financial Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Health</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Housing%2FCommunity Facilities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Land Conservation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Water</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Standard_Custom__c</picklist>
+        <values>
+            <fullName>Standard</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Subsection__c</picklist>
+        <values>
+            <fullName>Balance Sheet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cash Flow</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distributor Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employees</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Environmental Performance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Environmental Policies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Governance %26 Ownership</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Impact Objectives</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Income Statement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Organizational Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product%2FService Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quality %26 Performance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quantity %26 Reach</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ratios%2C Concepts%2C and Calculations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Report Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social Policies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Supplier Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Target Beneficiaries</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Training %26 Assessment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wages</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

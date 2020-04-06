@@ -1,0 +1,40 @@
+<!-- Repayment Allocation Order - Schedule level * @author Alexey Eliseev * @date 9/25/19 * @component RepaymentAllocationOrder -->
+<aura:component description="Repayment Allocation Order - Schedule level" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <!-- Component global attributes -->
+    <aura:attribute name="initStringOptions" type="String"/>
+    <aura:attribute name="outputString" type="String" default=""/>
+    <aura:attribute name="isMoveButtons" type="Boolean" default="false"/>
+    <!-- Component additional attributes -->
+    <aura:attribute name="options" type="List" default="[]"/>
+    <aura:attribute name="selectedItem" type="Integer"/>
+    <aura:attribute name="disabled" type="Boolean" default="false"/>
+    <!-- Component methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.options }" action="{! c.changeOptions }" />
+    <aura:handler name="change" value="{! v.initStringOptions }" action="{! c.doInit }" />
+    <!-- Component body -->
+    <div class="slds-grid slds-gutters" style="margin: 0 0 10px 0;">
+        <div class="slds-col slds-size_10-of-12 slds-text-align_left custom-ul" style="padding: 0;">
+            <ul ondragover="{! c.drag }" aria-describedby="option-drag-label" aria-labelledby="label-100" aria-multiselectable="false" class="{! v.disabled ? 'slds-listbox slds-listbox_vertical disabled' : 'slds-listbox slds-listbox_vertical'}" role="listbox">
+                <aura:iteration items="{! v.options }" indexVar="index" var="item">
+                    <li role="presentation" class="slds-listbox__item" style="padding-bottom: 8px;" id="{! index }" onclick="{! c.clickItem }" draggable="{! not(v.disabled) }" ondragstart="{! c.dragStart }" >
+                        <div class="custom-li slds-media slds-media_small slds-media_inline option-plain" aria-selected="{! item.selected }" draggable="{! not(v.disabled) }" role="option" tabindex="0">
+                            <span class="slds-media__body" style="padding-top: 3px;">{! index + 1 }</span>
+                            <span aria-hidden="true" class="slds-text-heading_medium slds-p-right_xx-small" style="margin-left: 2px;">⋮</span>
+                            <span class="slds-media__body" style="padding-top: 3px;">{! item.label }</span>
+                        </div>
+                    </li>
+                </aura:iteration>
+            </ul>
+        </div>
+        <div class="slds-col slds-size_2-of-12 slds-text-align_left">
+            <aura:if isTrue="{! v.isMoveButtons }">
+                <div style="margin-top: 10px;">
+                    <lightning:buttonIcon disabled="{! v.disabled }" onclick="{! c.clickMoveUp }" class="custom-icon-padding" iconName="utility:up" size="medium" variant="bare" alternativeText="{! $Label.c.aura_label_89 }"/>
+                    <div style="margin-bottom: 20px;"></div>
+                    <lightning:buttonIcon disabled="{! v.disabled }" onclick="{! c.clickMoveDown }" class="custom-icon-padding" iconName="utility:down" size="medium" variant="bare" alternativeText="{! $Label.c.aura_label_90 }"/>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

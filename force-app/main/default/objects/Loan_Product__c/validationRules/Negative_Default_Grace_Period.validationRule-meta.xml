@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Negative_Default_Grace_Period</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Loan_Product__c, Default_Grace_Period__c &lt; 0)</errorConditionFormula>
+    <errorDisplayField>Default_Grace_Period__c</errorDisplayField>
+    <errorMessage>Negative values not allowed (Default Grace Period)</errorMessage>
+</ValidationRule>

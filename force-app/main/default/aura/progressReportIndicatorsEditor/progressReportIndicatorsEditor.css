@@ -1,0 +1,20 @@
+.THIS .height-l {
+    height: 35px;
+}
+
+.THIS.padd-btn {
+    margin-top: 15px;
+}
+
+.THIS .slds-textarea_t {
+    height: 130px !important;
+}
+
+.THIS .edit-btn {
+    margin-top: -55px;
+}
+
+.THIS.edit-tbl {
+    table-layout: fixed;
+    margin-top: -10px;
+}

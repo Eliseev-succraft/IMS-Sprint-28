@@ -1,0 +1,32 @@
+<aura:component description="CompanyHouse" controller="CompanyHouseController"
+                implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="force:refreshView" action="{!c.doInit}"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="lastUpdate" type="String"/>
+    <aura:attribute name="loading" type="Boolean" default="false"/> 
+
+    <aura:if isTrue="{!v.loading}">
+    <div class="exampleHolder">
+        <lightning:spinner variant="brand" alternativeText="{! $Label.c.aura_label_3 }" size="medium" />
+    </div>
+    </aura:if>
+    <div class="slds-border_top slds-border--bottom slds-border--left slds-border--right">
+
+        <div class="slds-page-header">
+            <div class="slds-grid slds-grid_vertical-align-center">
+                <h1 class="slds-size_6-of-12">
+                    <span class="slds-page-header__title slds-truncate">{! $Label.c.aura_label_1 }</span>
+                </h1>
+                <div class="slds-size_6-of-12 slds-text-align--right">
+                    <lightning:button class="slds-button_brand" label="{! $Label.c.aura_label_4 }" onclick="{!c.updateCompanyInf}"/>
+                </div>
+            </div>
+        </div>
+        <div class="slds-m-around--small">
+            <span>{! $Label.c.aura_label_2 + ':'}</span> <span class="slds-m-left--xx-small">{!v.lastUpdate}</span>
+        </div>
+
+    </div>
+
+</aura:component>

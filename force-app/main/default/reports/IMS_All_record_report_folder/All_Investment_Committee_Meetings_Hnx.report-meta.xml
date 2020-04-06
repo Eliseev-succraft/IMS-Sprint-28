@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_ID</field>
+    </columns>
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>Investment_Committee_Meeting__c.Investment_Committee__c</field>
+    </columns>
+    <columns>
+        <field>Investment_Committee_Meeting__c.Meeting_Date__c</field>
+    </columns>
+    <columns>
+        <field>Investment_Committee_Meeting__c.Meeting_Location__c</field>
+    </columns>
+    <columns>
+        <field>Investment_Committee_Meeting__c.Meeting_Time__c</field>
+    </columns>
+    <description>A list of all investment committee meeting records in the system</description>
+    <format>Tabular</format>
+    <name>All Investment Committee Meetings</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Investment_Committee_Meeting__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Investment_Committee_Meeting__c.Meeting_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

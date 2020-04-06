@@ -1,0 +1,396 @@
+<aura:component implements="lightning:actionOverride,force:hasRecordId" controller="OverriddenLoanPageController" access="global">
+    <!-- Global attributes -->
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <aura:attribute name="modals" type="Map" default="{selectRecordType: true}"/>
+    <!-- Libraries -->
+    <c:lwcUtilityMessage aura:id="message" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilityNavigation aura:id="navigation" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilitySystem aura:id="system" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilityModal aura:id="modal" isDebugLog="{# v.isDebugLog }" onupdatemodals="{! c.handleEventUpdateModals }"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="statusOptions" type="List" default="[{label: '--None--', value: ''}]"/>
+    <aura:attribute name="selectedStatus" type="String" default=""/>
+
+    <aura:attribute name="runWithActionPanel" type="Boolean" default="false"/>
+    <aura:attribute name="defaultFieldValues" type="String" default=""/>
+    <aura:attribute name="input__disbursementDate" type="String"/>
+    <aura:attribute name="input__disbursementDateLabel" type="String" default="Disbursement Date"/>
+    <aura:attribute name="input__firstRepaymentDate" type="String"/>
+    <aura:attribute name="input__firstRepaymentDateLabel" type="String" default="First Repayment Date"/>
+    <aura:attribute name="loanProductId" type="String"/>
+    <aura:attribute name="loanRecordTypeId" type="String"/>
+    <aura:attribute name="topSections" type="List" default="[]"/>
+    <aura:attribute name="bottomSections" type="List" default="[]"/>
+    <aura:attribute name="defaultValues" type="Map" default="{}"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="recordName" type="String" default=""/>
+    <aura:attribute name="isOpenEndedLoan" type="Boolean" default="false"/>
+    <aura:attribute name="showVariableInterestRate" type="Boolean"/>
+    <aura:attribute name="gracePeriodsFromLoanProduct" type="List" default="[]"/>
+    <aura:attribute name="isPreview" type="Boolean" default="false"/>
+    <aura:attribute name="previewRecords" type="List" default="[]"/>
+    <aura:attribute name="previewColumns" type="List"/>
+    <aura:attribute name="setApplicationId" type="String"/>
+    <aura:attribute name="applicationRecordTargetFields" type="Object"/>
+    <aura:attribute name="reloadCss" type="Boolean" default="true"/>
+    <aura:attribute name="cssMsgErr" type="List" default="[]"/>
+    <aura:attribute name="error" type="String"/>
+    <aura:if isTrue="{! v.setApplicationId }">
+        <force:recordData aura:id="recordData"
+                recordId="{! v.setApplicationId }"
+                fields="sfims__Organisation__c, sfims__Fund__c"
+                mode="VIEW"
+                targetFields="{! v.applicationRecordTargetFields }"
+                targetError="{! v.error }"
+                recordUpdated="{! c.handleApplicationRecordUpdated }"/>
+    </aura:if>
+    <aura:html tag="style">
+        .toastMessage.forceActionsText {
+            white-space : pre-line !important;
+        }
+        .custom-required.error:after, .custom-required-label-date.error:after, .custom-required-field.error:after {
+            content: "{!$Label.c.aura_label_64}";
+            font-size: .75rem;
+            margin-top: .125rem;
+            display: block;
+            color: rgb(194, 57, 52) !important;
+        }
+    </aura:html>
+    <aura:if isTrue="{! v.reloadCss }">
+        <aura:iteration items="{! v.cssMsgErr }" var="item">
+            <aura:html tag="style">
+                .custom-required-{! item.name }.error:after {
+                    content: "{! item.message }";
+                    font-size: .75rem;
+                    margin-top: .125rem;
+                    display: block;
+                    color: rgb(194, 57, 52) !important;
+                }
+                .custom-required-{! item.name } .slds-form-element__help {
+                    display: none;
+                }
+            </aura:html>
+        </aura:iteration>
+    </aura:if>
+
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium resize-container">
+        <div class="slds-modal__container">
+            <div style="position: relative;">
+                <c:lwcUtilitySpinner aura:id="spinner" delay="30000" isDebugLog="{# v.isDebugLog }" onloaded="{! c.doInit }"/>
+                <lightning:recordEditForm
+                        objectApiName="sfims__Investment__c"
+                        recordTypeId="{! v.loanRecordTypeId }"
+                        onerror="{! c.formError }"
+                        onsuccess="{! c.formSuccess }"
+                        onload="{! c.formLoad }"
+                        recordId="{! v.recordId }"
+                        aura:id="formLoan">
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" size="large" onclick="{! c.handleCancel }" alternativeText="{! $Label.c.aura_label_6 }" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{! v.recordId ? ($Label.c.aura_label_57 + ' ' + v.recordName) : $Label.c.aura_label_58 }</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium slds-text-align_center" id="modal-content-id-1">
+                        <div style="max-height: 70vh;" aura:id="goToScroll">
+                            <a aura:id="goToFocus"></a>
+                            <!--<lightning:messages/>-->
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="Name" class="custom-required" fieldName="Name"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Open_Ended_Loan__c" fieldName="sfims__Open_Ended_Loan__c" onchange="{! c.handleChangeOpenEndedLoan }"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Disbursement_Method__c" class="custom-required" fieldName="sfims__Disbursement_Method__c"/>
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label custom-required-label">
+                                            {! v.input__disbursementDateLabel }
+                                        </div>
+                                        <lightning:input class="custom-required-field" type="date" name="sfims__Disbursement_Date__c" value="{! v.input__disbursementDate }" aura:id="input__sfims__Disbursement_Date__c" variant="label-hidden" label="Disbursement Date" autocomplete="off"/>
+                                        <div style="display: none;">
+                                            <lightning:inputField aura:id="sfims__Disbursement_Date__c" value="{! v.input__disbursementDate }" class="custom-required-label-date" fieldName="sfims__Disbursement_Date__c"/>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label">
+                                            {! v.input__firstRepaymentDateLabel }
+                                        </div>
+                                        <lightning:input class="custom-required-field" type="date" name="sfims__First_Repayment_Date__c" value="{! v.input__firstRepaymentDate }" aura:id="input__sfims__First_Repayment_Date__c" variant="label-hidden" label="First Repayment Date" autocomplete="off"/>
+                                        <div style="display: none;">
+                                            <lightning:inputField aura:id="sfims__First_Repayment_Date__c" value="{! v.input__firstRepaymentDate }" fieldName="sfims__First_Repayment_Date__c"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:combobox name="sfims__Status__c"
+                                                        aura:id="sfims__Status__c"
+                                                        label="Status"
+                                                        value="{! v.selectedStatus }"
+                                                        options="{! v.statusOptions  }"/>
+                                    <div class="slds-hide">
+                                        <lightning:inputField fieldName="sfims__Status__c" value="{! v.selectedStatus }"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--top Field Set-->
+                            <aura:if isTrue="{! v.topSections.length > 0 }">
+                                <aura:iteration var="section" items="{! v.topSections }">
+                                    <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                        <span class="section-header-title slds-p-horizontal--small">{! section.Label }</span>
+                                    </h3>
+                                    <aura:iteration var="fields" items="{! section.FieldSet }">
+                                        <div class="slds-grid slds-gutters">
+                                            <aura:iteration var="field" items="{! fields }">
+                                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                                    <lightning:inputField aura:id="topFieldSet" fieldName="{! field }"/>
+                                                </div>
+                                            </aura:iteration>
+                                        </div>
+                                    </aura:iteration>
+                                </aura:iteration>
+                            </aura:if>
+
+                            <!-- Loan Relationships -->
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_59 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Account__c" class="custom-required" fieldName="sfims__Account__c"/>
+                                    <lightning:inputField aura:id="sfims__Application__c" fieldName="sfims__Application__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Loan_Fund__c" fieldName="sfims__Loan_Fund__c"/>
+                                </div>
+                            </div>
+
+                            <!-- Loan Parameters -->
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_60 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label custom-required-label">
+                                            <aura:if isTrue="{! and(v.defaultValues.sfims__Default_Loan_Amount__c.min, v.defaultValues.sfims__Default_Loan_Amount__c.max) }">
+                                                {! ($Label.c.loan_field_label_1 + ' (' + $Label.c.range_4 + ': ' + v.defaultValues.sfims__Default_Loan_Amount__c.min + ' - ' + v.defaultValues.sfims__Default_Loan_Amount__c.max + ')') }
+                                            </aura:if>
+                                            <aura:if isTrue="{! and(v.defaultValues.sfims__Default_Loan_Amount__c.min, !v.defaultValues.sfims__Default_Loan_Amount__c.max) }">
+                                                {! ($Label.c.loan_field_label_1 + ' (' + $Label.c.range_4 + ': ' + $Label.c.range_5 + ' - ' + v.defaultValues.sfims__Default_Loan_Amount__c.min + ')') }
+                                            </aura:if>
+                                            <aura:if isTrue="{! and(!v.defaultValues.sfims__Default_Loan_Amount__c.min, v.defaultValues.sfims__Default_Loan_Amount__c.max) }">
+                                                {! ($Label.c.loan_field_label_1 + ' (' + $Label.c.range_4 + ': ' + $Label.c.range_6 + ' - ' + v.defaultValues.sfims__Default_Loan_Amount__c.max + ')') }
+                                            </aura:if>
+                                            <aura:if isTrue="{! and(!v.defaultValues.sfims__Default_Loan_Amount__c.min, !v.defaultValues.sfims__Default_Loan_Amount__c.max) }">
+                                                {! $Label.c.loan_field_label_1 }
+                                            </aura:if>
+                                        </div>
+                                        <lightning:inputField aura:id="sfims__Default_Loan_Amount__c" fieldName="sfims__Amount__c" variant="label-hidden"/>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Day_Count_Convention__c" class="custom-required" fieldName="sfims__Day_Count_Convention__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Non_Working_Days_Rescheduling__c" fieldName="sfims__Non_Working_Days_Rescheduling__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label">
+                                            <aura:if isTrue="{! and(v.defaultValues.sfims__Default_number_of_installments__c.min, v.defaultValues.sfims__Default_number_of_installments__c.max) }">
+                                                {! ($Label.c.loan_field_label_2 + ' (' + $Label.c.range_4 + ': ' + v.defaultValues.sfims__Default_number_of_installments__c.min + ' - ' + v.defaultValues.sfims__Default_number_of_installments__c.max + ')') }
+                                            </aura:if>
+                                            <aura:if isTrue="{! and(v.defaultValues.sfims__Default_number_of_installments__c.min, !v.defaultValues.sfims__Default_number_of_installments__c.max) }">
+                                                {! ($Label.c.loan_field_label_2 + ' (' + $Label.c.range_4 + ': ' + $Label.c.range_5 + ' - ' + v.defaultValues.sfims__Default_number_of_installments__c.min + ')') }
+                                            </aura:if>
+                                            <aura:if isTrue="{! and(!v.defaultValues.sfims__Default_number_of_installments__c.min, v.defaultValues.sfims__Default_number_of_installments__c.max) }">
+                                                {! ($Label.c.loan_field_label_2 + ' (' + $Label.c.range_4 + ': ' + $Label.c.range_6 + ' - ' + v.defaultValues.sfims__Default_number_of_installments__c.max + ')') }
+                                            </aura:if>
+                                            <aura:if isTrue="{! and(!v.defaultValues.sfims__Default_number_of_installments__c.min, !v.defaultValues.sfims__Default_number_of_installments__c.max) }">
+                                                {! $Label.c.loan_field_label_2 }
+                                            </aura:if>
+                                        </div>
+                                        <lightning:inputField aura:id="sfims__Number_of_Instalments__c" fieldName="sfims__Number_of_Instalments__c" variant="label-hidden"/>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <div style="{! not(v.showVariableInterestRate) ? 'display:block;' : 'display:none;' }">
+                                        <div class="slds-form-element slds-form-element_stacked">
+                                            <div class="slds-form-element__label">
+                                                <aura:if isTrue="{! and(v.defaultValues.sfims__Default_Interest_Rate__c.min, v.defaultValues.sfims__Default_Interest_Rate__c.max) }">
+                                                    {! ($Label.c.loan_field_label_3 + ' (' + $Label.c.range_4 + ': ' + v.defaultValues.sfims__Default_Interest_Rate__c.min + '% - ' + v.defaultValues.sfims__Default_Interest_Rate__c.max + '%)') }
+                                                </aura:if>
+                                                <aura:if isTrue="{! and(v.defaultValues.sfims__Default_Interest_Rate__c.min, !v.defaultValues.sfims__Default_Interest_Rate__c.max) }">
+                                                    {! ($Label.c.loan_field_label_3 + ' (' + $Label.c.range_4 + ': ' + $Label.c.range_5 + ' - ' + v.defaultValues.sfims__Default_Interest_Rate__c.min + '%)') }
+                                                </aura:if>
+                                                <aura:if isTrue="{! and(!v.defaultValues.sfims__Default_Interest_Rate__c.min, v.defaultValues.sfims__Default_Interest_Rate__c.max) }">
+                                                    {! ($Label.c.loan_field_label_3 + ' (' + $Label.c.range_4 + ': ' + $Label.c.range_6 + ' - ' + v.defaultValues.sfims__Default_Interest_Rate__c.max + '%)') }
+                                                </aura:if>
+                                                <aura:if isTrue="{! and(!v.defaultValues.sfims__Default_Interest_Rate__c.min, !v.defaultValues.sfims__Default_Interest_Rate__c.max) }">
+                                                    {! $Label.c.loan_field_label_3 }
+                                                </aura:if>
+                                            </div>
+                                            <lightning:inputField aura:id="sfims__Default_Interest_Rate__c" fieldName="sfims__Interest_Rate__c" variant="label-hidden"/>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div style="{! v.showVariableInterestRate ? 'display:block;' : 'display:none;' }">
+                                            <div class="slds-form-element__label">
+                                                <aura:if isTrue="{! and(v.defaultValues.sfims__Default_Variable_Interest_Spread__c.min, v.defaultValues.sfims__Default_Variable_Interest_Spread__c.max) }">
+                                                    {! ($Label.c.loan_field_label_4 + ' (' + $Label.c.range_4 + ': ' + v.defaultValues.sfims__Default_Variable_Interest_Spread__c.min + '% - ' + v.defaultValues.sfims__Default_Variable_Interest_Spread__c.max + '%)') }
+                                                </aura:if>
+                                                <aura:if isTrue="{! and(v.defaultValues.sfims__Default_Variable_Interest_Spread__c.min, !v.defaultValues.sfims__Default_Variable_Interest_Spread__c.max) }">
+                                                    {! ($Label.c.loan_field_label_4 + ' (' + $Label.c.range_4 + ': ' + $Label.c.range_5 + ' - ' + v.defaultValues.sfims__Default_Variable_Interest_Spread__c.min + '%)') }
+                                                </aura:if>
+                                                <aura:if isTrue="{! and(!v.defaultValues.sfims__Default_Variable_Interest_Spread__c.min, v.defaultValues.sfims__Default_Variable_Interest_Spread__c.max) }">
+                                                    {! ($Label.c.loan_field_label_4 + ' (' + $Label.c.range_4 + ': ' + $Label.c.range_6 + ' - ' + v.defaultValues.sfims__Default_Variable_Interest_Spread__c.max + '%)') }
+                                                </aura:if>
+                                                <aura:if isTrue="{! and(!v.defaultValues.sfims__Default_Variable_Interest_Spread__c.min, !v.defaultValues.sfims__Default_Variable_Interest_Spread__c.max) }">
+                                                    {! $Label.c.loan_field_label_4 }
+                                                </aura:if>
+                                            </div>
+                                            <lightning:inputField aura:id="sfims__Default_Variable_Interest_Spread__c" fieldName="sfims__Variable_Interest_Spread__c" variant="label-hidden"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Repayment_Frequency__c" fieldName="sfims__Repayment_Frequency__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Repayment_Frequency_Unit__c" fieldName="sfims__Repayment_Frequency_Unit__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <lightning:combobox name="sfims__Grace_Period_Type__c"
+                                                            aura:id="sfims__Grace_Period_Type__c"
+                                                            class="{! not(v.isOpenEndedLoan) ? 'custom-required' : '' }"
+                                                            label="{! $Label.c.loan_field_label_5 }"
+                                                            options="{! v.gracePeriodsFromLoanProduct  }"
+                                                            onchange="{! c.handleChangeGracePeriodType }"/>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Number_of_Grace_Periods__c" fieldName="sfims__Number_of_Grace_Periods__c"/>
+                                </div>
+                            </div>
+
+                            <!-- Fee Parameters -->
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 8px 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_61 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label">
+                                            <aura:if isTrue="{! and(v.defaultValues.sfims__Default_Monitoring_Fee_Percentage__c.min, v.defaultValues.sfims__Default_Monitoring_Fee_Percentage__c.max) }">
+                                                {! ($Label.c.loan_field_label_7 + ' (' + $Label.c.range_4 + ': ' + v.defaultValues.sfims__Default_Monitoring_Fee_Percentage__c.min + '% - ' + v.defaultValues.sfims__Default_Monitoring_Fee_Percentage__c.max + '%)') }
+                                            </aura:if>
+                                            <aura:if isTrue="{! and(v.defaultValues.sfims__Default_Monitoring_Fee_Percentage__c.min, !v.defaultValues.sfims__Default_Monitoring_Fee_Percentage__c.max) }">
+                                                {! ($Label.c.loan_field_label_7 + ' (' + $Label.c.range_4 + ': ' + $Label.c.range_5 + ' - ' + v.defaultValues.sfims__Default_Monitoring_Fee_Percentage__c.min + '%)') }
+                                            </aura:if>
+                                            <aura:if isTrue="{! and(!v.defaultValues.sfims__Default_Monitoring_Fee_Percentage__c.min, v.defaultValues.sfims__Default_Monitoring_Fee_Percentage__c.max) }">
+                                                {! ($Label.c.loan_field_label_7 + ' (' + $Label.c.range_4 + ': ' + $Label.c.range_6 + ' - ' + v.defaultValues.sfims__Default_Monitoring_Fee_Percentage__c.max + '%)') }
+                                            </aura:if>
+                                            <aura:if isTrue="{! and(!v.defaultValues.sfims__Default_Monitoring_Fee_Percentage__c.min, !v.defaultValues.sfims__Default_Monitoring_Fee_Percentage__c.max) }">
+                                                {! $Label.c.loan_field_label_7 }
+                                            </aura:if>
+                                        </div>
+                                        <lightning:inputField aura:id="sfims__Monitoring_Fee_Percentage__c" fieldName="sfims__Monitoring_Fee_Percentage__c" variant="label-hidden"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Setup_Fee_Charging_Method__c" fieldName="sfims__Setup_Fee_Charging_Method__c" onchange="{! c.handleChangeSetupFeeChargingMethod }"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Setup_Fee__c" fieldName="sfims__Setup_Fee__c" onchange="{! c.handleChangeSetupFee }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Percent_of_Disbursement_Amount__c" fieldName="sfims__Percent_of_Disbursement_Amount__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Flat_Amount__c" fieldName="sfims__Flat_Amount__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Setup_Fee_Cap__c" fieldName="sfims__Setup_Fee_Cap__c"/>
+                                </div>
+                            </div>
+
+                            <!-- Early and Late Repayment Parameters -->
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_62 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Early_Payment_Method__c" fieldName="sfims__Early_Payment_Method__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Late_Repayment_Calculation_Method__c" fieldName="sfims__Late_Repayment_Calculation_Method__c" onchange="{! c.handleChangeLateRepaymentCalculationMethod }"/>
+                                    <lightning:inputField aura:id="sfims__Late_Repayment_Interest_Rate__c" fieldName="sfims__Late_Repayment_Interest_Rate__c"/>
+                                    <lightning:inputField aura:id="sfims__Late_Repayment_Fixed_Fee__c" fieldName="sfims__Late_Repayment_Fixed_Fee__c"/>
+                                    <lightning:inputField aura:id="sfims__Late_Repayment_Tolerance_Period__c" fieldName="sfims__Late_Repayment_Tolerance_Period__c"/>
+                                </div>
+                            </div>
+
+                            <!--bottom Field Set-->
+                            <aura:if isTrue="{! v.bottomSections.length > 0 }">
+                                <aura:iteration var="section" items="{! v.bottomSections }">
+                                    <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                        <span class="section-header-title slds-p-horizontal--small">{! section.Label }</span>
+                                    </h3>
+                                    <aura:iteration var="fields" items="{! section.FieldSet }">
+                                        <div class="slds-grid slds-gutters">
+                                            <aura:iteration var="field" items="{! fields }">
+                                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                                    <lightning:inputField aura:id="bottomFieldSet" fieldName="{! field }"/>
+                                                </div>
+                                            </aura:iteration>
+                                        </div>
+                                    </aura:iteration>
+                                </aura:iteration>
+                            </aura:if>
+                            <aura:if isTrue="{! v.isPreview }">
+                                <div aura:id="preview"></div>
+                                <div style="margin-top: 15px;">
+                                    <lightning:datatable
+                                            keyField="Id"
+                                            data="{! v.previewRecords }"
+                                            columns="{! v.previewColumns }"
+                                            hideCheckboxColumn="true"
+                                            class="hideSortHeader"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" type="button" label="{! $Label.c.aura_label_14 }" title="{! $Label.c.aura_label_14 }" onclick="{! c.handlePreview }"/>
+                        <lightning:button variant="neutral" type="button" label="{! $Label.c.aura_label_12 }" title="{! $Label.c.aura_label_12 }" onclick="{! c.handleCancel }"/>
+                        <lightning:button variant="brand" type="button" label="{! $Label.c.aura_label_16 }" title="{! $Label.c.aura_label_16 }" onclick="{! c.handleSubmit }"/>
+                        <lightning:button variant="brand" type="button" label="{! $Label.c.aura_label_63 }" title="{! $Label.c.aura_label_63 }" onclick="{! c.handleSaveAndGenerateSchedule }"/>
+                    </footer>
+                </lightning:recordEditForm>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

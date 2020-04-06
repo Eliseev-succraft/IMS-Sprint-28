@@ -1,0 +1,35 @@
+<aura:component description="StandardEditForm">
+    <!-- Global attributes -->
+    <aura:attribute name="isDebugLog" type="Boolean" default="false"/>
+    <!-- Libraries -->
+    <c:lwcUtilityMessage aura:id="message" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilityNavigation aura:id="navigation" isDebugLog="{# v.isDebugLog }"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="recordId" type="String" default=""/>
+    <aura:attribute name="objectApiName" type="String" default=""/>
+    <aura:attribute name="headerTitle" type="String" default=""/>
+    <aura:attribute name="successMessage" type="String" default=""/>
+    <!-- Events -->
+    <aura:handler name="onSaveSuccess" event="force:recordSaveSuccess" action="{! c.handleSaveSuccess }"/>
+    <!-- Body -->
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <div style="position: relative">
+                <c:lwcUtilitySpinner aura:id="spinner" delay="1500" isDebugLog="{# v.isDebugLog }" onspinnerloaded="{! c.doInit }"/>
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.handleCancel }" alternativeText="{! $Label.c.aura_label_6 }" variant="bare-inverse" class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{! ($Label.c.aura_label_57 + ' ' + v.headerTitle) }</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="min-height: 150px; position: relative;">
+
+                    <force:recordEdit aura:id="edit" recordId="{! v.recordId }"/>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{! c.handleCancel }">{! $Label.c.aura_label_12 }</button>
+                    <button class="slds-button slds-button_brand" onclick="{! c.handleSave }">{! $Label.c.aura_label_16 }</button>
+                </footer>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

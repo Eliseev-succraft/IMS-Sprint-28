@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Minimum_Arrears_Tolerance_Period</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Loan_Product__c, Minimum_Arrears_Tolerance_Period__c &gt;  Maximum_Arrears_Tolerance_Period_days__c)</errorConditionFormula>
+    <errorDisplayField>Minimum_Arrears_Tolerance_Period__c</errorDisplayField>
+    <errorMessage>The minimum value must not be greater than the maximum value (Minimum Arrears Tolerance Period (days))</errorMessage>
+</ValidationRule>

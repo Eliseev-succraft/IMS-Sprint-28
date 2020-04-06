@@ -1,0 +1,223 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-modal_large slds-fade-in-open">
+        <div class="slds-modal__container report-template-main-modal">
+            <div style="position: relative;">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCancel}>
+                        <lightning-icon icon-name="utility:close" size="small" variant="inverse">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="title slds-text-heading_large">{templateName}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_large">
+                    <div if:true={spinner.main}>
+                        <lightning-spinner alternative-text="Loading" size="medium">
+                        </lightning-spinner>
+                    </div>
+                    <lightning-record-edit-form
+                            record-id={recordId}
+                            onload={handleFormLoad}
+                            onerror={handleFormError}
+                            onsuccess={handleFormSuccess}
+                            object-api-name="sfims__Report_Template__c">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size--3-of-12">
+                                <lightning-messages></lightning-messages>
+                                <lightning-input-field required="required" field-name="Name"></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size--1-of-12">
+                                <lightning-input-field value={setActiveFieldValue} field-name="sfims__Active__c"></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-col slds-size--8-of-12">
+                                <div class={getIndicatorCatalogsClass}>
+                                    <div class="slds-col slds-large-size_4-of-8">
+                                        <lightning-input
+                                                name="enter-search"
+                                                label="Search"
+                                                placeholder="Indicator name..."
+                                                type="search"
+                                                onchange={onSearchKeyUpByIndicatorCatalogs}>
+                                        </lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-large-size_3-of-8">
+                                        <div class="slds-form-element">
+                                            <span data-aria="true" class="slds-assistive-text"></span>
+                                            <label class="slds-form-element__label slds-no-flex">&nbsp;</label>
+                                            <div class="slds-form-element__control slds-grow slds-input-has-icon slds-input-has-icon_left-right">
+                                                <lightning-button if:true={isMoreFiltersByIndicatorCatalogs} variant="brand" label="Show More Filters" title="Show More Filters" disabled={isMoreFiltersByIndicatorCatalogsDisabled}
+                                                                  onclick={handleShowHideMoreFiltersByIndicatorCatalogs}>
+                                                </lightning-button>
+                                                <lightning-button if:false={isMoreFiltersByIndicatorCatalogs} variant="brand" label="Hide More Filters" title="Hide More Filters" disabled={isMoreFiltersByIndicatorCatalogsDisabled}
+                                                                  onclick={handleShowHideMoreFiltersByIndicatorCatalogs}>
+                                                </lightning-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-large-size_1-of-8 slds-medium-size_1-of-12">
+                                        <div class="slds-form-element">
+                                            <span data-aria="true" class="slds-assistive-text"></span>
+                                            <label class="slds-form-element__label slds-no-flex">&nbsp;</label>
+                                            <div class="slds-form-element__control slds-text-align--right" style="padding-top: 7px;">
+                                                <c-lwc-configure-columns
+                                                        onrefreshcolumns={refreshColumns}
+                                                        is-debug-log={isDebugLog}>
+                                                </c-lwc-configure-columns>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class={getSelectedIndicatorsClass}>
+                                    <div class="slds-col slds-large-size_4-of-8">
+                                        <lightning-input
+                                                name="enter-search"
+                                                label="Search"
+                                                placeholder="Indicator name..."
+                                                type="search"
+                                                onchange={onSearchKeyUpBySelectedIndicators}>
+                                        </lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-large-size_4-of-8">
+                                        <div class="slds-form-element">
+                                            <span data-aria="true" class="slds-assistive-text"></span>
+                                            <label class="slds-form-element__label slds-no-flex">&nbsp;</label>
+                                            <div class="slds-form-element__control slds-grow slds-input-has-icon slds-input-has-icon_left-right">
+                                                <lightning-button if:true={isMoreFiltersBySelectedIndicators} variant="brand" label="Show More Filters" title="Show More Filters" disabled={isMoreFiltersBySelectedIndicatorsDisabled}
+                                                                  onclick={handleShowHideMoreFiltersBySelectedIndicators}>
+                                                </lightning-button>
+                                                <lightning-button if:false={isMoreFiltersBySelectedIndicators} variant="brand" label="Hide More Filters" title="Hide More Filters" disabled={isMoreFiltersBySelectedIndicatorsDisabled}
+                                                                  onclick={handleShowHideMoreFiltersBySelectedIndicators}>
+                                                </lightning-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning-record-edit-form>
+                    <div data-id="tabs-container" class="slds-grid slds-gutters custom-tabs">
+                        <div class="tab">
+                            <div class="topic" data-id="tab1" onclick={handleClickTab}>
+                                <span data-id="tab1">Libraries</span>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <span data-id="tab" style="width: 160px; margin-left: 10px;">
+                                   <button disabled={isDisabledNewIndicatorButton} class="slds-button slds-button_neutral custom-button" title="Add New Custom Indicator" onclick={handleAddNewIndicator}>Add New Custom Indicator</button>
+                                    <div style="margin-top: 25px; float: left;">
+                                        <template for:each={libraries} for:index="index" for:item="item">
+                                            <lightning-input
+                                                    key={item.value}
+                                                    type="checkbox"
+                                                    checked={item.checked}
+                                                    disabled={item.disabled}
+                                                    label={item.label}
+                                                    value={index}
+                                                    onchange={handleChangeLibraries}>
+                                            </lightning-input>
+                                        </template>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="tab">
+                            <div class="topic" data-id="tab2" onclick={handleClickTab}>
+                                <span data-id="tab2">Indicator Catalogs</span>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <span data-id="tab" style="margin-left: 10px;">
+                                    <c-lwc-indicator-catalogs
+                                            is-refresh-catalog-filters={isRefreshCatalogFilters}
+                                            reload-catalog-indicators={reloadCatalogIndicators}
+                                            selected-indicators-list={selectedIndicatorsList}
+                                            record-id={recordId}
+                                            is-debug-log={isDebugLog}
+                                            is-display-filters={isMoreFiltersByIndicatorCatalogs}
+                                            search-value={searchValueByIndicatorCatalogs}
+                                            selected-libraries={selectedLibraries}
+                                            recovery-indicator-id={recoveryIndicatorId}
+                                            onclearrecoveryindicatorid={handleEventClearRecoveryIndicatorId}
+                                            onfiltersloaded={handleEventCatalogsFiltersLoaded}
+                                            onaddindicator={handleEventAddIndicatorFromCatalog}>
+                                    </c-lwc-indicator-catalogs>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="tab">
+                            <div class="topic" data-id="tab3" onclick={handleClickTab}>
+                                <span data-id="tab3">Selected Indicators</span>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <span data-id="tab" style="margin-left: 10px;">
+                                    <c-lwc-selected-indicators
+                                            record-id={recordId}
+                                            is-debug-log={isDebugLog}
+                                            low-mode={lowMode}
+                                            search-value={searchValueBySelectedIndicators}
+                                            is-display-filters={isMoreFiltersBySelectedIndicators}
+                                            add-indicator-from-indicator-catalogs={addIndicator}
+                                            onrecoveryindicator={handleEventRecoveryIndicator}
+                                            onupdatelistselectedindicators={handleEventUpdateListSelectedIndicators}
+                                            oncheckactivetab={handleEventCheckActiveTab}
+                                            onfiltersloaded={handleEventIndicatorsFiltersLoaded}>
+                                    </c-lwc-selected-indicators>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" style="margin-right: 5px;" onclick={handleCancel}>
+                    </lightning-button>
+                    <lightning-button variant="brand" label="Save" onclick={handleSaveReportTemplate}>
+                    </lightning-button>
+                </footer>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+
+    <div if:true={modals.newCustomIndicator}>
+        <section style="z-index: 11000;" role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container dialog-new-indicator">
+                <div style="position: relative;">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCancelNewIndicator}>
+                            <lightning-icon icon-name="utility:close" size="small" variant="inverse">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 class="title slds-text-heading_large">Add New Custom Indicator</h2>
+                    </header>
+                    <lightning-record-edit-form
+                            record-type-id={customRecordTypeId}
+                            onload={handleAddIndicatorFormLoad}
+                            onsubmit={handleAddIndicatorSubmit}
+                            onerror={handleAddIndicatorFormError}
+                            onsuccess={handleAddIndicatorFormSuccess}
+                            object-api-name="sfims__Indicator_Catalogue__c">
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div style="height: 64vh; overflow-y: auto; overflow-x: hidden;">
+                            <div if:true={spinner.newCustomIndicator}>
+                                <lightning-spinner alternative-text="Loading" size="medium">
+                                </lightning-spinner>
+                            </div>
+                            <div class="c-container ln-height">
+                                <template for:each={layoutFields} for:item="field">
+                                    <lightning-input-field key={field} field-name={field}></lightning-input-field>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Cancel" style="margin-right: 5px;" onclick={handleCancelNewIndicator}>
+                        </lightning-button>
+                        <lightning-button label="Save" variant="brand" type="submit">
+                        </lightning-button>
+                    </footer>
+                    </lightning-record-edit-form>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" style="z-index: 10000;"></div>
+    </div>
+</template>

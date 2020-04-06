@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category__c</fullName>
+    <description>Assessment Criteria category (for reporting/grouping purposes).</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Assessment Criteria category (for reporting/grouping purposes).</inlineHelpText>
+    <label>Category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Innovation</fullName>
+                <default>false</default>
+                <label>Innovation</label>
+            </value>
+            <value>
+                <fullName>Feasibility</fullName>
+                <default>false</default>
+                <label>Feasibility</label>
+            </value>
+            <value>
+                <fullName>Social impact</fullName>
+                <default>false</default>
+                <label>Social impact</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

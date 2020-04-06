@@ -1,0 +1,79 @@
+<aura:component implements="lightning:actionOverride,force:hasRecordId" controller="OverriddenLoanProductPageController" access="global">
+    <!-- Component main attributes -->
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <!-- Component additional attributes -->
+    <aura:attribute name="defaultFieldValues" type="String" default=""/>
+    <aura:attribute name="loanRecordTypeId" type="String" default=""/>
+    <aura:attribute name="isAccessNewProduct" type="Boolean" default="false"/>
+    <aura:attribute name="isNewLoanProduct" type="Boolean" default="false"/>
+    <aura:attribute name="isNewLoan" type="Boolean" default="false"/>
+    <aura:attribute name="loanProductId" type="String"/>
+    <!-- Component methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <aura:html tag="style">
+        #one .slds-modal__content{
+            height: unset !important;
+            max-height: unset !important;
+            overflow: visible !important;
+        }
+        .customRequired.error:after {
+            content: "{!$Label.c.aura_label_64}";
+            font-size: .75rem;
+            margin-top: .125rem;
+            display: block;
+            color: rgb(194, 57, 52) !important;
+        }
+    </aura:html>
+    <section id="one" role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <lightning:recordEditForm
+                    aura:id="loanProductForm"
+                    objectApiName="sfims__Investment__c"
+                    onerror="{! c.formError }"
+                    onsubmit="{! c.formSubmit }"
+                    onload="{! c.formLoad }">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModal }" alternativeText="{! $Label.c.aura_label_6 }" size="large" variant="bare-inverse" class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{! $Label.c.aura_label_100 }</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium slds-text-align_center" style="position: relative;" id="modal-content-id-1">
+                    <aura:if isTrue="{! v.isLoading }">
+                        <lightning:spinner class="customSpinner" alternativeText="{! $Label.c.aura_label_3 }"/>
+                    </aura:if>
+                    <div style="min-height: 100px;">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_2-of-3 slds-text-align_left">
+                                <lightning:inputField aura:id="loanProduct" required="true" value="{! v.loanProductId }" fieldName="sfims__Loan_Product__c"/>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3 slds-text-align_left">
+                                <aura:if isTrue="{! v.isAccessNewProduct }">
+                                    <div class="add-btn">
+                                        <a onclick="{! c.showModal }" title="{! $Label.c.aura_label_65 }">
+                                            <lightning:icon variant="bare" size="x-small" class="add-icon" iconName="utility:add"/>
+                                            {! $Label.c.loan_product }
+                                        </a>
+                                    </div>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" label="{! $Label.c.aura_label_12 }" title="{! $Label.c.aura_label_12 }" onclick="{! c.closeModal }"/>
+                    <lightning:button disabled="{! v.isLoading }" type="submit" variant="brand" label="{! $Label.c.aura_label_101 }" title="{! $Label.c.aura_label_101 }"/>
+                </footer>
+            </lightning:recordEditForm>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+
+    <aura:if isTrue="{! v.isNewLoanProduct }">
+        <c:OverriddenLoanProductNewEdit isRunning="{! v.isNewLoanProduct }" recordId="{! v.loanProductId }"/>
+    </aura:if>
+
+    <aura:if isTrue="{! v.isNewLoan }">
+        <c:OverriddenLoanNewEdit loanProductId="{! v.loanProductId }" loanRecordTypeId="{! v.loanRecordTypeId }" defaultFieldValues="{! v.defaultFieldValues }"/>
+    </aura:if>
+
+</aura:component>

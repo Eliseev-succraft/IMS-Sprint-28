@@ -1,0 +1,195 @@
+<!--
+ * @description         This is component for Progress Report Indicators Editor
+ * @author              Alexey Eliseev
+ * @component           progressReportIndicatorsEditor
+ * @date                2/15/19
+-->
+
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global"
+                controller="progressReportIndicatorsEditorController" description="This is component for Progress Report Indicators Editor">
+
+    <!-- show/hide Loading spinner -->
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <!-- on / off edit mode -->
+    <aura:attribute name="isEditMode" type="Boolean" default="false"/>
+    <!-- progress report Id -->
+    <aura:attribute name="recordId" type="String"/>
+    <!-- editing mode data object-->
+    <aura:attribute name="objValues" type="Object" default="[]"/>
+    <!-- component handler -->
+    <aura:handler name="init" action="{! c.init }" value="{! this }"/>
+
+    <aura:if isTrue="{! v.isLoading }">
+        <lightning:spinner alternativeText="Loading"/>
+    </aura:if>
+
+    <lightning:layout verticalAlign="start" horizontalAlign="end">
+        <lightning:layoutItem flexibility="auto">
+            <lightning:button label="Edit" disabled="{! v.objValues.length > 0 ? false : true }" class="edit-btn" title="Edit" onclick="{! c.handlerClickEditMode }"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <table class="edit-tbl slds-table slds-table_bordered slds-table_col-bordered">
+        <thead>
+        <tr class="slds-line-height_reset height-l">
+            <th class="" scope="col">
+                <div class="slds-truncate" title="Opportunity Name">Indicator Name</div>
+            </th>
+            <th class="" scope="col">
+                <div class="slds-truncate" title="Close Date">Actual Value</div>
+            </th>
+            <th class="" scope="col">
+                <div class="slds-truncate" title="Account Name">Target Value</div>
+            </th>
+            <th class="" scope="col">
+                <div class="slds-truncate" title="Stage">Variance</div>
+            </th>
+            <th class="" scope="col" colspan="2">
+                <div class="slds-truncate" title="Confidence">Comment</div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <aura:if isTrue="{! v.isEditMode }">
+            <aura:if isTrue="{! v.objValues.length > 0 }">
+                <aura:iteration var="item" items="{! v.objValues }">
+                    <tr class="slds-hint-parent">
+                        <td>
+                            <div class="slds-truncate">
+                                    {! item.name }
+                            </div>
+                        </td>
+
+                        <aura:iteration var="field" items="{! item.cols }">
+                            <td colspan="{! (field.name == 'sfims__Comment__c') ? 2: 0 }">
+                                <div class="slds-truncate">
+
+                                    <aura:if isTrue="{! field.name == 'sfims__Comment__c' }">
+                                        <lightning:textarea label="TextAreaField"
+                                                            variant="label-hidden"
+                                                            title="{! item.name }"
+                                                            value="{! field.value }"/>
+                                        <aura:set attribute="else">
+                                            <aura:if isTrue="{! item.type == 'Text' }">
+
+                                                <lightning:input label="TextField"
+                                                                 title="{! item.name }"
+                                                                 disabled="{! (field.name == 'sfims__Target_Value_Text__c') ||
+                                                                         (field.name == 'sfims__Variance_Value_Text__c')
+                                                                         ? true: false }"
+                                                                 value="{! field.value }" variant="label-hidden"/>
+                                            </aura:if>
+
+                                            <aura:if isTrue="{! item.type == 'Percentage' }">
+                                                <lightning:input type="number"
+                                                                 title="{! item.name }"
+                                                                 disabled="{! (field.name == 'sfims__Variance_Value_Percentage__c') ? true: false }"
+                                                                 label="PercentageField" value="{! field.value }"
+                                                                 formatter="percent-fixed" step="1"
+                                                                 variant="label-hidden"/>
+                                            </aura:if>
+
+                                            <aura:if isTrue="{! item.type == 'Number' }">
+                                                <lightning:input type="number"
+                                                                 title="{! item.name }"
+                                                                 disabled="{! (field.name == 'sfims__Variance_Value_Number__c') ? true: false }"
+                                                                 label="NumberField" value="{! field.value }"
+                                                                 variant="label-hidden"/>
+                                            </aura:if>
+
+                                            <aura:if isTrue="{! item.type == 'Currency' }">
+                                                <lightning:input type="number"
+                                                                 title="{! item.name }"
+                                                                 disabled="{! (field.name == 'sfims__Variance_Value_Currency__c') ? true: false }"
+                                                                 label="CurrencyField" value="{! field.value }"
+                                                                 formatter="currency" step="0.01"
+                                                                 variant="label-hidden"/>
+                                            </aura:if>
+
+                                            <aura:if isTrue="{! item.type == 'Text Area (Long)' }">
+                                                <lightning:textarea label="TextAreaField"
+                                                                    title="{! item.name }"
+                                                                    variant="label-hidden"
+                                                                    disabled="{! (field.name == 'sfims__Target_Value_Text_Area_Long__c') ||
+                                                                            (field.name == 'sfims__Variance_Value_Text_Area_Long__c') ? true: false }"
+                                                                    value="{! field.value }"/>
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </td>
+                        </aura:iteration>
+                    </tr>
+                </aura:iteration>
+            </aura:if>
+
+            <aura:set attribute="else">
+                <aura:if isTrue="{! v.objValues.length > 0 }">
+
+                    <aura:iteration var="item" items="{! v.objValues }">
+                        <tr class="slds-hint-parent">
+                            <td>
+                                <div class="slds-truncate">
+                                        {! item.name }
+                                </div>
+                            </td>
+
+                            <aura:iteration var="field" items="{! item.cols }">
+                                <td colspan="{! (field.name == 'sfims__Comment__c') ? 2: 0 }">
+                                    <div class="slds-truncate">
+
+                                        <aura:if isTrue="{! field.name == 'sfims__Comment__c' }">
+                                            <div class="mu1">
+                                                    {! field.value }
+                                            </div>
+
+                                            <aura:set attribute="else">
+                                                <aura:if isTrue="{! item.type == 'Text' }">
+                                                        {! field.value }
+                                                </aura:if>
+
+                                                <aura:if isTrue="{! item.type == 'Percentage' }">
+                                                    <lightning:formattedNumber value="{! field.value / 100 }"
+                                                                               style="percent"/>
+                                                </aura:if>
+
+                                                <aura:if isTrue="{! item.type == 'Number' }">
+                                                    <lightning:formattedNumber value="{! field.value }"/>
+                                                </aura:if>
+
+                                                <aura:if isTrue="{! item.type == 'Currency' }">
+                                                    <lightning:formattedNumber value="{! field.value }" style="currency"
+                                                    />
+                                                </aura:if>
+
+                                                <aura:if isTrue="{! item.type == 'Text Area (Long)' }">
+                                                        {! field.value }
+                                                </aura:if>
+
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                </td>
+                            </aura:iteration>
+                        </tr>
+                    </aura:iteration>
+                </aura:if>
+            </aura:set>
+        </aura:if>
+        </tbody>
+    </table>
+
+    <div class="padd-btn">
+        <aura:if isTrue="{! v.isEditMode }">
+
+            <lightning:layout verticalAlign="start" horizontalAlign="center">
+                <lightning:layoutItem flexibility="auto">
+                    <lightning:button variant="brand" label="Save" title="Save" onclick="{! c.handlerClickSave }"/>
+                    <lightning:button label="Cancel" title="Cancel" onclick="{! c.handlerClickCancelEditMode }"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:if>
+    </div>
+
+</aura:component>

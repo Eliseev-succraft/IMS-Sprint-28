@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_Metrics__c</fullName>
+    <deprecated>false</deprecated>
+    <description>A list of the IRIS metric and submetrics that relate to the specific metric being reviewed. (See Metric Type for more information).
+
+Please note that submetrics are not mutually exclusive.  For example, individuals reported as part of Client Individuals: Female (submetric) may also be reported as part of Client Individuals: Rural (submetric).</description>
+    <externalId>false</externalId>
+    <label>Related Metrics</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

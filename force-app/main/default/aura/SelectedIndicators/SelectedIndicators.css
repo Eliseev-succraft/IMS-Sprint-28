@@ -1,0 +1,21 @@
+.THIS .dialog-delete-indicator {
+    width: 50%;
+    max-width: 40rem;
+    min-width: 20rem;
+}
+
+.THIS .ln-height{
+    line-height: 30px;
+}
+
+.THIS .metric-pad {
+    margin-top: 20px;
+}
+
+.THIS .show {
+    display: block;
+}
+
+.THIS .hide {
+    display: none;
+}

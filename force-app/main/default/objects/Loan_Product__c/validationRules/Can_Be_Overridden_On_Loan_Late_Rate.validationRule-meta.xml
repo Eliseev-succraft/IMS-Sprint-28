@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Can_Be_Overridden_On_Loan_Late_Rate</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Loan_Product__c, OR(TEXT(sfims__Late_Repayment_Calculation_Method__c) == &#39;Overdue Principal * # of Late Days * Penalty Rate&#39;, TEXT(sfims__Late_Repayment_Calculation_Method__c) == &#39;(Overdue Principal + Overdue Interest) * # of Late Days * Penalty Rate&#39;), !sfims__CBO_Late_Repayment_Calculation_Method__c, !CBO_Late_Repayment_Interest_Rate__c, ISBLANK(Late_Repayment_Interest_Rate__c))</errorConditionFormula>
+    <errorDisplayField>Late_Repayment_Interest_Rate__c</errorDisplayField>
+    <errorMessage>Complete this field or check Can Be Overridden on Loan (Late Repayment Interest Rate)</errorMessage>
+</ValidationRule>

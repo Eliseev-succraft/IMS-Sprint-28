@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_ID</field>
+    </columns>
+    <columns>
+        <field>Milestone_Configuration__c.Object__c</field>
+    </columns>
+    <columns>
+        <field>Milestone_Configuration__c.Stage__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Milestone_Configuration__c.Sequence__c</field>
+    </columns>
+    <columns>
+        <field>Milestone_Configuration__c.Milestone_Name__c</field>
+    </columns>
+    <description>All records in the Milestone Configurations object</description>
+    <format>Tabular</format>
+    <name>All Milestone Configurations</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Milestone_Configuration__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>CUST_CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

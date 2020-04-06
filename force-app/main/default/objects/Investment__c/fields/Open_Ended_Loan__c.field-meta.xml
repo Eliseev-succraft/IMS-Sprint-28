@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Open_Ended_Loan__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Open Ended loans are loans with no fixed end date and no fixed repayment schedule. Investees can disburse money from it and repay money to it whenever they want, as long as they don’t go over the principal amount.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Open Ended loans are loans with no fixed end date and no fixed repayment schedule.</inlineHelpText>
+    <label>Open Ended Loan</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

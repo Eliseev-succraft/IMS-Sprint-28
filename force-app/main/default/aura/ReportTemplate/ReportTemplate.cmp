@@ -1,0 +1,6 @@
+<aura:component implements="lightning:actionOverride,force:hasRecordId,lightning:isUrlAddressable" access="global">
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.pageReference }" action="{! c.customForceRefresh }"/>
+    <c:lwcReportTemplate aura:id="lwcReportTemplate" recordId="{! v.recordId }" isDebugLog="{! v.isDebugLog }"/>
+</aura:component>

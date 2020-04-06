@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Late_Repayment_Fees_Expected0__c</fullName>
+    <externalId>false</externalId>
+    <formula>if(Cancel_Late_Repayment_Fee__c, 0, if(TEXT(Loan__r.Late_Repayment_Calculation_Method__c) == &#39;Fixed Fee&#39;, Late_Repayment_Fixed_Fee__c, if(OR(TEXT(Loan__r.Late_Repayment_Calculation_Method__c) == &#39;Principal&#39;, TEXT(Loan__r.Late_Repayment_Calculation_Method__c) == &#39;Principal+Interest&#39;), Late_Repayment_Fees_On_Last_Paid_Date__c + Days_Since_Last_Paid_Date__c * Daily_Late_Repayment_Fees__c, 0)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Late Repayment Fees Expected</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

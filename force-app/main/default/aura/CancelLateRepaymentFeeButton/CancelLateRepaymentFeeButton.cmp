@@ -1,0 +1,32 @@
+<aura:component implements="force:hasRecordId,force:lightningQuickActionWithoutHeader" controller="CancelLateRepaymentFeeButtonController" access="global">
+    <!-- Global attributes -->
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <!-- Spinner attributes -->
+    <aura:attribute name="cmpSpinner" type="Map" default="{}"/>
+    <aura:attribute name="qSpinners" type="Map" default="{}"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <!--force attributes-->
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <!-- Component methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <!-- Global styles -->
+    <aura:html tag="style">
+        .toastMessage.forceActionsText {
+            white-space : pre-line !important;
+        }
+        .modal-container {
+            display: none;
+        }
+        .slds-backdrop--open {
+            display: none;
+        }
+    </aura:html>
+    <div style="position: relative;">
+        <aura:if isTrue="{! v.isLoading }">
+            <lightning:spinner size="medium" variant="brand" alternativeText="{! $Label.c.aura_label_3 + '...'}"/>
+        </aura:if>
+    </div>
+</aura:component>

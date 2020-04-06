@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Weight__c</fullName>
+    <description>(optional) a weight definition can be given here. The weight will be copied into the Assessment Criteria records and can be used to calculate a numerical score per Assessment.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>(optional) a weight definition can be given here. The weight will be copied into the Assessment Criteria records and can be used to calculate a numerical score per Assessment.</inlineHelpText>
+    <label>Weight</label>
+    <precision>7</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

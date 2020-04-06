@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Usage_Guidance__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Additional information beyond the details and description provided in the metric definition. This may include considerations related to aggregating data for this metric, recommended sources for supplementary information pertaining to the metric, clarification of  the metric calculation and intended usage, among other guidance. This is a dynamic field, and the IRIS initiative welcomes feedback on how to further develop this for each metric.</description>
+    <externalId>false</externalId>
+    <label>Usage Guidance</label>
+    <length>32768</length>
+    <trackTrending>false</trackTrending>
+    <type>Html</type>
+    <visibleLines>10</visibleLines>
+</CustomField>

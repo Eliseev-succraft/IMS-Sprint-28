@@ -1,0 +1,56 @@
+<template>
+    <div style="height: 64vh; overflow-y: auto; overflow-x: hidden;">
+        <div if:true={spinner.main}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+        <span data-id="moreFilters" style="float: left; display: none; width: 170px; padding-right: 10px;">
+            <c-lwc-indicator-catalogs-filters
+                    is-refresh-catalog-filters={privateIsRefreshCatalogFilters}
+                    is-debug-log={isDebugLog}
+                    indicators={originalJSON}
+                    replace-indicators={originalReplaceJSON}
+                    search-value={privateSearchValue}
+                    onfiltersloaded={handleEventFiltersLoaded}
+                    onfilteredlist={handleEventListIndicatorsFromFilter}
+                    selected-libraries={privateSelectedLibraries}>
+            </c-lwc-indicator-catalogs-filters>
+        </span>
+        <div style="overflow-y: auto;">
+            <table class="slds-table slds-table_bordered slds-table_fixed-layout">
+                <thead>
+                <tr class="slds-line-height_reset">
+                    <th scope="col" style="width: 40px;">
+                        <div class="slds-truncate"></div>
+                    </th>
+                    <template for:each={columns} for:index="index" for:item="field">
+                        <th key={field.fieldName} scope="col">
+                            <span class="slds-truncate">{field.label}</span>
+                        </th>
+                    </template>
+                </tr>
+                </thead>
+                <tbody>
+                <template for:each={indicators} for:index="index" for:item="result">
+                    <tr key={result.Id} if:true={result.display} class="slds-hint-parent row-height">
+                        <td class="slds-hint-parent">
+                            <lightning-button-icon value={index} onclick={handleAddSelected} variant="brand" alternative-text="Add Indicator" icon-name="utility:add"></lightning-button-icon>
+                        </td>
+                        <template for:each={result.values} for:item="row">
+                            <td key={row.Id} class="slds-hint-parent">
+                                <div class="slds-truncate" title={row.value}>
+                                    <template if:false={row.isTextType}>
+                                        <a href={row.url} target="_blank">{row.value}</a>
+                                    </template>
+                                    <template if:true={row.isTextType}>
+                                        {row.value}
+                                    </template>
+                                </div>
+                            </td>
+                        </template>
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>

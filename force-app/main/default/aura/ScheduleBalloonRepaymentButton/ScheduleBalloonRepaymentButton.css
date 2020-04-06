@@ -1,0 +1,14 @@
+.THIS .margin-0 {
+    margin: 0;
+}
+
+.THIS .slds-form-element__label {
+    color: rgb(62, 62, 60);
+    line-height: 1.5;
+    margin-bottom: .25rem;
+    font-size: small;
+}
+
+.THIS .hide-error-message > .slds-form-element > .slds-form-element__help {
+    display: none;
+}

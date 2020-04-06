@@ -1,0 +1,312 @@
+<aura:component implements="flexipage:availableForAllPageTypes" controller="LoanCustomSettingsController" description="LoanCustomSettings" access="global">
+    <!-- Global attributes -->
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <!-- Spinner attributes -->
+    <aura:attribute name="cmpSpinner" type="Map" default="{}"/>
+    <aura:attribute name="qSpinners" type="Map" default="{}"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="sections" type="Map" default="{}"/>
+    <aura:attribute name="options" type="Map" default="{}"/>
+    <aura:attribute name="isEdit" type="Boolean" default="false"/>
+    <aura:attribute name="sfims__Repayment_Allocation_Order__value" type="String" default=""/>
+    <aura:attribute name="isDisabledRepaymentAllocationOrder" type="Boolean" default="false"/>
+    <!-- Methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.sfims__Repayment_Allocation_Order__value }" action="{! c.handleChangeOrder }"/>
+    <!-- Global styles -->
+    <aura:html tag="style">
+        .toastMessage.forceActionsText {
+        white-space : pre-line !important;
+        }
+        .slds-setup-assistant__item {
+        padding: 10px !important;
+        }
+    </aura:html>
+    <!-- Component body -->
+    <lightning:card variant="Narrow" title="{! $Label.c.aura_label_45 }" iconName="standard:account">
+        <!--
+        <aura:set attribute="actions">
+            <lightning:buttonIcon iconName="utility:down" variant="border-filled" alternativeText="Show More"/>
+        </aura:set>
+        -->
+        <div class="slds-p-horizontal_small">
+            <aura:if isTrue="{! v.isLoading }">
+                <lightning:spinner alternativeText="{! $Label.c.aura_label_3 + '...' }"/>
+            </aura:if>
+            <ol class="slds-setup-assistant" style="padding-top: 0; padding-bottom: 0;">
+                <div class="{! not(v.sections.InstalmentSettings) ? 'slds-section slds-is-open' : 'slds-section' }">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <button onclick="{! c.handleSectionClick }" id="InstalmentSettings" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                            <lightning:icon iconName="{! not(v.sections.InstalmentSettings) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.c.aura_label_46 }"/>
+                            <span class="slds-truncate" title="{! $Label.c.aura_label_47 }" style="margin-left: 5px;">{! $Label.c.aura_label_47 }</span>
+                        </button>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:combobox aura:id="sfims__Day_Count_Convention__c" name="sfims__Day_Count_Convention__c" label="{! $Label.c.loan_custom_setting_field_name_1 }" options="{! v.options.sfims__Day_Count_Convention__c }" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Day_Count_Convention__c" class="align-right" name="sfims__CBO_Day_Count_Convention__c" type="toggle" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:combobox aura:id="sfims__Non_Working_Days_Rescheduling__c" name="sfims__Non_Working_Days_Rescheduling__c" label="{! $Label.c.loan_custom_setting_field_name_3 }" options="{! v.options.sfims__Non_Working_Days_Rescheduling__c }" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Non_Working_Days_Rescheduling__c" class="align-right" name="sfims__CBO_Non_Working_Days_Rescheduling__c" type="toggle" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:combobox aura:id="sfims__Repayment_Frequency_Unit__c" name="sfims__Repayment_Frequency_Unit__c" label="{! $Label.c.loan_custom_setting_field_name_4 }" options="{! v.options.sfims__Repayment_Frequency_Unit__c }" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Repayment_Frequency_Unit__c" type="toggle" class="align-right" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:input aura:id="sfims__Repayment_Frequency__c" name="sfims__Repayment_Frequency__c" label="{! $Label.c.loan_custom_setting_field_name_5 }" type="number" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Repayment_Frequency__c" type="toggle" class="align-right" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+                <div class="{! not(v.sections.FeeSettings) ? 'slds-section slds-is-open' : 'slds-section' }">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <button onclick="{! c.handleSectionClick }" id="FeeSettings" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                            <lightning:icon iconName="{! not(v.sections.FeeSettings) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.c.aura_label_46 }"/>
+                            <span class="slds-truncate" title="{! $Label.c.aura_label_48 }" style="margin-left: 5px;">{! $Label.c.aura_label_48 }</span>
+                        </button>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:input aura:id="sfims__Monitoring_Fee_Percentage__c" name="sfims__Monitoring_Fee_Percentage__c" label="{! $Label.c.loan_custom_setting_field_name_15 }" type="number" formatter="percent-fixed" step="0.01" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Monitoring_Fee_Percentage__c" type="toggle" class="align-right" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:combobox aura:id="sfims__Setup_Fee_Charging_Method__c" name="sfims__Setup_Fee_Charging_Method__c" label="{! $Label.c.loan_custom_setting_field_name_6 }" options="{! v.options.sfims__Setup_Fee_Charging_Method__c }" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Setup_Fee_Charging_Method__c" type="toggle" class="align-right" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:combobox aura:id="sfims__Setup_Fee__c" name="sfims__Setup_Fee__c" label="{! $Label.c.loan_custom_setting_field_name_7 }" options="{! v.options.sfims__Setup_Fee__c }" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Setup_Fee__c" type="toggle" class="align-right" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:input aura:id="sfims__Percent_Of_Disbursement_Amount__c" name="sfims__Percent_Of_Disbursement_Amount__c" label="{! $Label.c.loan_custom_setting_field_name_8 }" type="number" formatter="percent-fixed" step="0.01" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Percent_Of_Disbursement_Amount__c" type="toggle" class="align-right" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:input aura:id="sfims__Flat_Amount__c" name="sfims__Flat_Amount__c" label="{! $Label.c.loan_custom_setting_field_name_9 }" type="number" formatter="currency" step="0.01" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Flat_Amount__c" type="toggle" class="align-right" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+                <div class="{! not(v.sections.EarlyAndLateRepaymentSettings) ? 'slds-section slds-is-open' : 'slds-section' }">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <button onclick="{! c.handleSectionClick }" id="EarlyAndLateRepaymentSettings" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                            <lightning:icon iconName="{! not(v.sections.EarlyAndLateRepaymentSettings) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.c.aura_label_46 }"/>
+                            <span class="slds-truncate" title="{! $Label.c.aura_label_49 }" style="margin-left: 5px;">{! $Label.c.aura_label_49 }</span>
+                        </button>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:combobox aura:id="sfims__Early_Payment_Method__c" name="sfims__Early_Payment_Method__c" label="{! $Label.c.loan_custom_setting_field_name_10 }" options="{! v.options.sfims__Early_Payment_Method__c }" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Early_Payment_Method__c" class="align-right" type="toggle" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:combobox aura:id="sfims__Late_Repayment_Calculation_Method__c" name="sfims__Late_Repayment_Calculation_Method__c" label="{! $Label.c.loan_custom_setting_field_name_11 }" options="{! v.options.sfims__Late_Repayment_Calculation_Method__c }" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Late_Repayment_Calculation_Method__c" type="toggle" class="align-right" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:input aura:id="sfims__Late_Repayment_Interest_Rate__c" name="sfims__Late_Repayment_Interest_Rate__c" label="{! $Label.c.loan_custom_setting_field_name_12 }" type="number" formatter="percent-fixed" step="0.01" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Late_Repayment_Interest_Rate__c" type="toggle" class="align-right" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:input aura:id="sfims__Late_Repayment_Fixed_Fee__c" name="sfims__Late_Repayment_Fixed_Fee__c" label="{! $Label.c.loan_custom_setting_field_name_14 }" type="number" formatter="currency" step="0.01" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Late_Repayment_Fixed_Fee__c" type="toggle" class="align-right" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:input aura:id="sfims__Late_Repayment_Tolerance_Period__c" name="sfims__Late_Repayment_Tolerance_Period__c" label="{! $Label.c.loan_custom_setting_field_name_13 }" type="number" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Late_Repayment_Tolerance_Period__c" type="toggle" class="align-right" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+                <div class="{! not(v.sections.RepaymentAllocationSettings) ? 'slds-section slds-is-open' : 'slds-section' }">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <button onclick="{! c.handleSectionClick }" id="RepaymentAllocationSettings" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                            <lightning:icon iconName="{! not(v.sections.RepaymentAllocationSettings) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.c.aura_label_46 }"/>
+                            <span class="slds-truncate" title="Repayment Allocation Settings" style="margin-left: 5px;">Repayment Allocation Settings</span>
+                        </button>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:combobox aura:id="sfims__Repayment_Allocation_Type__c" name="sfims__Repayment_Allocation_Type__c" label="Repayment Allocation Type" options="{! v.options.sfims__Repayment_Allocation_Type__c }" onchange="{! c.handleChange }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Repayment_Allocation_Type__c" class="align-right" type="toggle" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked byner_required-field" style="margin-bottom: -10px;">
+                                        <label class="slds-form-element__label">
+                                            {! $Label.c.loan_product_field_label_1 }
+                                        </label>
+                                        <div style="display: none;">
+                                            <lightning:inputField aura:id="sfims__Repayment_Allocation_Order__c" value="{! v.sfims__Repayment_Allocation_Order__value }" fieldName="sfims__Repayment_Allocation_Order__c"/>
+                                        </div>
+                                        <c:RepaymentAllocationOrder 
+                                            disabled="{! v.isDisabledRepaymentAllocationOrder }"
+                                            initStringOptions="{! v.sfims__Repayment_Allocation_Order__value }" 
+                                            isMoveButtons="true" 
+                                            outputString="{! v.sfims__Repayment_Allocation_Order__value }"/>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label slds-float--left">&nbsp;</div>
+                                        <lightning:input aura:id="sfims__CBO_Repayment_Allocation_Order__c" type="toggle" class="align-right" label="{! $Label.c.loan_custom_setting_field_name_2 }" onchange="{! c.handleChange }"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+            </ol>
+        </div>
+        <aura:set attribute="footer">
+            <aura:if isTrue="{! v.isEdit }">
+                <lightning:layout verticalAlign="start" horizontalAlign="center">
+                    <lightning:layoutItem flexibility="auto">
+                        <lightning:button variant="neutral" label="{! $Label.c.aura_label_12 }" disabled="{! or(v.isLoading, not(v.isEdit)) ? true : false }" title="{! $Label.c.aura_label_12 }" onclick="{! c.handleCancel }"/>
+                        <lightning:button variant="brand" label="{! $Label.c.aura_label_16 }" disabled="{! or(v.isLoading, not(v.isEdit)) ? true : false }" title="{! $Label.c.aura_label_16 }" onclick="{! c.handleSave }"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:if>
+        </aura:set>
+    </lightning:card>
+</aura:component>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_Assessments__c</fullName>
+    <description>For assessors of type &#39;Random fund assessor&#39; and &#39;Manual selection&#39; specify the total number of assessments to be created here.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>For assessors of type &#39;Random fund assessor&#39; and &#39;Manual selection&#39; specify the total number of assessments to be created here.</inlineHelpText>
+    <label>Number of Assessments</label>
+    <precision>5</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Investment_Transaction</fullName>
+    <active>true</active>
+    <description>Transaction between an Investment and (optionally) a Fund</description>
+    <label>Investment Transaction</label>
+    <picklistValues>
+        <picklist>Object_Type__c</picklist>
+        <values>
+            <fullName>Repayment Schedule</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transaction</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Planned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disbursed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Disbursement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disbursement Correction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fee Correction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Repayment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Repayment Correction</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

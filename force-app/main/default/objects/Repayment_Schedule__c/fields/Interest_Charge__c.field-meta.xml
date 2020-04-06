@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interest_Charge__c</fullName>
+    <description>This field stores an interest expected amount calculated normally based on # days in month for standard loans with the &#39;Interest Rollup&#39; Grace Period Type.</description>
+    <externalId>false</externalId>
+    <label>Interest Charge</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

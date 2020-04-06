@@ -1,0 +1,162 @@
+<aura:component access="global" controller="RefinanceLoanButtonController">
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <!--force attributes-->
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+
+    <aura:attribute name="refinanceDate" type="Date"/>
+    <aura:attribute name="refinanceAmount" type="Double"/>
+   
+    <aura:attribute name="transactions" type="List"/>
+    <aura:attribute name="newTransactions" type="List"/>
+    <aura:attribute name="existingDisbursementAmount" type="Double"/>
+    <aura:attribute name="newDisbursementAmount" type="Double"/>
+    <aura:attribute name="disbursementAmount" type="Double"/>
+
+    <aura:attribute name="isExpandedTopupDisbursement" type="Boolean" default="true"/>
+
+    <aura:attribute name="showPreview" type="Boolean" default="false"/>
+    <aura:attribute name="repaymentSchedules" type="Object"/>
+    <aura:attribute name="previewColumns" type="List"/>
+
+    <aura:attribute name="emptyInput" type="Boolean" default="false"/>
+    <aura:attribute name="failedApex" type="Boolean" default="false"/>
+    <aura:attribute name="apexError" type="String"/>
+
+    <aura:attribute name="spinner" type="boolean" default="false"/>
+
+    <aura:handler name="change" value="{!v.newDisbursementAmount}" action="{!c.recalculateRefinanceAmount}"/>
+    
+    <force:recordData aura:id="forceRecord"
+                      layoutType="FULL"
+                      recordId="{!v.recordId}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.simpleRecord}"
+                      mode="EDIT"
+                      recordUpdated="{!c.handleRecordUpdated}"
+    />
+
+    <aura:if isTrue="{!v.spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"/>
+                <div class="slds-spinner__dot-b"/>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- <c:RescheduleLoanButton aura:id="rescheduleloan" recordId="{!v.recordId}"
+                            refinanceDate="{!v.refinanceDate}" refinanceAmount="{!v.refinanceAmount}" newDisbursementAmount="{!v.newDisbursementAmount}"
+                            /> -->
+    
+    <!--Expanded Top-up Disbursement Start-->
+    <div class="slds-col slds-p-top">
+        <div class="{!'slds-section' + (v.isExpandedTopupDisbursement ? ' slds-is-open' : '')}">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button aria-controls="divContent"
+                        aria-expanded="{!v.isExpandedTopupDisbursement}"
+                        onclick="{!c.skipTopupDisbursement}"
+                        class="slds-button slds-section__title-action">
+                    <span style="{!v.isExpandedTopupDisbursement == true ?
+                            'transform: rotate(90deg); transition: transform 0.45s ease-in-out;' :
+                            'transform: rotate(0deg); transition: transform 0.45s ease-in-out;'}">
+                        <lightning:icon iconName="utility:chevronright"
+                                        size="xx-small"
+                                        alternativeText="switch"
+                        />
+                    </span>
+                    <span class="slds-truncate" title="Section Title" style="margin-left: 5px;">
+                        Top-up Disbursement
+                    </span>
+                </button>
+            </h3>
+            <div class="slds-section__content" aria-hidden="{!!v.isExpandedTopupDisbursement}" id="divContent">
+                <aura:if isTrue="{!v.simpleRecord.sfims__Disbursement_Method__c == 'Tranched disbursement allowed'}">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col">
+                            <lightning:input type="number"
+                                             formatter="currency"
+                                             step="0.01"
+                                             label="Existing Disbursement Amount" 
+                                             value="{!v.existingDisbursementAmount}" 
+                                             readonly="true"    
+                            />
+                            <lightning:input type="number"
+                                             formatter="currency"
+                                             step="0.01"
+                                             label="Planned Disbursement Amount" 
+                                             value="{!v.disbursementAmount - v.existingDisbursementAmount - v.newDisbursementAmount}" 
+                                             readonly="true"   
+                            />
+                            <lightning:input type="number"
+                                             formatter="currency"
+                                             step="0.01"
+                                             label="Remaining Disburseable Amount" 
+                                             value="{!v.simpleRecord.sfims__Amount__c - v.existingDisbursementAmount}" 
+                                             readonly="true"   
+                            />
+                        </div>
+                        <div class="slds-col">
+                            <lightning:input type="number"
+                                             formatter="currency"
+                                             step="0.01"
+                                             label="Top-up Amount" 
+                                             value="{!v.newDisbursementAmount}" 
+                                             readonly="true"
+                                             onchange="{!c.recalculateRefinanceAmount}"     
+                            />
+                            <lightning:input type="number"
+                                             formatter="currency"
+                                             step="0.01"
+                                             label="Disburseable Amount After Top-up" 
+                                             value="{!v.simpleRecord.sfims__Amount__c - v.existingDisbursementAmount - v.newDisbursementAmount}" 
+                                             readonly="true"
+                            />
+                        </div>
+                    </div>    
+                </aura:if>
+                <div style="padding-top: 10px; padding-bottom: 10px">
+                    <c:DisburseLoanButton aura:id="disburseloan" recordId="{!v.recordId}"  
+                                          refinance="true" newDisbursementAmount="{!v.newDisbursementAmount}" disbursementAmount="{!v.disbursementAmount}"
+                                          existingDisbursementAmount="{!v.existingDisbursementAmount}" newTransactions="{!v.newTransactions}"
+                                          transactions="{!v.transactions}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Expanded Top-up Disbursement End-->
+    <div class="slds-m-top_medium slds-m-bottom_medium slds-align_absolute-center">
+        <aura:if isTrue="{!v.emptyInput}">
+            <ui:message severity="error" closable="true">
+                One or more fields are empty. Fill in to start refinancing.
+            </ui:message>
+        </aura:if>
+        <aura:if isTrue="{!v.failedApex}">
+            <ui:message severity="error" closable="true">
+                {!v.apexError}
+            </ui:message>
+        </aura:if>
+        <aura:if isTrue="{!v.newTransactions.length > 0}">
+            <lightning:button variant="neutral" label="Preview" onclick="{!c.openPreview}"/>
+            <lightning:button variant="neutral" label="Preview with planned disbursements" onclick="{!c.openPreviewWithPlannedDisbursements}"/>
+            <lightning:button variant="neutral" label="Refinance" onclick="{!c.refinance}"/>
+        </aura:if>
+    </div>
+    
+    <aura:if isTrue="{!v.showPreview}">        
+        <aura:html tag="style">
+            .slds-modal__container{
+            width: 1000px; max-width: 100%;
+            }
+        </aura:html>  
+        <lightning:datatable keyField="Id"
+                             data="{!v.repaymentSchedules}"
+                             columns="{!v.previewColumns}"
+                             hideCheckboxColumn="true"
+        />             
+    </aura:if>
+</aura:component>

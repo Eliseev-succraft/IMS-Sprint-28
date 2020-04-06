@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transaction_Date</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Transaction__c, ISBLANK(Transaction_Date__c), OR(TEXT(Type__c) == &#39;Disbursement&#39;, TEXT(Type__c) == &#39;Repayment&#39;, TEXT(Type__c) == &#39;Fee&#39;, TEXT(Type__c) == &#39;Disbursement Correction&#39;, TEXT(Type__c) == &#39;Repayment Correction&#39;, TEXT(Type__c) == &#39;Fee Correction&#39;, TEXT(Type__c) == &#39;Fund Drawdown&#39;, TEXT(Type__c) == &#39;Fund Repayment&#39;))</errorConditionFormula>
+    <errorDisplayField>Transaction_Date__c</errorDisplayField>
+    <errorMessage>Complete this field (Transaction Date)</errorMessage>
+</ValidationRule>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Can_Be_Overridden_On_Loan_Late_Fixed_Fee</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Loan_Product__c, TEXT(Late_Repayment_Calculation_Method__c) == &#39;Fixed Fee&#39;, !CBO_Late_Repayment_Calculation_Method__c, !CBO_Late_Repayment_Fixed_Fee__c , ISBLANK(Late_Repayment_Fixed_Fee__c))</errorConditionFormula>
+    <errorDisplayField>Late_Repayment_Fixed_Fee__c</errorDisplayField>
+    <errorMessage>Complete this field or check Can Be Overridden on Loan (Late Repayment Fixed Fee)</errorMessage>
+</ValidationRule>

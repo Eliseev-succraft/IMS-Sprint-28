@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Daily_Late_Repayment_Fees__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(TEXT(Loan__r.Late_Repayment_Calculation_Method__c) == &#39;Principal&#39;, 
+    Principal_Remaining__c, 
+    IF(TEXT(Loan__r.Late_Repayment_Calculation_Method__c) == &#39;Principal+Interest&#39;,
+        (Principal_Remaining__c + Interest_Remaining__c),
+        0
+    )
+) * Loan__r.Late_Repayment_Interest_Rate__c / 365</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Daily Late Repayment Fees</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,4 @@
+.THIS .error_icon > lightning-primitive-icon > svg > use{
+    fill: red;
+    color: red;
+}

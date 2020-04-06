@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assessor_Name__c</fullName>
+    <externalId>false</externalId>
+    <formula>if( isblank(Assessor_External__c ),
+Assessor_Internal__r.FirstName &amp; &#39; &#39; &amp; Assessor_Internal__r.LastName,
+Assessor_External__r.FirstName &amp; &#39; &#39; &amp; Assessor_External__r.LastName
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Assessor Name</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

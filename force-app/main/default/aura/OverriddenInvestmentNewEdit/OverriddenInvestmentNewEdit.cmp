@@ -1,0 +1,112 @@
+<!-- Overridden investment functionality * @author Alexey Eliseev * @date 11/6/19 * @update 11/3/20
+        Example link
+        /lightning/o/sfims__Investment__c/new?nooverride=1&recordTypeId=0123E000001GkJYQA0&
+        defaultFieldValues=
+        sfims__Loan_Product__c=a0L3E000006x9yWUAQ,
+        Name=Test123,
+        sfims__Account__c={!Account.Id},
+        sfims__Amount__c=12345,
+        sfims__Number_of_Instalments__c=111,
+        sfims__Opportunity__c=0063E000007IDLvQAO,
+        objectApiName=Account
+-->
+<aura:component description="OverriddenInvestmentNewEdit" implements="lightning:actionOverride,force:hasRecordId,lightning:hasPageReference,lightning:isUrlAddressable" controller="OverriddenInvestmentNewEditController" access="global">
+    <!-- Global attributes -->
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <aura:attribute name="modals" type="Map" default="{selectRecordType: true}"/>
+    <!-- Libraries -->
+    <c:lwcUtilityMessage aura:id="message" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilityNavigation aura:id="navigation" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilitySystem aura:id="system" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilityModal aura:id="modal" isDebugLog="{# v.isDebugLog }" onupdatemodals="{! c.handleEventUpdateModals }"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="defaultFieldValues" type="String" default=""/>
+    <aura:attribute name="loanRecordTypeId" type="String" default=""/>
+    <aura:attribute name="actionName" type="String" default=""/>
+    <aura:attribute name="options" type="List" default="[]"/>
+    <aura:attribute name="selectedRecordTypeId" type="String" default=""/>
+    <aura:attribute name="simpleRecord" type="Object" default="{}"/>
+    <aura:attribute name="recordLoadError" type="String" default=""/>
+    <!-- Methods -->
+    <aura:handler name="change" value="{! v.pageReference }" action="{! c.customRefresh }"/>
+
+    <aura:html tag="style">
+        .toastMessage.forceActionsText {
+            white-space: pre-line !important;
+        }
+    </aura:html>
+    <aura:html tag="style">
+        .oneRecordActionWrapper:not(.isModal) .inlineFooter {
+            bottom: auto !important;
+        }
+    </aura:html>
+
+    <aura:if isTrue="{! v.recordId }">
+        <force:recordData
+                aura:id="recordData"
+                recordId="{! v.recordId }"
+                fields="Name"
+                recordUpdated="{! c.handleRecordUpdated }"
+                targetFields="{! v.simpleRecord }"
+                targetError="{! v.recordLoadError }"/>
+    </aura:if>
+
+    <c:lwcUtilitySpinner aura:id="mainSpinner" isDebugLog="{# v.isDebugLog }" onloaded="{! c.doInit }"/>
+
+    <aura:if isTrue="{! v.modals.selectRecordType }">
+        <section style="z-index: 10;" aura:id="section" role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-modal_medium">
+            <div class="slds-modal__container" style="max-width: 750px;">
+                <div style="position: relative;">
+                    <c:lwcUtilitySpinner aura:id="spinner" delay="30000" isDebugLog="{# v.isDebugLog }"/>
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.handleCancel }" size="large" alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Investment</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div style="min-height: 150px;">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_4-of-12 slds-text-align_right">
+                                    <div class="slds-form-element__label">Select a Record Type</div>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12">
+                                    <div style="line-height: 35px; margin-top: 20px;">
+                                        <lightning:radioGroup
+                                                name="radioGroup"
+                                                label="Select a Record Type"
+                                                options="{! v.options }"
+                                                value="{! v.selectedRecordTypeId }"
+                                                variant="label-hidden"
+                                                type="radio"/>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <div class="slds-text-align_right">
+                            <lightning:button label="Cancel" onclick="{! c.handleCancel }"/>
+                            <lightning:button variant="brand" label="Next" type="button" onclick="{! c.handleNext }"/>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </section>
+    </aura:if>
+    <aura:if isTrue="{! v.actionName == 'new'}">
+        <aura:if isTrue="{! v.modals.loan }">
+            <c:SelectLoanProduct loanRecordTypeId="{! v.loanRecordTypeId }" defaultFieldValues="{! v.defaultFieldValues }"/>
+        </aura:if>
+    </aura:if>
+    <aura:if isTrue="{! v.actionName == 'edit'}">
+        <aura:if isTrue="{! v.modals.loan }">
+            <c:OverriddenLoanNewEdit defaultFieldValues="{! v.defaultFieldValues }" recordId="{! v.recordId }"/>
+        </aura:if>
+        <aura:if isTrue="{! or(v.modals.equity, v.modals.grant) }">
+            <c:StandardEditForm
+                    recordId="{# v.recordId }"
+                    successMessage="The Loan was saved."
+                    objectApiName="sfims__Investment__c"
+                    headerTitle="{# v.simpleRecord.Name }"/>
+        </aura:if>
+    </aura:if>
+</aura:component>

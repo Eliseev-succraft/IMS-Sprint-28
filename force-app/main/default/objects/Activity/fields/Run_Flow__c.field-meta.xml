@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Run_Flow__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(AND(!ISBLANK(Task_List_Template_Item__r.Flow_Name__c), OR(TEXT(Status) = &#39;Open&#39;,TEXT(Status) = &#39;Rejected&#39;) ), HYPERLINK(&#39;/lightning/cmp/sfims__RunTaskFlow#recordId=&#39;+Id, &#39;Run Flow&#39;,&#39;_self&#39;), &#39;&#39;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Run Flow</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,309 @@
+<aura:component controller="RescheduleLoanButtonController" access="global">
+    <!-- Global attributes -->
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:attribute name="access" type="Boolean" default="true"/>
+    <aura:attribute name="messageNoAccess" type="String" default=""/>
+    <aura:attribute name="recordId" type="String"/>
+    <!-- Libraries -->
+    <c:lwcUtilityMessage aura:id="message" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilityNavigation aura:id="navigation" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilitySystem aura:id="system" isDebugLog="{# v.isDebugLog }"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="options" type="List" default="[
+    {'label': 'Change Payment Date', 'value': 'Change Payment Date'},
+    {'label': 'Introduce Grace Period', 'value': 'Introduce Grace Period'},
+    {'label': 'Change Periodic Repayment Amount', 'value': 'Change Periodic Repayment Amount'},
+    {'label': 'Manual Reschedule', 'value': 'Manual Reschedule'}]"/>
+    <aura:attribute name="rescheduleBaseOptions" type="List" default="[
+    {'label': 'Number of Instalments', 'value': 'Number of Instalments'},
+    {'label': 'Periodic Repayment Amount', 'value': 'Periodic Repayment Amount'}]"/>
+    <aura:attribute name="baseOnValue" type="String" default="Number of Instalments"/>
+    <aura:attribute name="default" type="String" default="Change Payment Date"/>
+    <aura:attribute name="selectedType" type="String"/>
+    <aura:attribute name="repaymentSchedules" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="graceTypesFromLoanProduct" type="List" default="[]"/>
+    <aura:attribute name="totalPrincipalWrittenOff" type="Double" default="0"/>
+    <aura:attribute name="totalInterestWrittenOff" type="Double"/>
+    <aura:attribute name="totalFeesWrittenOff" type="Double"/>
+    <aura:attribute name="totalPenaltiesWrittenOff" type="Double"/>
+    <aura:attribute name="simpleRecord" type="Map" default="{}"/>
+    <aura:attribute name="rescheduleAmount" type="Double"/>
+    <aura:attribute name="firstRepaymentDateValue" type="String"/>
+    <aura:attribute name="rescheduleDate" type="Date"/>
+    <aura:attribute name="isOpenPreview" type="Boolean" default="false"/>
+    <aura:handler name="change" value="{! v.rescheduleAmount }" action="{! c.handleChangeRescheduleAmount }"/>
+
+    <!-- Global styles -->
+    <aura:html tag="style">
+        .custom-modal .slds-modal__container {
+            max-width: 45rem !important;
+        }
+        .toastMessage.forceActionsText {
+            white-space : pre-line !important;
+        }
+        .custom-required.error:after, .custom-required-label-date.error:after, .custom-required-field.error:after {
+            content: "{!$Label.c.aura_label_64}";
+            font-size: .75rem;
+            margin-top: .125rem;
+            display: block;
+            color: rgb(194, 57, 52) !important;
+        }
+        .cuf-content {
+            padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }
+    </aura:html>
+    <!-- Body -->
+    <div style="position: relative;"> <!-- style="position: relative;" -->
+        <header class="slds-modal__header">
+            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{! $Label.c.aura_label_91 }</h2>
+        </header>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <div style="max-height: 70vh; min-height: 150px;" aura:id="goToScroll">
+                <c:lwcUtilitySpinner aura:id="spinner" alternativeText="{! $Label.c.aura_label_3  + '...'}" delay="30000" isDebugLog="{# v.isDebugLog }" onloaded="{! c.doInit }"/>
+                <!-- select type form -->
+                <aura:if isTrue="{! not(v.selectedType) }">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_4-of-12 slds-text-align_right">
+                            <div class="slds-form-element__label">Select Reschedule Type</div>
+                        </div>
+                        <div class="slds-col slds-size_8-of-12">
+                            <div style="line-height: 40px; margin-top: 20px;">
+                                <lightning:radioGroup
+                                        name="radioGroup"
+                                        label="Select Reschedule type"
+                                        options="{! v.options }"
+                                        value="{! v.default }"
+                                        variant="label-hidden"
+                                        type="radio"/>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{! v.selectedType == 'Change Payment Date' }">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_7-of-12">
+                            <div class="slds-form-element_stacked">
+                                <div class="slds-form-element custom-required-label-date">
+                                    <label class="slds-form-element__label">
+                                        {! $Label.c.aura_label_93 }
+                                    </label>
+                                    <lightning:helptext content="The administrative date on which this reschedule is executed."/>
+                                    <lightning:input required="true" type="date" aura:id="rescheduleDate" variant="label-hidden" label="{! $Label.c.aura_label_93 }" value="{! v.rescheduleDate }" autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="slds-form-element_stacked">
+                                <div class="slds-form-element custom-required-label-date">
+                                    <label class="slds-form-element__label">
+                                        {! $Label.c.loan_field_label_6 }
+                                    </label>
+                                    <lightning:input required="true" type="date" value="{! v.firstRepaymentDateValue }" aura:id="firstRepaymentDate" variant="label-hidden" label="{! $Label.c.loan_field_label_6 }" messageWhenValueMissing="{! $Label.c.aura_label_94 }" autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_5-of-12"></div>
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{! v.selectedType == 'Introduce Grace Period' }">
+                    <aura:html tag="style">
+                        .slds-modal__content {
+                            overflow: initial !important;
+                        }
+                    </aura:html>
+                    <lightning:recordEditForm
+                            recordId="{! v.recordId }"
+                            onerror="{! c.formError }"
+                            onload="{! c.formLoadFromIntroduceForm }"
+                            objectApiName="sfims__Investment__c">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_7-of-12">
+                                <div class="slds-form-element_stacked">
+                                    <div class="slds-form-element custom-required-label-date">
+                                        <label class="slds-form-element__label">
+                                            {! $Label.c.aura_label_93 }
+                                        </label>
+                                        <lightning:helptext content="The administrative date on which this reschedule is executed."/>
+                                        <lightning:input required="true" type="date" aura:id="rescheduleDate" variant="label-hidden" label="{! $Label.c.aura_label_93 }" value="{! v.rescheduleDate }" autocomplete="off"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_5-of-12"></div>
+                        </div>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_7-of-12">
+                                <div class="slds-form-element slds-form-element_stacked" style="overflow: initial;">
+                                    <lightning:combobox
+                                            name="sfims__Grace_Period_Type__c"
+                                            aura:id="sfims__Grace_Period_Type__c"
+                                            class="custom-required"
+                                            value=""
+                                            label="{! $Label.c.loan_field_label_5 }"
+                                            options="{! v.graceTypesFromLoanProduct  }"
+                                            onchange="{! c.handleChangeGracePeriodType }"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_7-of-12">
+                                <div class="slds-form-element_stacked">
+                                    <lightning:inputField aura:id="sfims__Number_of_Grace_Periods__c" class="custom-required-field" fieldName="sfims__Number_of_Grace_Periods__c" value="{! v.simpleRecord.sfims__Number_of_Grace_Periods__c }"/>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning:recordEditForm>
+                </aura:if>
+                <aura:if isTrue="{! v.selectedType == 'Change Periodic Repayment Amount' }">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_7-of-12">
+                            <div class="slds-form-element_stacked">
+                                <div class="slds-form-element custom-required-label-date">
+                                    <label class="slds-form-element__label">
+                                        {! $Label.c.aura_label_93 }
+                                    </label>
+                                    <lightning:helptext content="The administrative date on which this reschedule is executed."/>
+                                    <lightning:input required="true" type="date" aura:id="rescheduleDate" variant="label-hidden" label="{! $Label.c.aura_label_93 }" value="{! v.rescheduleDate }" autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_5-of-12"></div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_7-of-12">
+                            <div class="slds-form-element slds-form-element_stacked">
+                                <lightning:input disabled="true" required="true" type="number" formatter="currency" aura:id="currentPeriodicRepaymentAmount" label="Current Periodic Repayment Amount" value=""/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_7-of-12">
+                            <div class="slds-form-element slds-form-element_stacked">
+                                <lightning:input required="true" type="number" aura:id="newPeriodicRepaymentAmount" formatter="currency" label="New Periodic Repayment Amount" value="" autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{! v.selectedType == 'Manual Reschedule' }">
+                    <lightning:recordEditForm
+                            recordId="{! v.recordId }"
+                            onerror="{! c.formError }"
+                            onload="{! c.formLoadFromManualForm }"
+                            objectApiName="sfims__Investment__c">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-2">
+                                <div class="slds-form-element_stacked">
+                                    <div class="slds-form-element custom-required-label-date">
+                                        <label class="slds-form-element__label">
+                                            {! $Label.c.aura_label_93 }
+                                        </label>
+                                        <lightning:helptext content="The administrative date on which this reschedule is executed."/>
+                                        <lightning:input required="true" type="date" aura:id="rescheduleDate" variant="label-hidden" label="{! $Label.c.aura_label_93 }" value="{! v.rescheduleDate }" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <aura:if isTrue="{! v.simpleRecord.sfims__Loan_Product__r.sfims__Interest_Rate_Source__c == 'Variable Interest' }">
+                                    <lightning:inputField fieldName="sfims__Variable_Interest_Spread__c" value="{! v.simpleRecord.sfims__Variable_Interest_Spread__c }"/>
+                                    <aura:set attribute="else">
+                                        <lightning:inputField fieldName="sfims__Interest_Rate__c" value="{! v.simpleRecord.sfims__Interest_Rate__c }"/>
+                                    </aura:set>
+                                </aura:if>
+                                <div class="slds-form-element_stacked">
+                                    <lightning:input disabled="true" required="true" type="number" formatter="currency" aura:id="currentPeriodicRepaymentAmount" label="Current Periodic Repayment Amount" value=""/>
+                                </div>
+                                <div class="slds-form-element_stacked">
+                                    <lightning:combobox
+                                            aura:id="rescheduleBasedOn"
+                                            required="true"
+                                            value="{! v.baseOnValue }"
+                                            label="Reschedule Based On"
+                                            options="{! v.rescheduleBaseOptions }"
+                                            onchange="{! c.handleChangeRescheduleBasedOn }"/>
+                                </div>
+                                <div class="slds-form-element_stacked" aura:id="numberOfInstalmentsDiv">
+                                    <lightning:input aura:id="numberOfInstalments" type="number" name="InstalmentInput" label="{! $Label.sfims.	loan_field_label_2 }" min="1" messageWhenValueMissing="{! $Label.c.aura_label_94 }"/>
+                                </div>
+                                <div class="slds-form-element_stacked slds-hide" aura:id="newPeriodicRepaymentAmountDiv">
+                                    <lightning:input type="number" aura:id="newPeriodicRepaymentAmount" formatter="currency" label="New Periodic Repayment Amount" value="" autocomplete="off"/>
+                                </div>
+                                <div class="slds-form-element_stacked">
+                                    <div class="slds-form-element custom-required-label-date">
+                                        <label class="slds-form-element__label">
+                                            {! $Label.c.loan_field_label_6 }
+                                        </label>
+                                        <lightning:input required="true" type="date" value="{! v.firstRepaymentDateValue }" aura:id="firstRepaymentDate" variant="label-hidden" label="{! $Label.c.loan_field_label_6 }" messageWhenValueMissing="{! $Label.c.aura_label_94 }" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <lightning:inputField aura:id="sfims__Repayment_Frequency_Unit__c" fieldName="sfims__Repayment_Frequency_Unit__c" value="{! v.simpleRecord.sfims__Repayment_Frequency_Unit__c }"/>
+                                <lightning:inputField aura:id="sfims__Repayment_Frequency__c" fieldName="sfims__Repayment_Frequency__c" value="{! v.simpleRecord.sfims__Repayment_Frequency__c }"/>
+                                <div class="slds-form-element slds-form-element_stacked" style="overflow: initial;">
+                                    <lightning:combobox
+                                            name="sfims__Grace_Period_Type__c"
+                                            aura:id="sfims__Grace_Period_Type__c"
+                                            class="custom-required"
+                                            value=""
+                                            label="{! $Label.c.loan_field_label_5 }"
+                                            options="{! v.graceTypesFromLoanProduct  }"
+                                            onchange="{! c.handleChangeGracePeriodType }"/>
+                                </div>
+                                <lightning:inputField aura:id="sfims__Number_of_Grace_Periods__c" class="custom-required-field" fieldName="sfims__Number_of_Grace_Periods__c" value="{! v.simpleRecord.sfims__Number_of_Grace_Periods__c }"/>
+                                <div class="slds-form-element_stacked">
+                                    <lightning:textarea name="textareaInput" label="{! $Label.c.aura_label_95 }" maxlength="255" messageWhenTooLong="{! $Label.c.aura_label_96 }" aura:id="rationale"/>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <aura:if isTrue="{! v.simpleRecord }">
+                                    <c:InvestmentWrittenOffUtilComponent aura:id="investmentWrittenOffUtilComponent"
+                                            recordId="{! v.recordId }"
+                                            simpleRecord="{! v.simpleRecord }"
+                                            rescheduleAmount="{! v.rescheduleAmount }"
+                                            totalPrincipalWrittenOff="{! v.totalPrincipalWrittenOff }"
+                                            totalInterestWrittenOff="{! v.totalInterestWrittenOff }"
+                                            totalFeesWrittenOff="{! v.totalFeesWrittenOff }"
+                                            totalPenaltiesWrittenOff="{! v.totalPenaltiesWrittenOff }"
+                                            rescheduleLoan="true"/>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </lightning:recordEditForm>
+                </aura:if>
+                <aura:if isTrue="{! v.isOpenPreview }">
+                    <aura:html tag="style">
+                        .slds-modal__container {
+                            width: 1000px;
+                            max-width: 100%;
+                        }
+                        .slds-modal__content {
+                            overflow-y: auto !important;
+                            overflow: auto !important;
+                        }
+                    </aura:html>
+                    <div class="dataTable">
+                        <lightning:datatable
+                                aura:id="repaymentSchedulesDataTable"
+                                keyField="Id"
+                                data="{! v.repaymentSchedules }"
+                                columns="{! v.columns }"
+                                hideCheckboxColumn="true"/>
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+        <footer class="slds-modal__footer">
+            <div class="slds-text-align_right">
+                <aura:if isTrue="{! v.selectedType }">
+                    <lightning:buttonGroup>
+                        <lightning:button variant="neutral" label="{! $Label.c.aura_label_14 }" type="button" onclick="{! c.handlePreview }"/>
+                        <lightning:button label="Cancel" onclick="{! c.handlePrevious }"/>
+                        <lightning:button variant="brand" label="Save" type="button" onclick="{! c.handleSave }"/>
+                    </lightning:buttonGroup>
+                    <aura:set attribute="else">
+                        <lightning:button label="Cancel" onclick="{! c.handleCancel }"/>
+                        <lightning:button variant="brand" label="Next" type="button" onclick="{! c.handleNext }"/>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </footer>
+    </div>
+</aura:component>

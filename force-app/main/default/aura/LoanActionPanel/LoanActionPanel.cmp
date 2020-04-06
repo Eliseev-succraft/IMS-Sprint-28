@@ -1,0 +1,107 @@
+<aura:component description="LoanActionPanel" controller="LoanScheduleEditorController" implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable" access="global">
+    <!-- Global attributes -->
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:attribute name="recordId" type="String"/>
+    <!-- Libraries -->
+    <c:lwcUtilityMessage aura:id="message" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilitySystem aura:id="system" isDebugLog="{# v.isDebugLog }"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="isLoadRecordData" type="Boolean" default="false"/>
+    <aura:attribute name="isRender" type="Boolean" default="false"/>
+    <aura:attribute name="countActiveButtons" type="Integer" access="global"/> <!-- Design attribute-->
+    <aura:attribute name="buttonsBottom" type="List" default="[]"/>
+    <aura:attribute name="buttonsAdditionalMenu" type="List" default="[]"/>
+    <aura:attribute name="buttons" type="List" default="[]"/>
+    <aura:attribute name="customActions" type="Map" default="{}"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <force:recordData recordId="{! v.recordId }" aura:id="recordData"
+                      fields="Name, sfims__Status__c, sfims__Repayment_Status__c, sfims__Amount__c, sfims__Total_Due__c, sfims__Total_Paid__c, sfims__Loan_Fund__c, sfims__Loan_Fund__r.Name, sfims__Recalculation_Status__c, sfims__Open_Ended_Loan__c"
+                      recordUpdated="{! c.handleRecordUpdated }"
+                      targetFields="{! v.simpleRecord }"
+                      targetError="{! v.recordLoadError }"/>
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.pageReference }" action="{! c.customForceRefresh }"/>
+    <aura:handler event="force:showToast" action="{! c.customForceRefresh }" />
+    <!-- Global styles -->
+    <aura:html tag="style">
+        .toastMessage.forceActionsText {
+            white-space : pre-line !important;
+        }
+        .custom-modal .closeIcon svg.slds-icon.slds-icon_xx-small {
+            width: var(--lwc-squareIconSmallBoundary,1.5rem) !important;
+            height: var(--lwc-squareIconSmallBoundary,1.5rem) !important;
+            line-height: var(--lwc-lineHeightReset,1) !important;
+            margin-top: -10px;
+        }
+    </aura:html>
+    <!-- Component body -->
+    <c:lwcUtilitySpinner aura:id="mainActionSpinner" alternativeText="{! $Label.c.aura_label_3  + '...'}" delay="30000" isDebugLog="{# v.isDebugLog }" onloaded="{! c.showSpinner }"/>
+    <div aura:id="actionPanel" style="position: relative;">
+        <lightning:card variant="Narrow" title="{! $Label.c.aura_label_42 }" iconName="standard:account">
+            <aura:set attribute="actions">
+                <aura:if isTrue="{! v.buttonsBottom.length == 0 }">
+                    <div style="margin-top: 2px;">
+                        {! $Label.c.aura_label_44 }
+                    </div>
+                    <aura:set attribute="else">
+                        <lightning:buttonGroup>
+                            <aura:iteration items="{! v.buttonsBottom }" var="btn">
+                                <aura:if isTrue="{! btn.display }">
+                                    <lightning:button variant="neutral" value="{! btn.actionAPI }" label="{! btn.label }" type="button" onclick="{! c.handleCustomActionClick }"/>
+                                </aura:if>
+                            </aura:iteration>
+                            <aura:if isTrue="{! v.buttonsAdditionalMenu.length > 0 }">
+                                <lightning:buttonMenu alternativeText="{! $Label.c.aura_label_43 }" class="slds-button_last" menuAlignment="auto">
+                                    <aura:iteration items="{! v.buttonsAdditionalMenu }" var="btn">
+                                        <lightning:menuItem label="{! btn.label }" value="{! btn.actionAPI }" onactive="{! c.handleCustomActionClick }"/>
+                                    </aura:iteration>
+                                </lightning:buttonMenu>
+                            </aura:if>
+                        </lightning:buttonGroup>
+                    </aura:set>
+                </aura:if>
+            </aura:set>
+            <div style="padding: 0 1rem 0 1rem;" class="slds-text-align_left">
+                <c:lwcUtilitySpinner size="small" aura:id="spinner" alternativeText="{! $Label.c.aura_label_3  + '...'}" delay="30000" isDebugLog="{# v.isDebugLog }"/>
+            </div>
+        </lightning:card>
+    </div>
+    <aura:if isTrue="{! v.customActions.Edit }">
+        <c:OverriddenLoanNewEdit runWithActionPanel="{! v.customActions.Edit }" recordId="{# v.recordId }"/>
+    </aura:if>
+    <aura:if isTrue="{! v.customActions.EditSchedule }">
+        <aura:html tag="style">
+            .slds-popover_edit .slds-form-element__control.slds-grow {
+                margin-left: 10px;
+                margin-top: 5px;
+            }
+            /*
+            .schedule-modal lightning-timepicker {
+                display: none;
+            }
+            .schedule-modal lightning-datepicker {
+                width: 100%;
+            }*/
+            .schedule-modal .slds-modal__container{
+                max-width:98vw !important;
+                width: auto !important;
+            }
+            .schedule-modal .cuf-content {
+                padding: 0 0rem !important;
+            }
+            .schedule-modal .slds-p-around--medium {
+                padding: 0rem !important;
+            }
+            .schedule-modal .slds-modal__content {
+                height: unset !important;
+                max-height: unset !important;
+                overflow: visible !important;
+            }
+            .schedule-modal .slds-table tr>td:last-child {
+                padding-right: 20px;
+            }
+        </aura:html>
+    </aura:if>
+</aura:component>

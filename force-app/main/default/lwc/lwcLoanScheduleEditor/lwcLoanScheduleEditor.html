@@ -1,0 +1,86 @@
+<template>
+    <c-lwc-utility-message is-debug-log={isDebugLog}></c-lwc-utility-message>
+    <div class="forceRelatedListDesktop" style="position: relative; padding-bottom: 5px;">
+        <div class="slds-page-header--object-home slds-page-header_joined slds-page-header_bleed slds-page-header slds-shrink-none test-headerRegion forceListViewManagerHeader">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name="custom:custom41" size="medium" alternative-text="Repayment Schedules"></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span>Investment</span>
+                                        <span class="slds-page-header__title slds-truncate" title="Repayment Schedules">Repayment Schedules</span>
+                                    </h1>
+                                </div>
+                                <div class="slds-page-header__name-switcher">
+                                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-page-header__col-actions">
+                    <div class="slds-page-header__controls">
+                        <div class="slds-page-header__control">
+                            <a id="goToFocus"></a>
+                            <ul class="slds-button-group-list">
+                                <!--
+                                <li>
+                                    <lightning-button label="New" icon-name="utility:add"></lightning-button>
+                                </li>
+                                -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-meta slds-align-bottom">
+                    <p if:true={selectedRowsCount} class="slds-text-body--small">{selectedRowsCount} item(s) selected</p>
+                    <p if:false= {selectedRowsCount} class="slds-text-body--small">{count} item(s) • Sorted by {sortFieldLabel}</p>
+                </div>
+                <div class="slds-page-header__col-controls">
+                    <!--
+                    <div class="slds-page-header__controls">
+                        <div class="slds-page-header__control">
+                            <div onkeyup={handleEnter}>
+                                <lightning-input
+                                        name="enter-search"
+                                        label="Search"
+                                        type="search"
+                                        placeholder="Search this list by Subject..."
+                                        onchange={handleKeyUp}
+                                        variant="label-hidden">
+                                </lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-page-header__control">
+                            <lightning-button-icon onclick={handleEditList} icon-name="utility:edit" alternative-text="Edit List"></lightning-button-icon>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+        <c-lwc-utility-spinner onloaded={fetchData} is-debug-log={isDebugLog}></c-lwc-utility-spinner>
+        <div class="slds-scrollable--y" style="height: 80vh; min-height: 300px;">
+            <c-lwc-redefine-data-table
+                    key-field="Id"
+                    columns={columns}
+                    data={data}
+                    draft-values={draftValues}
+                    sorted-by={sortBy}
+                    sorted-direction={sortDirection}
+                    show-row-number-column="true"
+                    onrowselection={handleGetSelectedRows}
+                    onsave={handleSave}
+                    onsort={handleSort}
+                    onrowaction={handleRowAction}>
+            </c-lwc-redefine-data-table>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,10 @@
+<design:component>
+    <design:attribute name="environmentType" label="Environment Type" datasource="Standard,Community" required="true" default="Standard" description="Please indicate which environment this component is hosted on."/>
+    <design:attribute name="customTaskFields" placeholder="Enter a list of fields" label="Fields from the Task Object" required="true" default="Subject, WhatId, OwnerId, ActivityDate, Status, Start" description="Use an API Field Name and comma as a separator. The 'Start' field is a special field for starting a flow. For example: Subject, WhatId, OwnerId, ActivityDate, Status, Start"/>
+    <design:attribute name="customObjectFields" placeholder="Enter a list of fields" label="Fields from the Related Object" default="" description="Use an API Field Name and comma as a separator. For example: Name"/>
+    <design:attribute name="showTasks" label="Show Tasks" datasource="All Users,Current user" required="true" default="All Users"/>
+    <design:attribute name="isOnlyMyTasks" label="Show only My Tasks" default="false" description="Only show tasks where you are the Owner."/>
+    <design:attribute name="isShowPaginationBar" default="true" label="Show Pagination Bar"/>
+    <design:attribute name="numberOfResults" required="true" label="Number of Results per page" default="10"/>
+    <design:attribute name="isDebugLog" label="Show Debug Logs" default="false" description="If the component does not work correctly, enable it."/>
+</design:component>

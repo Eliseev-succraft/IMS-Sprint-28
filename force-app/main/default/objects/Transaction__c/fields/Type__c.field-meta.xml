@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Type of transaction</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Type of transaction</inlineHelpText>
+    <label>Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Disbursement</fullName>
+                <default>false</default>
+                <label>Disbursement</label>
+            </value>
+            <value>
+                <fullName>Repayment</fullName>
+                <default>false</default>
+                <label>Repayment</label>
+            </value>
+            <value>
+                <fullName>Fee</fullName>
+                <default>false</default>
+                <label>Fee</label>
+            </value>
+            <value>
+                <fullName>Disbursement Correction</fullName>
+                <default>false</default>
+                <label>Disbursement Correction</label>
+            </value>
+            <value>
+                <fullName>Repayment Correction</fullName>
+                <default>false</default>
+                <label>Repayment Correction</label>
+            </value>
+            <value>
+                <fullName>Fee Correction</fullName>
+                <default>false</default>
+                <label>Fee Correction</label>
+            </value>
+            <value>
+                <fullName>Fund Drawdown</fullName>
+                <default>false</default>
+                <label>Fund Drawdown</label>
+            </value>
+            <value>
+                <fullName>Fund Repayment</fullName>
+                <default>false</default>
+                <label>Fund Repayment</label>
+            </value>
+            <value>
+                <fullName>Schedule (Not Due)</fullName>
+                <default>false</default>
+                <label>Schedule (Not Due)</label>
+            </value>
+            <value>
+                <fullName>Schedule (Late)</fullName>
+                <default>false</default>
+                <label>Schedule (Late)</label>
+            </value>
+            <value>
+                <fullName>Schedule (Paid)</fullName>
+                <default>false</default>
+                <label>Schedule (Paid)</label>
+            </value>
+            <value>
+                <fullName>Schedule (Partially Paid)</fullName>
+                <default>false</default>
+                <label>Schedule (Partially Paid)</label>
+            </value>
+            <value>
+                <fullName>Schedule (Partially Paid (Late))</fullName>
+                <default>false</default>
+                <label>Schedule (Partially Paid (Late))</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

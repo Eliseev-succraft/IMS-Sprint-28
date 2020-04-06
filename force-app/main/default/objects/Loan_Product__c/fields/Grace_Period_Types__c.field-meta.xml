@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Grace_Period_Types__c</fullName>
+    <externalId>false</externalId>
+    <label>Grace Period Types</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No Grace</fullName>
+                <default>false</default>
+                <label>No Grace</label>
+            </value>
+            <value>
+                <fullName>Pay Admin Fees Only</fullName>
+                <default>false</default>
+                <label>Pay Admin Fees Only</label>
+            </value>
+            <value>
+                <fullName>Pay Interest Only</fullName>
+                <default>false</default>
+                <label>Pay Interest Only</label>
+            </value>
+            <value>
+                <fullName>Interest Rollup</fullName>
+                <default>false</default>
+                <label>Interest Rollup</label>
+            </value>
+            <value>
+                <fullName>Full Grace</fullName>
+                <default>false</default>
+                <label>Full Grace</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

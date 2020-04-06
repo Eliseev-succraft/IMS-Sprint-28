@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="searchKeyUpEvent">
+    <aura:attribute name="isKeyUp" type="Boolean" />
+</aura:event>

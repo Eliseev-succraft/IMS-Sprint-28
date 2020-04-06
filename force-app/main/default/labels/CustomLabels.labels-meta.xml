@@ -1,0 +1,1957 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>amount_type_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>amount type</shortDescription>
+        <value>Fees</value>
+    </labels>
+    <labels>
+        <fullName>amount_type_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>amount type</shortDescription>
+        <value>Interest</value>
+    </labels>
+    <labels>
+        <fullName>amount_type_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>amount type</shortDescription>
+        <value>Late Repayment Fees</value>
+    </labels>
+    <labels>
+        <fullName>amount_type_4</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>amount type</shortDescription>
+        <value>Principal</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Companies House</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_10</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Delete Transaction</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_100</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Select Loan Product</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_101</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Next</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_102</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Anticipated Disbursement Date</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_103</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Status</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_104</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Amount</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_105</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>New Transaction</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_106</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Due Date</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_107</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Total Due</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_108</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Principal Due</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_109</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Interest Due</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_11</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Are you sure you want to delete this Transaction?</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_110</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Fees Due</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_111</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Available for disbursement</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_12</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_13</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Delete</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_14</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Preview</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_15</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Preview with planned disbursements</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_16</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_17</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>New Transaction</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_18</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Status</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_19</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Transaction Date</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Last Companies House Check Date</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_20</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Generate Schedule</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_21</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Are you sure you want to generate schedule this Loan?</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_22</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Confirm</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_23</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>switch</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_24</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Remaining Amounts</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_25</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Written Off Amounts</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_26</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Total Principal Written Off</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_27</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>You can’t write off more principal than is remaining.</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_28</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>You can’t write off a negative amount.</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_29</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>You can’t write off more interest than is overdue.</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Loading</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_30</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>You can’t write off more interest than is remaining.</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_31</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Total Interest Written Off</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_32</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Total Fees Written Off</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_33</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>You can’t write off more fees than is remaining.</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_34</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Total Late Repayment Fees Written Off</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_35</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>You can’t write off more late repayment fees than is remaining.</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_36</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Reschedule Amount</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_37</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Refinance Amount</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_38</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Total Amount Write Off</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_39</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Write Off Date</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_4</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Check</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_40</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Early Repayment Amount</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_41</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Early Repayment Date</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_42</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Loan Actions</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_43</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Show menu</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_44</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>No actions available</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_45</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Loan Custom Settings</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_46</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Show/Hide</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_47</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Instalment Settings</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_48</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Fee Settings</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_49</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Early and Late Repayment Settings</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_5</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Disburse</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_52</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Pay Off</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_53</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Loan Health Check</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_54</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>error</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_55</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>No issues found</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_56</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Write Off</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_57</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_58</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>New Loan</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_59</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Loan Relationships</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_6</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>close</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_60</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Loan Parameters</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_61</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Fee Parameters</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_62</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Early and Late Repayment Parameters</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_63</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Save &amp; Generate Schedule</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_64</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Complete this field</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_65</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>New Loan Product</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_66</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Information</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_67</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Loan Amount Settings</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_68</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Interest Rate Settings</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_69</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Instalment Settings</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_7</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Back</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_70</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Grace Period Settings</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_71</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Arrears Tolerance Period Settings</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_72</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Repayment Allocation Settings</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_73</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Amounts</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_74</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Disbursement</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_75</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Approval History</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_76</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Loan Repayment Status</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_77</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Securities</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_78</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Health Check Status</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_79</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Recalculation Status</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_8</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Add</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_80</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Loan Breakdown</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_81</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Repayment Due Analysis</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_82</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Repayment Details</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_83</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Payments Overdue Details</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_84</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Amounts Written Off</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_85</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Payments Remaining Details</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_86</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>System Information</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_87</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Recalculate Now</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_88</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Are you sure you want to recalculate this Loan now?</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_89</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Move Selection Up</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_9</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Update</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_90</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Move Selection Down</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_91</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Reschedule</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_92</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Refinance Date</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_93</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Reschedule Date</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_94</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Fill in this field to start rescheduling</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_95</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Rationale</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_96</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>A maximum of 255 characters are allowed</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_97</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Schedule Balloon Repayment</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_98</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Balloon Repayment Date</value>
+    </labels>
+    <labels>
+        <fullName>aura_label_99</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>aura label</shortDescription>
+        <value>Select Date</value>
+    </labels>
+    <labels>
+        <fullName>empty_picklist_value</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>empty picklist value</shortDescription>
+        <value>--None--</value>
+    </labels>
+    <labels>
+        <fullName>error_message_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Schedule Balloon Repayment).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_10</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>The loan must be &#39;Inactive&#39; before the first disbursed transaction.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_11</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>There can be no disbursements after the Expected End Date of the loan.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_12</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You can’t disburse funds after the first repayment date.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_13</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>The preview is not available after the deletion of disbursed transactions.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_14</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You can&#39;t add more transactions than one for a loan with the &#39;Full disbursement at start&#39; type of the Disbursement method.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_15</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You can&#39;t disburse an amount that is not equal to the Investment Amount minus Setup Fee Expected.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_16</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You can&#39;t disburse an amount that is not equal to the Investment Amount.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_17</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>There can be no planned transactions before disbursed transactions.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_18</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>The total of amounts should not be higher than the Loan Amount.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_19</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>The current amount of Setup Fees Expected is greater than Maximum value.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Company House Token not found. Please, go to Setup -&gt; Custom Settings -&gt; Company House API Settings -&gt; Manage -&gt; New. Name: Company House Token,  Value: &lt;Access Token&gt;.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_20</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>There is no interest rate on the Disbursement Date or earlier.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_21</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>There are no disbursed transactions added.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_22</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Preview).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_23</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Early Repayment).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_24</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Loan Health Check).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_25</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Generate Schedule).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_26</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Can&#39;t schedule the loan. There is no interest rate on the Disbursement Date or earlier.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_27</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (process Transactions).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_28</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (view Repayment Schedule).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_29</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (update Repayment Schedule).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Named Credential &quot;Company House API&quot; not found. Please, create and try again.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_30</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Recalculate).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_31</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>One or more repayments are before the first disbursement.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_32</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>The Related Object fields were not identified.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_33</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>The Task fields were not identified.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_34</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Reschedule Loan).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_35</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Loan Write Off).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_36</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Custom record type has not been found on the Task object.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_37</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Standard record type has not been found on the Task object.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_38</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Owner has not been assigned.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_39</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Cannot edit Assessment Criteria that belongs to the &#39;Approved&#39; or &#39;Completed&#39; Assessment.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_4</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>The field “Company number” is not filled. Please, fill in the field and try again.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_40</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>This assessment stage definition already exists.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_41</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Required field is missing: Number of Assessments.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_42</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Required fields are missing: Application Stage, Assessors, Fund.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_43</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Disbursement Date is missed.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_44</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Only last Loan Events can be deleted.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_45</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Can&#39;t be changed due to &#39;Active&#39; loan/-s.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_46</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Fund should match Loan&#39;s fund.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_48</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Repayment Allocation Order is not valid.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_49</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Repayment Allocation Order is not specified.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_5</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Account not found.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_50</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You should manage &#39;Disbursed&#39; transactions using the &#39;Disburse&#39; button.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_51</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Cannot be overridden due to the &#39;Loan-based&#39; Repayment Allocation Type at the Loan Product level.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_52</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You can&#39;t create a new Loan due to the inactive Loan Product this Loan based on. Please, select an active Loan Product.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_53</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>The Task fields were not received.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_54</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>The required fields (Object Name, Object Status Field) are empty.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_55</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You cannot perform this operation.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_56</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>This field cannot be edited.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_57</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>To complete this task, you should execute the flow. Please click &#39;Run Flow&#39;.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_58</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>This task has been submitted. Please, wait for approval.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_59</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>No applicable approval process was found.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_6</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Error inserting sfims__Indicator_Catalogue_Setting__c</value>
+    </labels>
+    <labels>
+        <fullName>error_message_60</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Cancel Late Repayment Fee).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_61</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Not available for open-ended loans.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_62</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Late Repayment Fee is already cancelled.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_63</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>There is no Late Repayment Fee Expected for this Repayment Schedule.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_64</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>This action has been already started and is pending approval.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_65</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Loan Product isn't specified for this Loan.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_66</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>Repayment Transactions which Transaction Dates are before the Event Date of the Latest Loan Event of the type &#39;Disbursement&#39; or &#39;Reschedule&#39; can&#39;t be inserted / edited / deleted.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_67</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Change IMS Settings).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_68</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Enter Repayments).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_69</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Apply Loan Adjustments).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_7</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>You have insufficient privileges for this action (Disburse Loan).</value>
+    </labels>
+    <labels>
+        <fullName>error_message_8</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>The record has already been deleted.</value>
+    </labels>
+    <labels>
+        <fullName>error_message_9</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error message</shortDescription>
+        <value>There are no repayment schedules for this loan.</value>
+    </labels>
+    <labels>
+        <fullName>health_check_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>health check</shortDescription>
+        <value>The loan is pending recalculation (no edits/actions allowed on the loan).</value>
+    </labels>
+    <labels>
+        <fullName>health_check_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>health check</shortDescription>
+        <value>Recalculation in progress (no edits/actions allowed on the loan).</value>
+    </labels>
+    <labels>
+        <fullName>health_check_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>health check</shortDescription>
+        <value>Recalculation has been failed (no edits/actions allowed on the loan). Click &#39;Recalculate Now&#39;.</value>
+    </labels>
+    <labels>
+        <fullName>health_check_4</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>health check</shortDescription>
+        <value>Planned Transaction&#39;s anticipated transaction date has passed.</value>
+    </labels>
+    <labels>
+        <fullName>health_check_5</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>health check</shortDescription>
+        <value>The Expected Principal Balance on the latest Repayment Schedule record is not equal to 0.</value>
+    </labels>
+    <labels>
+        <fullName>health_check_6</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>health check</shortDescription>
+        <value>The Principal Balance amount on the latest Repayment Schedule record is not equal to the Principal Remaining amount on the Loan level.</value>
+    </labels>
+    <labels>
+        <fullName>health_check_7</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>health check</shortDescription>
+        <value>The Principal Balance amount on the latest Transaction record is not equal to the Principal Remaining amount on the Loan level.</value>
+    </labels>
+    <labels>
+        <fullName>health_check_8</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>health check</shortDescription>
+        <value>Repayment was entered without any Disbursements.</value>
+    </labels>
+    <labels>
+        <fullName>js_error_message_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js error message</shortDescription>
+        <value>Error loading data.</value>
+    </labels>
+    <labels>
+        <fullName>js_error_message_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js error message</shortDescription>
+        <value>An error occurred during the execution of JavaScript.</value>
+    </labels>
+    <labels>
+        <fullName>js_error_message_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js error message</shortDescription>
+        <value>Required attributes are empty.</value>
+    </labels>
+    <labels>
+        <fullName>js_error_message_4</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js error message</shortDescription>
+        <value>RecordId was not received.</value>
+    </labels>
+    <labels>
+        <fullName>js_error_message_5</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js error message</shortDescription>
+        <value>Unknown error</value>
+    </labels>
+    <labels>
+        <fullName>js_error_message_6</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js error message</shortDescription>
+        <value>The &quot;overlayLib&quot; was not found.</value>
+    </labels>
+    <labels>
+        <fullName>js_error_message_7</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js error message</shortDescription>
+        <value>Please check and fill in the required fields</value>
+    </labels>
+    <labels>
+        <fullName>js_error_message_8</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js error message</shortDescription>
+        <value>Only Loans with status &#39;Active&#39; can be recalculated.</value>
+    </labels>
+    <labels>
+        <fullName>js_success_message_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js success message</shortDescription>
+        <value>Transaction was deleted.</value>
+    </labels>
+    <labels>
+        <fullName>js_success_message_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js success message</shortDescription>
+        <value>Schedule generated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>js_warning_message_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js warning message</shortDescription>
+        <value>Changing the disbursement date will result in a recalculation of the loan.</value>
+    </labels>
+    <labels>
+        <fullName>js_warning_message_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>js warning message</shortDescription>
+        <value>Loan already fully disbursed.</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Day Count Convention</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_10</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Early Payment Method</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_11</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Late Repayment Calculation Method</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_12</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Late Repayment Interest Rate</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_13</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Late Repayment Tolerance Period (days)</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_14</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Late Repayment Fixed Fee</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_15</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Monitoring Fee Percentage</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Can Be Overridden</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Non-Working Days Rescheduling</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_4</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Repayment Frequency Unit</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_5</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Repayment Frequency</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_6</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Setup Fee Charging Method</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_7</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Setup Fee</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_8</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>% of Disbursement Amount</value>
+    </labels>
+    <labels>
+        <fullName>loan_custom_setting_field_name_9</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan custom setting field name</shortDescription>
+        <value>Flat Amount</value>
+    </labels>
+    <labels>
+        <fullName>loan_event_type_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan event type</shortDescription>
+        <value>Bullet Repayment</value>
+    </labels>
+    <labels>
+        <fullName>loan_field_label_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan field label</shortDescription>
+        <value>Amount</value>
+    </labels>
+    <labels>
+        <fullName>loan_field_label_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan field label</shortDescription>
+        <value>Number of Instalments</value>
+    </labels>
+    <labels>
+        <fullName>loan_field_label_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan field label</shortDescription>
+        <value>Interest Rate</value>
+    </labels>
+    <labels>
+        <fullName>loan_field_label_4</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan field label</shortDescription>
+        <value>Variable Interest Spread</value>
+    </labels>
+    <labels>
+        <fullName>loan_field_label_5</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan field label</shortDescription>
+        <value>Grace Period Type</value>
+    </labels>
+    <labels>
+        <fullName>loan_field_label_6</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan field label</shortDescription>
+        <value>First Repayment Date</value>
+    </labels>
+    <labels>
+        <fullName>loan_field_label_7</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan field label</shortDescription>
+        <value>Monitoring Fee Percentage</value>
+    </labels>
+    <labels>
+        <fullName>loan_product</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan product</shortDescription>
+        <value>Loan Product</value>
+    </labels>
+    <labels>
+        <fullName>loan_product_field_label_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>loan product field label</shortDescription>
+        <value>Repayment Allocation Order</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>The field</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_10</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>The Picklist value</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_11</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>has not been found on Assessment Criteria Definition</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_12</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>The Number of Assessments should not be more than</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_13</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>the number of available Fund Assessors</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_14</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>if the Loan Recalculation Status is &#39;Pending Recalculation&#39; or &#39;In Progress&#39;.</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_15</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>if the loan is &#39;Closed&#39;.</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_16</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>if no loan schedule was generated yet.</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_17</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>You cannot enter transactions</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_18</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>An error occurred while trying to delete loan events</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_19</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>Access Denied</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>has not been found</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_20</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>on</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_21</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>DMLManager ERROR:  An existing record could not be found for object with Id</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_22</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>Layout Name</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_23</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>These fields do not exist on the &#39;Task&#39; object</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_24</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>These fields do not exist on the</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_25</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>object</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_26</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>These required fields must be completed</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_27</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>The &quot;Approval Required&quot; option is available only for flow.</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_28</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>does not exist</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_29</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>The object</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>An error occurred while scheduling the loan</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_30</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>You cannot complete this task before the task</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_31</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>has been done</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_32</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>Error saving a loan event</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_33</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>Error saving repayment schedules</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_34</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>Error creating repayment schedules</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_4</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>An error occurred while saving repayment schedules</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_5</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>An error occurred while recalculating a loan</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_6</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>An error occurred while trying to update the Investment record</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_7</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>An error occurred while trying to process repayments</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_8</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>An error occurred while trying to update Investment records</value>
+    </labels>
+    <labels>
+        <fullName>part_of_error_message_9</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of error message</shortDescription>
+        <value>An error occurred while trying to insert new Milestone History records</value>
+    </labels>
+    <labels>
+        <fullName>part_of_health_check_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of health check</shortDescription>
+        <value>Sum of paid</value>
+    </labels>
+    <labels>
+        <fullName>part_of_health_check_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of health check</shortDescription>
+        <value>on Transactions</value>
+    </labels>
+    <labels>
+        <fullName>part_of_health_check_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of health check</shortDescription>
+        <value>not equal to</value>
+    </labels>
+    <labels>
+        <fullName>part_of_health_check_4</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of health check</shortDescription>
+        <value>on Repayment Schedules</value>
+    </labels>
+    <labels>
+        <fullName>part_of_js_error_message_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of js error message</shortDescription>
+        <value>The element</value>
+    </labels>
+    <labels>
+        <fullName>part_of_js_error_message_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>part of js error message</shortDescription>
+        <value>was not found</value>
+    </labels>
+    <labels>
+        <fullName>range_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>range</shortDescription>
+        <value>Minimum Rating</value>
+    </labels>
+    <labels>
+        <fullName>range_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>range</shortDescription>
+        <value>Maximum Rating</value>
+    </labels>
+    <labels>
+        <fullName>range_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>range</shortDescription>
+        <value>Out of allowed range</value>
+    </labels>
+    <labels>
+        <fullName>range_4</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>range</shortDescription>
+        <value>Allowed range</value>
+    </labels>
+    <labels>
+        <fullName>range_5</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>range</shortDescription>
+        <value>min</value>
+    </labels>
+    <labels>
+        <fullName>range_6</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>range</shortDescription>
+        <value>max</value>
+    </labels>
+    <labels>
+        <fullName>repaymentScheduleMigrationCheck</fullName>
+        <categories>RepaymentScheduleTriggerHandler</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>error</shortDescription>
+        <value>Migration can only be checked in the combination with status &#39;Paid&#39;.</value>
+    </labels>
+    <labels>
+        <fullName>status_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>status</shortDescription>
+        <value>Planned</value>
+    </labels>
+    <labels>
+        <fullName>status_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>status</shortDescription>
+        <value>Disbursed</value>
+    </labels>
+    <labels>
+        <fullName>success_message_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>success message</shortDescription>
+        <value>Completed successfully.</value>
+    </labels>
+    <labels>
+        <fullName>success_message_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>success message</shortDescription>
+        <value>This action was successfully submitted for approval.</value>
+    </labels>
+    <labels>
+        <fullName>warning_message_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>warning message</shortDescription>
+        <value>Warning: you are previewing the schedule of a variable interest rate loan based on the interest rate at the time of disbursement only. Other interest rates will only be applied to the schedule after disbursing the loan.</value>
+    </labels>
+</CustomLabels>

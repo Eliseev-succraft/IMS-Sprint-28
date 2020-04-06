@@ -1,0 +1,16 @@
+.THIS .custom-required {
+    font-weight: 400;
+}
+
+.THIS .custom-required.slds-has-error .slds-input {
+    border-color: rgb(194, 57, 52) !important;
+}
+
+.THIS .custom-required:before, .THIS .custom-required-label:before, .THIS .custom-required-label-date .slds-form-element__label:before {
+    content: "*";
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52) !important;
+    float: left;
+}

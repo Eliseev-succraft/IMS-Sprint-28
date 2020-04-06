@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loan</fullName>
+    <active>true</active>
+    <label>Loan</label>
+    <picklistValues>
+        <picklist>Day_Count_Convention__c</picklist>
+        <values>
+            <fullName>30%2F360</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Actual%2F365</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Actual%2F365L</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Disbursement_Method__c</picklist>
+        <values>
+            <fullName>Full disbursement at start</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Tranched disbursement allowed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Early_Payment_Method__c</picklist>
+        <values>
+            <fullName>interestDueToDate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>interestFullSchedule</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Grace_Period_Type__c</picklist>
+        <values>
+            <fullName>Admin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Full</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Interest</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Interest Rollup</fullName>
+            <default>false</default> 
+        </values>
+        <values>
+            <fullName>None</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Late_Repayment_Calculation_Method__c</picklist>
+        <values>
+            <fullName>No Penalty</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fixed Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Principal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Principal%2BInterest</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Non_Working_Days_Rescheduling__c</picklist>
+        <values>
+            <fullName>Do not reschedule repayments</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Move ahead to next working day</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Move backward to previous working day</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Recalculation_Status__c</picklist>
+        <values>
+            <fullName>Done</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Needed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Recalculation</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Repayment_Frequency_Unit__c</picklist>
+        <values>
+            <fullName>Days</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Months</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Weeks</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Years</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Setup_Fee_Charging_Method__c</picklist>
+        <values>
+            <fullName>No Setup Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Capitalized</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deducted From Principal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paid Up Front %28manual%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paid Up Front %28scheduled%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Setup_Fee__c</picklist>
+        <values>
+            <fullName>%25 of Disbursement Amount</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Flat Amount</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed - All Obligations Met</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed - Early Repayment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed - Written Off</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inactive</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Disbursal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

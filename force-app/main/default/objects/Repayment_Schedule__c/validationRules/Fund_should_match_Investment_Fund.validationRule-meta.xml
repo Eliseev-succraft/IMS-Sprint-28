@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fund_should_match_Investment_Fund</fullName>
+    <active>false</active>
+    <description>Fund should match Investment Fund</description>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Rules_on_Repayment_Schedule__c, NOT(ISBLANK(Fund__c)), Fund__c &lt;&gt; Loan__r.Loan_Fund__c)</errorConditionFormula>
+    <errorDisplayField>Fund__c</errorDisplayField>
+    <errorMessage>Fund should match Investment Fund</errorMessage>
+</ValidationRule>

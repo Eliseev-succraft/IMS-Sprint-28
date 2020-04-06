@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Late_Repayment_Fees_Due__c</fullName>
+    <externalId>false</externalId>
+    <label>Late Repayment Fees Due</label>
+    <summarizedField>Repayment_Schedule__c.Late_Repayment_Fees_Due__c</summarizedField>
+    <summaryFilterItems>
+        <field>Repayment_Schedule__c.Active__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Repayment_Schedule__c.Loan__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

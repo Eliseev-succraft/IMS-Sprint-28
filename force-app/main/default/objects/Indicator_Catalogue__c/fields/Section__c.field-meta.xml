@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Section__c</fullName>
+    <deprecated>false</deprecated>
+    <description>A primary categorization of each IRIS metric. The IRIS metrics are organized in a framework that includes 5 core sections:
+- Organization Description: metrics that focus on the organization&#39;s mission, operational model, and location
+- Product Description: metrics that describe the organization&#39;s products and services, and target markets
+- Financial Performance: commonly reported financial metrics
+- Operational Impact: metrics that describe the organization&#39;s policies, employees, and environmental performance
+- Product Impact: metrics that describe the performance and reach of the organization&#39;s products and services
+Please note that some metrics apply to more than one section but are placed in only one primary category.</description>
+    <externalId>false</externalId>
+    <label>Section</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Financial Performance</fullName>
+                <default>false</default>
+                <label>Financial Performance</label>
+            </value>
+            <value>
+                <fullName>Operational Impact</fullName>
+                <default>false</default>
+                <label>Operational Impact</label>
+            </value>
+            <value>
+                <fullName>Organizational Description</fullName>
+                <default>false</default>
+                <label>Organizational Description</label>
+            </value>
+            <value>
+                <fullName>Product Description</fullName>
+                <default>false</default>
+                <label>Product Description</label>
+            </value>
+            <value>
+                <fullName>Product Impact</fullName>
+                <default>false</default>
+                <label>Product Impact</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

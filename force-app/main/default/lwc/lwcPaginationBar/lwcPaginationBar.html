@@ -1,0 +1,47 @@
+<!--
+ - Created by user on 12/26/19.
+ - lwcPaginationBar
+ -->
+<template>
+    <div class="slds-grid slds-wrap" if:true={pagination.visible}>
+        <div class="slds-col slds-size_4-of-12">
+            <div style="margin: 25px 0 0 20px;">
+                Results {pagination.startResult}-{pagination.stopResult} of {pagination.totalResults} | Page
+                {pagination.currentPage} of {pagination.pages}
+            </div>
+        </div>
+        <div class="slds-col slds-size_4-of-12">
+            <div style="margin: 20px 8px 0 0; text-align: center;" if:true={pagination.buttonsBar.visible}>
+                <lightning-button-group>
+                    <lightning-button if:true={pagination.buttonsBar.controlButtons.previous.visible}
+                                      label={pagination.buttonsBar.controlButtons.previous.label}
+                                      icon-name={pagination.buttonsBar.controlButtons.previous.iconName}
+                                      icon-position={pagination.buttonsBar.controlButtons.previous.iconPosition}
+                                      disabled={pagination.buttonsBar.controlButtons.previous.disabled}
+                                      onclick={paginationPrevious}>
+                    </lightning-button>
+                    <template for:each={pagination.buttonsBar.buttons} for:item="btn">
+                        <lightning-button if:true={btn.visible}
+                                          data-id={btn.id}
+                                          key={btn.id}
+                                          label={btn.label}
+                                          disabled={btn.disabled}
+                                          variant={btn.variant}
+                                          onclick={handleClickBtnPage}>
+                        </lightning-button>
+                    </template>
+                    <lightning-button if:true={pagination.buttonsBar.controlButtons.next.visible}
+                                      label={pagination.buttonsBar.controlButtons.next.label}
+                                      icon-name={pagination.buttonsBar.controlButtons.next.iconName}
+                                      icon-position={pagination.buttonsBar.controlButtons.next.iconPosition}
+                                      disabled={pagination.buttonsBar.controlButtons.next.disabled}
+                                      onclick={paginationNext}>
+                    </lightning-button>
+                </lightning-button-group>
+            </div>
+        </div>
+        <div class="slds-col slds-size_4-of-12">
+            &nbsp;
+        </div>
+    </div>
+</template>

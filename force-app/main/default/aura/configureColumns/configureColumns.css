@@ -1,0 +1,13 @@
+.THIS .dialog {
+    width: 51%;
+    max-width: 39rem;
+    min-width: 38rem;
+}
+
+.THIS .padding {
+    padding: 10px;
+}
+
+.THIS .active-check {
+    margin: 5px 0 10px 0;
+}

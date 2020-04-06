@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Investment_Committee_Member__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Contact lookup</description>
+    <externalId>false</externalId>
+    <label>Investment Committee Member</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Investment Committee Members</relationshipLabel>
+    <relationshipName>Investment_Committee_Members</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

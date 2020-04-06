@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Investment_Cashflow_Amount__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <formula>CASE(text(Type__c ),
+&quot;Disbursement&quot;,Amount__c,
+&quot;Repayment&quot;,-Amount__c,
+&quot;Fee&quot;,-Amount__c,
+&quot;Disbursement Correction&quot;,-Amount__c,
+&quot;Repayment Correction&quot;,Amount__c,
+&quot;Fee Correction&quot;,-Amount__c,
+&quot;Schedule (Paid)&quot;,-Amount__c,
+&quot;Schedule (Partially Paid)&quot;,-Amount__c,
+&quot;Schedule (Late)&quot;,-Amount__c,
+&quot;Schedule (Not Due)&quot;,-Amount__c,
+&quot;Schedule (Partially Paid (Late))&quot;,-Amount__c,
+0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Investment Cashflow Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

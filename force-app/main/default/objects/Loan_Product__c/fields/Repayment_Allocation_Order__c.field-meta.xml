@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Repayment_Allocation_Order__c</fullName>
+    <description>This field determines what (Principal, Interest, Fees or Late Repayment Fees) will be paid first out of transactions.</description>
+    <externalId>false</externalId>
+    <label>Repayment Allocation Order</label>
+    <length>80</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

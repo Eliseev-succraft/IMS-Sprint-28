@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Default_Interest_Rate</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Loan_Product__c, OR(Default_Interest_Rate__c &lt; Minimum_Interest_Rate__c, Default_Interest_Rate__c &gt; Maximum_Interest_Rate__c))</errorConditionFormula>
+    <errorDisplayField>Default_Interest_Rate__c</errorDisplayField>
+    <errorMessage>The default value must be greater than the minimum value and less than the maximum value (Default Interest Rate)</errorMessage>
+</ValidationRule>

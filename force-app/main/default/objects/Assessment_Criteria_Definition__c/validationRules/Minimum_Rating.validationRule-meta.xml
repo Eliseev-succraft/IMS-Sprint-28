@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Minimum_Rating</fullName>
+    <active>true</active>
+    <errorConditionFormula>Minimum_Rating__c &gt;= Maximum_Rating__c</errorConditionFormula>
+    <errorDisplayField>Minimum_Rating__c</errorDisplayField>
+    <errorMessage>Minimum Rating must be less than Maximum Rating</errorMessage>
+</ValidationRule>

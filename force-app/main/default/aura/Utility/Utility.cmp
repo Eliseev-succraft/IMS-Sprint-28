@@ -1,0 +1,17 @@
+<aura:component access="global">
+    <aura:method name="handleErrors" action="{!c.handleErrorsAction}" >
+        <aura:attribute name="errors" type="Object" />
+    </aura:method>	
+    
+    <aura:method name="displayToast" action="{!c.displayToastAction}" access="PUBLIC"> 
+        <aura:attribute name="type" type="String" />
+        <aura:attribute name="message" type="String" />
+    </aura:method>	 
+
+    <lightning:spinner aura:id="spinner" variant="brand" size="large" class="slds-hide" alternativeText="{! $Label.sfims.aura_label_3  + '...' }"/>
+
+
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    
+</aura:component>

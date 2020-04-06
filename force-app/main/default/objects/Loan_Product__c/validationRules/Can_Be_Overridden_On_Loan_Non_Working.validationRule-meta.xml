@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Can_Be_Overridden_On_Loan_Non_Working</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Loan_Product__c, !CBO_Non_Working_Days_Rescheduling__c, ISBLANK(TEXT(Non_Working_Days_Rescheduling__c)))</errorConditionFormula>
+    <errorDisplayField>Non_Working_Days_Rescheduling__c</errorDisplayField>
+    <errorMessage>Complete this field or check Can Be Overridden on Loan (Non-Working Days Rescheduling)</errorMessage>
+</ValidationRule>

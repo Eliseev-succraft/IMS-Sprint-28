@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Available_Disbursement_Amount__c</fullName>
+    <description>how much is still available to be planned or disbursed</description>
+    <externalId>false</externalId>
+    <formula>Amount__c - Disbursed_Amount__c - Planned_Disbursement_Amount__c - IF(TEXT(Setup_Fee_Charging_Method__c) == &#39;Deducted From Principal&#39;, Setup_Fee_Expected__c, 0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Available Disbursement Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

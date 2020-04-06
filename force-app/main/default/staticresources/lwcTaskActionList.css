@@ -1,0 +1,26 @@
+.border__btn--none button {
+    border: 0 !important;
+    height: auto;
+    width: auto;
+    margin-left: 5px;
+}
+
+.row-height {
+    height: 38px !important;
+}
+
+.btn-size-99 button {
+    width: 95% !important;
+}
+
+.custom-th {
+    padding: 0;
+}
+
+.custom-btn-column {
+    width: 195px;
+}
+
+.redefine-display {
+    display: block !important;
+}

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Subsection__c</fullName>
+    <deprecated>false</deprecated>
+    <description>A more detailed categorization of each IRIS metric. There are 21 subsections in total in IRIS 4.0, ranging from Client Information to Environmental Performance.</description>
+    <externalId>false</externalId>
+    <label>Subsection</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Balance Sheet</fullName>
+                <default>false</default>
+                <label>Balance Sheet</label>
+            </value>
+            <value>
+                <fullName>Cash Flow</fullName>
+                <default>false</default>
+                <label>Cash Flow</label>
+            </value>
+            <value>
+                <fullName>Client Information</fullName>
+                <default>false</default>
+                <label>Client Information</label>
+            </value>
+            <value>
+                <fullName>Distributor Information</fullName>
+                <default>false</default>
+                <label>Distributor Information</label>
+            </value>
+            <value>
+                <fullName>Employees</fullName>
+                <default>false</default>
+                <label>Employees</label>
+            </value>
+            <value>
+                <fullName>Environmental Performance</fullName>
+                <default>false</default>
+                <label>Environmental Performance</label>
+            </value>
+            <value>
+                <fullName>Environmental Policies</fullName>
+                <default>false</default>
+                <label>Environmental Policies</label>
+            </value>
+            <value>
+                <fullName>Governance &amp; Ownership</fullName>
+                <default>false</default>
+                <label>Governance &amp; Ownership</label>
+            </value>
+            <value>
+                <fullName>Impact Objectives</fullName>
+                <default>false</default>
+                <label>Impact Objectives</label>
+            </value>
+            <value>
+                <fullName>Income Statement</fullName>
+                <default>false</default>
+                <label>Income Statement</label>
+            </value>
+            <value>
+                <fullName>Organizational Information</fullName>
+                <default>false</default>
+                <label>Organizational Information</label>
+            </value>
+            <value>
+                <fullName>Product/Service Information</fullName>
+                <default>false</default>
+                <label>Product/Service Information</label>
+            </value>
+            <value>
+                <fullName>Quality &amp; Performance</fullName>
+                <default>false</default>
+                <label>Quality &amp; Performance</label>
+            </value>
+            <value>
+                <fullName>Quantity &amp; Reach</fullName>
+                <default>false</default>
+                <label>Quantity &amp; Reach</label>
+            </value>
+            <value>
+                <fullName>Ratios, Concepts, and Calculations</fullName>
+                <default>false</default>
+                <label>Ratios, Concepts, and Calculations</label>
+            </value>
+            <value>
+                <fullName>Report Information</fullName>
+                <default>false</default>
+                <label>Report Information</label>
+            </value>
+            <value>
+                <fullName>Social Policies</fullName>
+                <default>false</default>
+                <label>Social Policies</label>
+            </value>
+            <value>
+                <fullName>Supplier Information</fullName>
+                <default>false</default>
+                <label>Supplier Information</label>
+            </value>
+            <value>
+                <fullName>Target Beneficiaries</fullName>
+                <default>false</default>
+                <label>Target Beneficiaries</label>
+            </value>
+            <value>
+                <fullName>Training &amp; Assessment</fullName>
+                <default>false</default>
+                <label>Training &amp; Assessment</label>
+            </value>
+            <value>
+                <fullName>Wages</fullName>
+                <default>false</default>
+                <label>Wages</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

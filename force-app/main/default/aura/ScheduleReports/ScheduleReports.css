@@ -1,0 +1,22 @@
+.THIS .customRequired {
+    font-weight: 400;
+}
+
+.THIS .customRequired:before {
+    content: "*";
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left;
+}
+
+.THIS .customRequired.error:after {
+    content: "Complete this field.";
+    font-size: .75rem;
+    margin-top: .125rem;
+    display: block;
+    color: rgb(194, 57, 52);
+}
+
+.THIS .none {
+    display: none;
+}

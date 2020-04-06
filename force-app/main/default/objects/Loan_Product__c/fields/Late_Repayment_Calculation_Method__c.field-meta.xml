@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Late_Repayment_Calculation_Method__c</fullName>
+    <description>No penalty - Won&#39;t charge penalties when a repayment is late
+Overdue Principal * # of Late Days * Penalty Rate - it&#39;s the most common method, where the penalty rate is applied on the principal due late amount and the number of late days</description>
+    <externalId>false</externalId>
+    <inlineHelpText>No penalty
+Overdue Principal * # of Late Days * Penalty Rate : penalty rate applied on principal due late amount and number of late days
+(Overdue Principal + Overdue Interest) * # of Late Days * Penalty Rate : same but with overdue interest</inlineHelpText>
+    <label>Late Repayment Calculation Method</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No Penalty</fullName>
+                <default>false</default>
+                <label>No Penalty</label>
+            </value>
+            <value>
+                <fullName>Fixed Fee</fullName>
+                <default>false</default>
+                <label>Fixed Fee</label>
+            </value>
+            <value>
+                <fullName>Overdue Principal * # of Late Days * Penalty Rate</fullName>
+                <default>false</default>
+                <label>Overdue Principal * # of Late Days * Penalty Rate</label>
+            </value>
+            <value>
+                <fullName>(Overdue Principal + Overdue Interest) * # of Late Days * Penalty Rate</fullName>
+                <default>false</default>
+                <label>(Overdue Principal + Overdue Interest) * # of Late Days * Penalty Rate</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

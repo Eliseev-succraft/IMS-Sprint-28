@@ -1,0 +1,86 @@
+<template>
+    <c-lwc-utility-message is-debug-log={isDebugLog}></c-lwc-utility-message>
+    <lightning-card variant="Narrow" title={title} icon-name="custom:custom50">
+        <lightning-button if:true={isVisibleBtn} label="Edit" onclick={handleClickEdit} slot="actions"></lightning-button>
+        <div>
+            <c-lwc-utility-spinner onloaded={fetchData} is-debug-log={isDebugLog}></c-lwc-utility-spinner>
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout">
+                <thead>
+                    <tr style="min-height: var(--lwc-spacingXLarge,2rem); height: var(--lwc-spacingXLarge,2rem);">
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Criteria Name">CRITERIA NAME</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Score">SCORE</div>
+                        </th>
+                        <th class="" scope="col" colspan="2">
+                            <div class="slds-truncate" title="Comment">COMMENT</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={displayCriteria} for:item="item" if:false={isEditMode}>
+                        <tr class="slds-hint-parent" key={item.Id}>
+                            <td data-label="">
+                                <div class="slds-truncate" title={item.Name}>
+                                    <span style="float: left;">
+                                        {item.Name}
+                                    </span>
+                                    <lightning-helptext class="help-text" if:true={item.isHelpText} content={item.sfims__Description__c}></lightning-helptext>
+                                </div>
+                            </td>
+                            <td data-label="">
+                                <div class="slds-truncate" title={item.Score}>{item.Score}</div>
+                            </td>
+                            <td data-label="" colspan="2">
+                                <div class="slds-truncate" title={item.sfims__Comment__c}>
+                                    {item.sfims__Comment__c}
+                                </div>
+                            </td>       
+                        </tr>
+                    </template>
+                    <template for:each={allCriteria} for:item="item" for:index="index" if:true={isEditMode}>
+                        <tr class="slds-hint-parent" key={item.Id}>
+                            <td data-label="">
+                                <div class="slds-truncate" title={item.Name}>
+                                    <span style="float: left;">
+                                        {item.Name}
+                                    </span>
+                                    <lightning-helptext class="help-text" if:true={item.isHelpText} content={item.sfims__Description__c}></lightning-helptext>
+                                </div>
+                            </td>
+                            <td data-label="">
+                                <div title="" style="max-width: 100%; text-overflow: ellipsis; white-space: nowrap;">
+                                    <lightning-slider if:true={item.isRating} data-row={index} name="sfims__Rating__c" step="1" max={item.Max} min={item.Min} onchange={handleChange} variant="label-hidden" label="Rating" value={item.sfims__Rating__c}></lightning-slider>
+                                    <lightning-combobox if:true={item.isPicklist}
+                                        name="sfims__Selected_Picklist_Value__c"
+                                        label="Custom Picklist"
+                                        value={item.sfims__Selected_Picklist_Value__c}
+                                        options={item.Options}
+                                        variant="label-hidden"
+                                        data-row={index}
+                                        onchange={handleChange}>
+                                    </lightning-combobox>
+                                </div>
+                            </td>
+                            <td data-label="" colspan="2">
+                                <div class="slds-truncate test" title="Comment">
+                                    <lightning-textarea data-row={index} name="sfims__Comment__c" value={item.sfims__Comment__c} onchange={handleChange} label="Enter some text" variant="label-hidden"></lightning-textarea>
+                                </div>
+                            </td>       
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+            <div slot="footer" class="slds-p-top_small slds-align_absolute-center">
+                <div if:true={isEditMode}>
+                    <lightning-button label="Cancel" onclick={handlerClickCancel} style="padding-right: 5px;"></lightning-button>
+                    <lightning-button variant="brand" label="Save" onclick={handlerClickSave}></lightning-button>
+                </div>
+                <div if:true={isShowViewAll}>
+                    <a title="View All" onclick={showAllCriteria}>View All</a>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+</template>

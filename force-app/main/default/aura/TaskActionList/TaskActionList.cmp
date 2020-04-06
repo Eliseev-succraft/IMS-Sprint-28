@@ -1,0 +1,56 @@
+<!--
+ * @description         Component for working with custom tasks
+ * @author              Alexey Eliseev
+ * @component           TaskActionList
+ * @update              12/13/19
+-->
+<aura:component
+        implements="force:hasRecordId,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes"
+        description="Component for working with custom tasks" access="global">
+    <!-- Design attributes -->
+    <aura:attribute access="global" name="environmentType" type="String"/>
+    <aura:attribute access="global" name="customTaskFields" type="String"/>
+    <aura:attribute access="global" name="showTasks" type="String"/>
+    <aura:attribute access="global" name="customObjectFields" type="String"/>
+    <aura:attribute access="global" name="isOnlyMyTasks" type="Boolean"/>
+    <aura:attribute access="global" name="isShowPaginationBar" type="Boolean"/>
+    <aura:attribute access="global" name="numberOfResults" type="Integer"/>
+    <aura:attribute access="global" name="isDebugLog" type="Boolean"/>
+    <!-- Global attributes -->
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <!-- Spinner attributes -->
+    <aura:attribute name="cmpSpinner" type="Map" default="{}"/>
+    <aura:attribute name="qSpinners" type="Map" default="{}"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="isRunTaskFlow" type="Boolean" default="false"/>
+    <aura:attribute name="isCompletedFlow" type="Boolean" default="false"/>
+    <aura:attribute name="taskId" type="String"/>
+    <!-- Methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.isCompletedFlow }" action="{! c.completedFlow }"/>
+    <!-- Component -->
+    <c:lwcTaskActionList aura:id="lwcTaskActionList"
+                         environmentType="{# v.environmentType }"
+                         relatedObjectRecordId="{# v.recordId }"
+                         customTaskFields="{# v.customTaskFields }"
+                         showTasks="{# v.showTasks }"
+                         customObjectFields="{# v.customObjectFields }"
+                         isOnlyMyTasks="{# v.isOnlyMyTasks }"
+                         isShowPaginationBar="{# v.isShowPaginationBar }"
+                         numberOfResults="{# v.numberOfResults }"
+                         isDebugLog="{# v.isDebugLog }"
+                         onStartTask="{! c.handleEventStartTask }"
+                         onNewTask="{! c.handleEventNewTask }"
+    />
+    <aura:if isTrue="{! v.isRunTaskFlow }">
+        <c:RunTaskFlow aura:id="RunTaskFlow"
+                       taskId="{# v.taskId }"
+                       recordId="{# v.recordId }"
+                       isRunning="{! v.isRunTaskFlow }"
+                       isDebugLog="{# v.isDebugLog }"
+                       isCompletedFlow="{! v.isCompletedFlow }"
+        />
+    </aura:if>
+</aura:component>

@@ -1,0 +1,13 @@
+.dialog {
+    width: 51%;
+    max-width: 39rem;
+    min-width: 38rem;
+}
+
+.padding {
+    padding: 10px;
+}
+
+.active-check {
+    margin: 5px 0 10px 0;
+}

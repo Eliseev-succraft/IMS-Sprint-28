@@ -1,0 +1,51 @@
+<!-- Report Template functionality * @author Alexey Eliseev * @date 2/11/19 * component selectedIndicatorsFilters -->
+
+<aura:component controller="moreFiltersController">
+    <!-- Global attributes -->
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <!-- Spinner attributes -->
+    <aura:attribute name="cmpSpinner" type="Map" default="{}"/>
+    <aura:attribute name="qSpinners" type="Map" default="{}"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="searchValue" type="String" default=""/>
+    <aura:attribute name="activeSections" type="List" default="['Indicator_Type', 'Record_Type', 'Standard_Custom', 'Outcome_Area']"/>
+    <aura:attribute name="optionsCheckboxGroup" type="Object"/>
+    <aura:attribute name="checkboxGroupValues" type="Object"/>
+    <aura:attribute name="data" type="List" default="[]"/>
+    <aura:attribute name="originalData" type="List" default="[]"/>
+    <!-- Methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.searchValue }" action="{! c.handleChange }"/>
+    <aura:handler event="c:addSelectedIndicatorsEvent" action="{! c.handleResetFilters }"/>
+    <!-- adding new custom indicators from catalog [event from ReportTemplate.cmp] -->
+    <!-- <aura:handler event="c:addNewCustomIndicatorEvent" action="{! c.handlerResetFilters }"/> -->
+    <!-- Body -->
+    <lightning:accordion allowMultipleSectionsOpen="true" activeSectionName="{! v.activeSections }">
+        <lightning:accordionSection name="Indicator_Type" label="Indicator Type">
+            <lightning:checkboxGroup name="sfims__Indicator_Type__c"
+                                     options="{! v.optionsCheckboxGroup.sfims__Indicator_Type__c }"
+                                     onchange="{! c.handleChange }"
+                                     value="{! v.checkboxGroupValues.sfims__Indicator_Type__c }" label=""/>
+        </lightning:accordionSection>
+        <lightning:accordionSection name="Record_Type" label="Library">
+            <lightning:checkboxGroup name="RecordTypeId" options="{! v.optionsCheckboxGroup.RecordTypeId }"
+                                     onchange="{! c.handleChange }" value="{! v.checkboxGroupValues.RecordTypeId }"
+                                     label=""/>
+        </lightning:accordionSection>
+        <lightning:accordionSection name="Standard_Custom" label="Standard - Custom">
+            <lightning:checkboxGroup name="sfims__Standard_Custom__c"
+                                     options="{! v.optionsCheckboxGroup.sfims__Standard_Custom__c }"
+                                     onchange="{! c.handleChange }"
+                                     value="{! v.checkboxGroupValues.sfims__Standard_Custom__c }" label=""/>
+        </lightning:accordionSection>
+        <lightning:accordionSection name="Outcome_Area" label="Outcome Area">
+            <lightning:checkboxGroup name="sfims__Outcome_Area__c"
+                                     options="{! v.optionsCheckboxGroup.sfims__Outcome_Area__c }"
+                                     onchange="{! c.handleChange }"
+                                     value="{! v.checkboxGroupValues.sfims__Outcome_Area__c }" label=""/>
+        </lightning:accordionSection>
+    </lightning:accordion>
+
+</aura:component>

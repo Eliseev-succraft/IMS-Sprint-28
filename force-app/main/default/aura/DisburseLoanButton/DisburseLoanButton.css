@@ -1,0 +1,11 @@
+.THIS lightning-primitive-header-actions {
+    display: none !important;
+}
+
+.THIS.customSpinner {
+    background: none !important;
+}
+
+.THIS .p-cancel {
+    margin-left: 25px !important;
+}

@@ -1,0 +1,13 @@
+.THIS #mn1 {
+    display: none;
+}
+
+/* @media (min-width: 600px) and (max-width: 1400px) {
+    .THIS #mn1 {
+        display: block;
+    }
+} */
+
+.THIS .action-panel .slds-card__header {
+    background-color: antiquewhite !important;
+}

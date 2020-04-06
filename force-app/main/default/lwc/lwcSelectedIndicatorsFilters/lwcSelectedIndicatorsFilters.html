@@ -1,0 +1,49 @@
+<template>
+    <div if:true={spinner.refresh}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </div>
+    <lightning-accordion
+            allow-multiple-sections-open="true"
+            active-section-name={activeSections}>
+        <lightning-accordion-section name="Indicator_Type" label="Indicator Type">
+            <lightning-checkbox-group
+                    name="sfims__Indicator_Type__c"
+                    label="checkboxGroup"
+                    variant="label-hidden"
+                    value=""
+                    options={optionsCheckboxGroup.sfims__Indicator_Type__c}
+                    onchange={handleChangeFilter}>
+            </lightning-checkbox-group>
+        </lightning-accordion-section>
+        <lightning-accordion-section name="Record_Type" label="Library">
+            <lightning-checkbox-group
+                    name="RecordTypeId"
+                    label="checkboxGroup"
+                    variant="label-hidden"
+                    value=""
+                    options={optionsCheckboxGroup.RecordTypeId}
+                    onchange={handleChangeFilter}>
+            </lightning-checkbox-group>
+        </lightning-accordion-section>
+        <lightning-accordion-section name="Standard_Custom" label="Standard - Custom">
+            <lightning-checkbox-group
+                    name="sfims__Standard_Custom__c"
+                    label="checkboxGroup"
+                    variant="label-hidden"
+                    value=""
+                    options={optionsCheckboxGroup.sfims__Standard_Custom__c}
+                    onchange={handleChangeFilter}>
+            </lightning-checkbox-group>
+        </lightning-accordion-section>
+        <lightning-accordion-section name="Outcome_Area" label="Outcome Area">
+            <lightning-checkbox-group
+                    name="sfims__Outcome_Area__c"
+                    label="checkboxGroup"
+                    variant="label-hidden"
+                    value=""
+                    options={optionsCheckboxGroup.sfims__Outcome_Area__c}
+                    onchange={handleChangeFilter}>
+            </lightning-checkbox-group>
+        </lightning-accordion-section>
+    </lightning-accordion>
+</template>

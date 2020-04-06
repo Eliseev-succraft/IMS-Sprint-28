@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interest_Reference_Rate</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Loan_Product__c, TEXT(Interest_Rate_Source__c) == &#39;Variable Interest&#39;, ISBLANK(Interest_Reference_Rate__c))</errorConditionFormula>
+    <errorDisplayField>Interest_Reference_Rate__c</errorDisplayField>
+    <errorMessage>Complete this field (Interest Reference Rate)</errorMessage>
+</ValidationRule>

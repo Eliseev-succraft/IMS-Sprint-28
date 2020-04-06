@@ -1,0 +1,6 @@
+<!--
+ * @author              Alexey Eliseev
+ * @component           not used
+-->
+<aura:component controller="moreFiltersController">
+</aura:component>

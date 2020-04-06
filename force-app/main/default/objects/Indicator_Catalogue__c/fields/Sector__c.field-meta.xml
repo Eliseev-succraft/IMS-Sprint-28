@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sector__c</fullName>
+    <deprecated>false</deprecated>
+    <description>A categorization of each metric across one of the following ten sectors: 
+- Agriculture
+- Education
+- Energy
+- Environment
+- Financial Services
+- Land Conservation
+- Health
+- Housing/Community Facilities
+- Water
+- Cross-Sector
+Please note that some metrics apply to more than one sector but are placed in only one primary sector; some metrics are classified as Cross-Sector.</description>
+    <externalId>false</externalId>
+    <label>Sector</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Agriculture</fullName>
+                <default>false</default>
+                <label>Agriculture</label>
+            </value>
+            <value>
+                <fullName>Cross-Sector</fullName>
+                <default>false</default>
+                <label>Cross-Sector</label>
+            </value>
+            <value>
+                <fullName>Education</fullName>
+                <default>false</default>
+                <label>Education</label>
+            </value>
+            <value>
+                <fullName>Energy</fullName>
+                <default>false</default>
+                <label>Energy</label>
+            </value>
+            <value>
+                <fullName>Environment</fullName>
+                <default>false</default>
+                <label>Environment</label>
+            </value>
+            <value>
+                <fullName>Financial Services</fullName>
+                <default>false</default>
+                <label>Financial Services</label>
+            </value>
+            <value>
+                <fullName>Health</fullName>
+                <default>false</default>
+                <label>Health</label>
+            </value>
+            <value>
+                <fullName>Housing/Community Facilities</fullName>
+                <default>false</default>
+                <label>Housing/Community Facilities</label>
+            </value>
+            <value>
+                <fullName>Land Conservation</fullName>
+                <default>false</default>
+                <label>Land Conservation</label>
+            </value>
+            <value>
+                <fullName>Water</fullName>
+                <default>false</default>
+                <label>Water</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

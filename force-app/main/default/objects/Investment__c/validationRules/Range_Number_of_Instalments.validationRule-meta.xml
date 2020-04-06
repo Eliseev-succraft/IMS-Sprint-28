@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Range_Number_of_Instalments</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Investment__c, OR(Number_of_Instalments__c &lt; Loan_Product__r.Minimum_number_of_installments__c, Number_of_Instalments__c &gt; Loan_Product__r.Maximum_number_of_installments__c))</errorConditionFormula>
+    <errorDisplayField>Number_of_Instalments__c</errorDisplayField>
+    <errorMessage>Out of allowed range (Number of Instalments)</errorMessage>
+</ValidationRule>

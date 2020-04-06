@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Calculation__c</fullName>
+    <deprecated>false</deprecated>
+    <description>An outline of the relevant mathematical calculation, if the metric requires a calculation or formula. Some formulas are based on other IRIS metrics and are clearly indicated as such.</description>
+    <externalId>false</externalId>
+    <label>Calculation</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

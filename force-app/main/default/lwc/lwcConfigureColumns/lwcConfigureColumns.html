@@ -1,0 +1,109 @@
+<template>
+    <div if:true={modals.isShowConfigureColumns}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container dialog">
+                <div style="position: relative;">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCancel}>
+                            <lightning-icon icon-name="utility:close" size="small" variant="inverse">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 class="title slds-text-heading_large">Configure Columns</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium slds-text-align--left" id="modal-content-id-1">
+                        <div if:true={spinner.main}>
+                            <lightning-spinner alternative-text="Loading" size="medium">
+                            </lightning-spinner>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Library</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-combobox_container">
+                                    <div data-id="comboBoxWithActive" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                            <input type="text"
+                                                   value={selectedLibraryName}
+                                                   readonly="readonly"
+                                                   onclick={clickEvent}
+                                                   onblur={blurEvent}
+                                                   class="slds-input slds-combobox__input slds-has-focus slds-combobox__input-value"
+                                                   auto-complete="off"
+                                                   role="textbox"
+                                                   placeholder="Select Library"/>
+                                            <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                             <lightning-icon icon-name="utility:down" size="xx-small" alternative-text="down">
+                                             </lightning-icon>
+                                        </span>
+                                        </div>
+                                        <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                <template for:each={allRecordTypes} for:index="index" for:item="recordType">
+                                                    <li key={recordType.value} role="presentation" class="slds-listbox__item" data-id={recordType.value} onmousedown={handleSelectItem}>
+                                                        <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-is-selected" role="option">
+                                                            <span class="slds-media__figure slds-listbox__option-icon" data-id={index} onmousedown={handleActive}>
+                                                                  <span class="slds-icon_container slds-icon-utility-check slds-current-color slds-icon slds-icon_x-small">
+                                                                      <lightning-button-icon if:true={recordType.active}
+                                                                              disabled={recordType.disabled}
+                                                                              icon-name="utility:check"
+                                                                              size="x-small"
+                                                                              alternative-text="Inactive">
+                                                                      </lightning-button-icon>
+                                                                      <lightning-button-icon if:false={recordType.active}
+                                                                              disabled={recordType.disabled}
+                                                                              icon-name="utility:uncheck"
+                                                                              size="x-small"
+                                                                              alternative-text="Active">
+                                                                      </lightning-button-icon>
+                                                                  </span>
+                                                            </span>
+                                                            <span class="slds-media__body" style="margin-left: 5px;">
+                                                              <span class="slds-truncate" title={recordType.label}>
+                                                                <span class="slds-assistive-text">Current Selection:</span> {recordType.label}
+                                                              </span>
+                                                        </span>
+                                                        </div>
+                                                    </li>
+                                                </template>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <lightning-dual-listbox
+                                    label="Configure columns"
+                                    variant="label-hidden"
+                                    min={min}
+                                    max={max}
+                                    value={values}
+                                    source-label="Available Fields"
+                                    selected-label="Selected fields"
+                                    options={options}
+                                    required-options={requiredFields}
+                                    onchange={handleChangeViewConfigureDualListBox}>
+                            </lightning-dual-listbox>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="neutral" style="margin-right: 5px;" label="Cancel" title="Cancel" onclick={handleCancel}>
+                        </lightning-button>
+                        <lightning-button variant="brand" label="Save" title="Save" onclick={handleSave}>
+                        </lightning-button>
+                    </footer>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+    <div if:false={modals.isShowConfigureColumns}>
+        <lightning-button-icon
+                onclick={handleOpenConfigureColumn}
+                icon-name="utility:rating"
+                size="large"
+                variant="bare"
+                alternative-text="Show Configure Columns">
+        </lightning-button-icon>
+    </div>
+</template>

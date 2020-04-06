@@ -1,0 +1,109 @@
+<template>
+    <!-- Low mode -->
+    <div data-id="lowResults" style="display: block; height: 64vh; overflow-y: auto; overflow-x: hidden;">
+        <table ondrop={handleDrop} ondragover={handleDragOver} class="slds-table slds-table_bordered slds-table_fixed-layout">
+            <thead>
+            <tr class="slds-line-height_reset">
+                <th scope="col" style="width: 33px;">
+                    <div class="slds-truncate"></div>
+                </th>
+                <th scope="col" style="width: 45px;">
+                    <div class="slds-truncate"></div>
+                </th>
+                <template iterator:field={columns}>
+                    <th if:true={field.first} key={field.value.fieldName} scope="col">
+                        <span class="slds-truncate">{field.value.label}</span>
+                    </th>
+                </template>
+                <th scope="col" style="width: 45px;">
+                    <div class="slds-truncate"></div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <template for:each={indicators} for:index="index" for:item="indicator">
+                <tr key={indicator.Id} class={index} style="cursor: pointer;" draggable="true" ondragstart={handleDragStart}>
+                    <td class="slds-hint-parent slds-text-align_right">
+                        <lightning-icon alternative-text="Indicator" title="Drag and Drop" size="small" icon-name="utility:drag_and_drop"></lightning-icon>
+                    </td>
+                    <td class="slds-text-align_center">{index}</td>
+                    <template iterator:row={indicator.values}>
+                        <td if:true={row.first} key={row.value.id} class="slds-hint-parent">
+                            <div class="slds-truncate" title={row.value.value}>
+                                <template if:true={row.value.isUrl}>
+                                    <a href={row.value.typeAttributes.url} target="_blank">{row.value.value}</a>
+                                </template>
+                                <template if:true={row.value.isText}>
+                                    {row.value.value}
+                                </template>
+                            </div>
+                        </td>
+                    </template>
+                    <td class="slds-hint-parent slds-text-align_right">
+                        <lightning-button-icon value={index} variant="brand" onclick={handleDeleteIndicator} alternative-text="Delete Indicator" icon-name="utility:dash"></lightning-button-icon>
+                    </td>
+                </tr>
+            </template>
+            </tbody>
+        </table>
+    </div>
+    <!-- High mode -->
+    <div data-id="highResults" style="display: none; height: 64vh; overflow-y: auto; overflow-x: hidden;">
+        <span data-id="moreFilters" style="float: left; display: none; width: 180px; padding-right: 10px;">
+            <c-lwc-selected-indicators-filters
+                    is-debug-log={isDebugLog}
+                    indicators={originalJSON}
+                    search-value={privateSearchValue}
+                    onfilteredlist={handleEventListIndicatorsFromFilter}
+                    onfiltersloaded={handleEventFiltersLoaded}>
+            </c-lwc-selected-indicators-filters>
+        </span>
+        <div style="overflow-y: auto;">
+            <table ondrop={handleDrop} ondragover={handleDragOver} class="slds-table slds-table_bordered slds-table_fixed-layout">
+                <thead>
+                <tr class="slds-line-height_reset">
+                    <th scope="col" style="width: 33px;">
+                        <div class="slds-truncate"></div>
+                    </th>
+                    <th scope="col" style="width: 45px;">
+                        <div class="slds-truncate"></div>
+                    </th>
+                    <template for:each={columns} for:item="field">
+                        <th key={field.fieldName} scope="col">
+                            <span class="slds-truncate">{field.label}</span>
+                        </th>
+                    </template>
+                    <th scope="col" style="width: 45px;">
+                        <div class="slds-truncate"></div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <template for:each={indicators} for:index="index" for:item="indicator">
+                    <tr key={indicator.Id} class={index} style="cursor: pointer;" draggable="true" ondragstart={handleDragStart}>
+                        <td class="slds-hint-parent slds-text-align_right">
+                            <lightning-icon alternative-text="Indicator" title="Drag and Drop" size="small" icon-name="utility:drag_and_drop"></lightning-icon>
+                        </td>
+                        <td class="slds-text-align_center">{index}</td>
+                        <template for:each={indicator.values} for:item="row">
+                            <td key={row.id} class="slds-hint-parent">
+                                <div class="slds-truncate" title={row.value}>
+                                    <template if:true={row.isUrl}>
+                                        <a href={row.typeAttributes.url} target="_blank">{row.value}</a>
+                                    </template>
+                                    <template if:true={row.isText}>
+                                        {row.value}
+                                    </template>
+                                </div>
+                            </td>
+                        </template>
+                        <td class="slds-hint-parent slds-text-align_right">
+                            <lightning-button-icon value={index} variant="brand" onclick={handleDeleteIndicator} alternative-text="Delete Indicator" icon-name="utility:dash"></lightning-button-icon>
+                        </td>
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Principal_Balance__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The total remaining Principal Balance on Investment Level after the latest payment to this schedule.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The total remaining Principal Balance on Investment Level after the latest payment to this schedule.</inlineHelpText>
+    <label>Principal Balance</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

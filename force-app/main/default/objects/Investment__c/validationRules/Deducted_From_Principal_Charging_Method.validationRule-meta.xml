@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deducted_From_Principal_Charging_Method</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$Setup.Validation_Settings__c.Disable_Validation_Rules_on_Investment__c, RecordType.DeveloperName == &#39;Loan&#39;, TEXT(Disbursement_Method__c) == &#39;Tranched disbursement allowed&#39;, TEXT(Setup_Fee_Charging_Method__c) == &#39;Deducted From Principal&#39;)</errorConditionFormula>
+    <errorDisplayField>Setup_Fee_Charging_Method__c</errorDisplayField>
+    <errorMessage>&#39;Deducted From Principal&#39; is only allowed in a combination with the Disbursement Method ‘Full disbursement at start’</errorMessage>
+</ValidationRule>

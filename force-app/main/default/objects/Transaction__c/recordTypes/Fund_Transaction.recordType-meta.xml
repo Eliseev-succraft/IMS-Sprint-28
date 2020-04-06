@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fund_Transaction</fullName>
+    <active>true</active>
+    <description>A transaction between a Fund and  (optionally) another Fund</description>
+    <label>Fund Transaction</label>
+    <picklistValues>
+        <picklist>Object_Type__c</picklist>
+        <values>
+            <fullName>Repayment Schedule</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transaction</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Planned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disbursed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Fund Drawdown</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Repayment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

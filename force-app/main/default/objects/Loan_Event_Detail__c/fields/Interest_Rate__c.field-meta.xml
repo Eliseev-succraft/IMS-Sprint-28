@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interest_Rate__c</fullName>
+    <description>Interest Rate for this period. E.g. for capturing interest rate changes during a schedule.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Interest Rate for this period. E.g. for capturing interest rate changes during a schedule.</inlineHelpText>
+    <label>Interest Rate</label>
+    <precision>5</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

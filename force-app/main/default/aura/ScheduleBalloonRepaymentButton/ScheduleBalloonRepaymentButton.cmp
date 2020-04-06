@@ -1,0 +1,65 @@
+<aura:component controller="BalloonRepaymentButtonController" access="global">
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:attribute name="recordId" type="String"/>
+    <!-- Component additional attributes -->
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="options" type="List" default="[]"/>
+    <aura:attribute name="amount" type="Double" default="0"/>
+    <!-- Component methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <!-- Global styles -->
+    <aura:if isTrue="{! not(v.options.length) }">
+        <aura:html tag="style">
+            .modal-container {
+                display: none;
+            }
+            .slds-backdrop--open {
+                display: none;
+            }
+        </aura:html>
+        <aura:set attribute="else">
+            <aura:html tag="style">
+                <aura:html tag="style">
+                    .cuf-content {
+                        padding: 0 0rem !important;
+                    }
+                    .slds-p-around--medium {
+                        padding: 0rem !important;
+                    }
+                    .slds-modal__content{
+                        height: unset !important;
+                        max-height: unset !important;
+                        overflow: visible !important;
+                    }
+                </aura:html>
+            </aura:html>
+        </aura:set>
+    </aura:if>
+    <!-- Body -->
+    <div class="modal-header slds-modal__header">
+        <h4 class="title slds-text-heading--medium">{! $Label.c.aura_label_97 }</h4>
+    </div>
+    <div class="slds-modal__content slds-grid" style="min-height: 150px; padding: 1rem; position: relative;">
+        <aura:if isTrue="{! v.isLoading }">
+            <lightning:spinner size="medium" variant="brand" alternativeText="{! $Label.c.aura_label_3  + '...'}"/>
+        </aura:if>
+        <div class="slds-col slds-size_1-of-2" aura:id="parent" style="padding-right: .75rem; padding-left: .75rem; line-height: 1.5; margin-bottom: .25rem;">
+            <lightning:combobox aura:id="period" required="true" label="{! $Label.c.aura_label_98 }" placeholder="{! $Label.c.aura_label_99 }" options="{! v.options }" onchange="{! c.handleChange }"/>
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+            <div class="slds-form-element">
+                <span data-aria="true" class="slds-assistive-text"></span>
+                <label class="slds-form-element__label slds-no-flex">{! $Label.c.aura_label_36 }</label>
+                <div class="slds-form-element__control slds-grow">
+                    <div style="margin-top: 5px;">
+                        <ui:outputCurrency value="{! v.amount }"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+        <lightning:button label="{! $Label.c.aura_label_12 }" onclick="{! c.handleCancel }"/>
+        <lightning:button label="{! $Label.c.aura_label_22 }" onclick="{! c.handleConfirm }" variant="brand"/>
+    </div>
+</aura:component>

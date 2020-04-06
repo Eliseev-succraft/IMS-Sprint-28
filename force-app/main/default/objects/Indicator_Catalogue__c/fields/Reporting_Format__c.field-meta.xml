@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reporting_Format__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The format for reporting against the specific metric. Examples of reporting formats include: Unit Referenced Within Metric Definition, Decimal, Text, Unit of Measure (PD1602), amongst others. The reporting format &quot;Unit Referenced Within Metric Definition&quot; reduces confusion and encourages the user to read the metric&#39;s definition to understand the unit to be measured and reported, since many of these values are bespoke (e.g., number of full-time employees). Some metrics such as Reporting Currency (OD5990) and Unit of Measure (PD1602) refer to specific sets of option values (which are described within their Definition); for these, users should indicate which option is used.</description>
+    <externalId>false</externalId>
+    <label>Reporting Format</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Date</fullName>
+                <default>false</default>
+                <label>Date</label>
+            </value>
+            <value>
+                <fullName>Decimal</fullName>
+                <default>false</default>
+                <label>Decimal</label>
+            </value>
+            <value>
+                <fullName>Number of Metric Tons of CO2 Equivalent</fullName>
+                <default>false</default>
+                <label>Number of Metric Tons of CO2 Equivalent</label>
+            </value>
+            <value>
+                <fullName>Reporting Currency (OD5990)</fullName>
+                <default>false</default>
+                <label>Reporting Currency (OD5990)</label>
+            </value>
+            <value>
+                <fullName>Selection</fullName>
+                <default>false</default>
+                <label>Selection</label>
+            </value>
+            <value>
+                <fullName>Selection of 3 letter code</fullName>
+                <default>false</default>
+                <label>Selection of 3 letter code</label>
+            </value>
+            <value>
+                <fullName>Text</fullName>
+                <default>false</default>
+                <label>Text</label>
+            </value>
+            <value>
+                <fullName>Text (multiple entries possible)</fullName>
+                <default>false</default>
+                <label>Text (multiple entries possible)</label>
+            </value>
+            <value>
+                <fullName>Unit of Measure (PD1602)</fullName>
+                <default>false</default>
+                <label>Unit of Measure (PD1602)</label>
+            </value>
+            <value>
+                <fullName>Unit of Measure (PD1602) selection per Hectare</fullName>
+                <default>false</default>
+                <label>Unit of Measure (PD1602) selection per Hectare</label>
+            </value>
+            <value>
+                <fullName>Unit Referenced within Metric Definition</fullName>
+                <default>false</default>
+                <label>Unit Referenced within Metric Definition</label>
+            </value>
+            <value>
+                <fullName>Yes/No</fullName>
+                <default>false</default>
+                <label>Yes/No</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loan_Event_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Loan Event Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Loan Creation</fullName>
+                <default>false</default>
+                <label>Loan Creation</label>
+            </value>
+            <value>
+                <fullName>Reschedule</fullName>
+                <default>false</default>
+                <label>Reschedule</label>
+            </value>
+            <value>
+                <fullName>Refinance</fullName>
+                <default>false</default>
+                <label>Refinance</label>
+            </value>
+            <value>
+                <fullName>Disbursement</fullName>
+                <default>false</default>
+                <label>Disbursement</label>
+            </value>
+            <value>
+                <fullName>Interest Rate Change</fullName>
+                <default>false</default>
+                <label>Interest Rate Change</label>
+            </value>
+            <value>
+                <fullName>Interest Rollup Recalculation</fullName>
+                <default>false</default>
+                <label>Interest Rollup Recalculation</label>
+            </value>
+            <value>
+                <fullName>Closed (Written Off)</fullName>
+                <default>false</default>
+                <label>Closed (Written Off)</label>
+            </value>
+            <value>
+                <fullName>Closed (Early Repayment)</fullName>
+                <default>false</default>
+                <label>Closed (Early Repayment)</label>
+            </value>
+            <value>
+                <fullName>Closed (All Obligations met)</fullName>
+                <default>false</default>
+                <label>Closed (All Obligations met)</label>
+            </value>
+            <value>
+                <fullName>Bullet Repayment</fullName>
+                <default>false</default>
+                <label>Bullet Repayment</label>
+            </value>
+            <value>
+                <fullName>Automatic Schedule Migration for Migrated Loan</fullName>
+                <default>false</default>
+                <label>Automatic Schedule Migration for Migrated Loan</label>
+            </value>
+            <value>
+                <fullName>Fee Cancelled</fullName>
+                <default>false</default>
+                <label>Fee Cancelled</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

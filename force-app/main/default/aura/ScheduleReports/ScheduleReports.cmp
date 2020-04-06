@@ -1,0 +1,78 @@
+<!--
+ * @description         Component for generating progress reports
+ * @author              Alexey Eliseev
+ * @component           SheduleReports
+ * @date                1/16/19
+-->
+
+<aura:component implements="lightning:isUrlAddressable" access="global" controller="ScheduleReportsController">
+    <!-- attribute constain Application Id [param from GET URL] -->
+    <aura:attribute name="recordId" type="String"/>
+    <!-- show/hide Loading spinner -->
+    <aura:attribute name="isLoading" type="Boolean" default="true"/>
+    <!-- component handler -->
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+             aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container dialog-new-indicator">
+            <header class="slds-modal__header">
+                <lightning:buttonIcon iconName="utility:close" onclick="{! c.handlerCancel }"
+                                      alternativeText="close" variant="bare-inverse" class="slds-modal__close"/>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Schedule Progress Reports</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <div class="slds-clearfix slds-card inlineEditEnabled groupDependentFieldEnabled  allow-horizontal-form wide-input-break forceDetailPanelDesktop"
+                     data-aura-class="forceDetailPanelDesktop">
+                    <lightning:recordEditForm aura:id="addCustomIndicator"
+                                              onsubmit="{! c.handlerSubmit }"
+                                              onload="{! c.hideSpinner }"
+                                              onsuccess="{! c.handlerSuccessSaveNewIndicator }"
+                                              objectApiName="sfims__Progress_Report__c">
+
+                        <aura:if isTrue="{! v.isLoading }">
+                            <lightning:spinner alternativeText="Loading"/>
+                        </aura:if>
+
+                        <div class="c-container ln-height" style="line-height: 25px;">
+                            <lightning:layout horizontalAlign="spread" verticalAlign="start">
+                                <lightning:layoutItem size="12" padding="around-small">
+                                    <lightning:inputField aura:id="reportTemplate" class="customRequired"
+                                                          name="reportTemplate" onchange="{! c.handlerChange }"
+                                                          fieldName="sfims__Report_Template__c"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+
+                            <lightning:layout horizontalAlign="spread" verticalAlign="start">
+                                <lightning:layoutItem size="7" padding="around-small">
+                                    <lightning:input aura:id="date" required="true" type="date" name="date"
+                                                     label="First Report Due Date" autocomplete="off"/>
+
+                                    <lightning:select aura:id="frequency" label="Frequency of Reporting"
+                                                      name="frequency" required="true">
+                                        <option value="">Choose a frequency...</option>
+                                        <option value="Monthly">Monthly</option>
+                                        <option value="Quarterly">Quarterly</option>
+                                        <option value="Yearly">Yearly</option>
+                                    </lightning:select>
+
+                                    <lightning:input aura:id="number" min="1" max="100" required="true" type="number"
+                                                     name="number" label="Number of reports"/>
+
+                                </lightning:layoutItem>
+                            </lightning:layout>
+
+                        </div>
+                    </lightning:recordEditForm>
+                </div>
+            </div>
+            <footer class="slds-modal__footer">
+                <lightning:button variant="neutral" label="Cancel" title="Cancel"
+                                  onclick="{! c.handlerCancel }"/>
+                <lightning:button variant="brand" label="Schedule Reports" title="Schedule Reports"
+                                  onclick="{! c.handlerScheduleReports }"/>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

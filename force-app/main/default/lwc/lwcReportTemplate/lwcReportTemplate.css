@@ -1,0 +1,39 @@
+.report-template-main-modal {
+    width: 98vw !important;
+}
+
+.custom-tabs {
+    max-height: 65vh;
+    margin-top: 15px;
+}
+
+.topic {
+    border: solid 1px rgb(221, 219, 218);
+    cursor: pointer;
+    float: left;
+    border-radius: 5px;
+    width: 2rem;
+    height: 100%;
+    background: rgba(221, 221, 221, 0.5);
+    writing-mode: vertical-lr;
+    display: flex;
+}
+
+.topic span {
+    margin: auto;
+    transform: rotate(180deg);
+    font-size: 16px;
+}
+
+.tab {
+    padding: 0 5px;
+}
+
+.custom-button {
+    padding: 5px !important;
+    line-height: 25px !important;
+}
+
+.slds-hide-low {
+    width: 350px;
+}

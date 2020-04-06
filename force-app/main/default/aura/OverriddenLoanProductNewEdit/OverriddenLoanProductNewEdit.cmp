@@ -1,0 +1,424 @@
+<aura:component implements="lightning:actionOverride,force:hasRecordId,lightning:hasPageReference,lightning:isUrlAddressable" access="global" controller="OverriddenLoanProductPageController">
+    <!-- Global attributes -->
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <aura:attribute name="recordId" type="String" default=""/>
+    <aura:attribute name="isClone" type="Boolean" default="false"/>
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <!-- Libraries -->
+    <c:lwcUtilityMessage aura:id="message" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilityNavigation aura:id="navigation" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilitySystem aura:id="system" isDebugLog="{# v.isDebugLog }"/>
+    <!-- Component additional attributes -->
+    <aura:attribute name="loanProductName" type="String" default=""/>
+    <aura:attribute name="topSections" type="List" default="[]"/>
+    <aura:attribute name="bottomSections" type="List" default="[]"/>
+    <aura:attribute name="isDisabledRepaymentAllocationOrder" type="Boolean" default="false"/>
+    <aura:attribute name="oldRepaymentAllocationOrder" type="String"/>
+    <aura:attribute name="newRepaymentAllocationOrder" type="String"/>
+    <aura:attribute name="reloadCss" type="Boolean" default="true"/>
+    <aura:attribute name="cssMsgErr" type="List" default="[]"/>
+    <!-- Component methods -->
+    <aura:handler name="change" value="{! v.pageReference }" action="{! c.customRefresh }"/>
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <aura:html tag="style">
+        .toastMessage.forceActionsText {
+            white-space : pre-line !important;
+        }
+        .custom-required.error:after, .custom-required-field.error:after {
+            content: "{!$Label.c.aura_label_64}";
+            font-size: .75rem;
+            margin-top: .125rem;
+            display: block;
+            color: rgb(194, 57, 52) !important;
+        }
+    </aura:html>
+
+    <aura:if isTrue="{! v.reloadCss }">
+        <aura:iteration items="{! v.cssMsgErr }" var="item">
+            <aura:html tag="style">
+                .custom-required-{! item. name }.error:after {
+                    content: "{! item.message }";
+                    font-size: .75rem;
+                    margin-top: .125rem;
+                    display: block;
+                    color: rgb(194, 57, 52) !important;
+                }
+                .custom-required-{! item. name } .slds-form-element__help {
+                    display: none;
+                }
+            </aura:html>
+        </aura:iteration>
+    </aura:if>
+
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium resize-container">
+        <div class="slds-modal__container">
+            <lightning:recordEditForm aura:id="formLoanProduct"
+                                      objectApiName="sfims__Loan_Product__c"
+                                      onsubmit="{! c.formSubmit }"
+                                      onerror="{! c.formError }"
+                                      onsuccess="{! c.formSuccess }"
+                                      onload="{! c.formLoad }"
+                                      recordId="{! v.recordId }">
+                <div style="position: relative;">
+                    <c:lwcUtilitySpinner aura:id="spinner"
+                                         delay="30000"
+                                         isDebugLog="{# v.isDebugLog }"
+                                         onstarted="{! c.handleStartSpinner }"
+                                         onstopped="{! c.handleStopSpinner }"
+                                         onloaded="{! c.afterLoadingLibraries }"/>
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.handleCancel }" alternativeText="close" size="large" variant="bare-inverse" class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{! and(v.recordId, not(v.isClone)) ? ($Label.c.aura_label_57 + ' ' + v.loanProductName) : $Label.c.aura_label_65 }</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium slds-text-align_center" id="modal-content-id-1">
+                        <div style="max-height: 70vh;" aura:id="goToScroll">
+                            <a aura:id="goToFocus"></a>
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_66 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField class="custom-required" aura:id="Name" fieldName="Name"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Active__c" fieldName="sfims__Active__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Disbursement_Method__c" fieldName="sfims__Disbursement_Method__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Disbursement_Method__c" fieldName="sfims__CBO_Disbursement_Method__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Open_Ended_Loan__c" fieldName="sfims__Open_Ended_Loan__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Open_Ended_Loan__c" fieldName="sfims__CBO_Open_Ended_Loan__c"/>
+                                </div>
+                            </div>
+
+                            <!--top Field Set-->
+                            <aura:if isTrue="{! v.topSections.length > 0 }">
+                                <aura:iteration var="section" items="{! v.topSections }">
+                                    <h3 class="slds-section__title slds-theme--shade metric-pad"
+                                        style="margin: 0 0 10px 0;">
+                                        <span class="section-header-title slds-p-horizontal--small">{! section.Label }</span>
+                                    </h3>
+                                    <aura:iteration var="fields" items="{! section.FieldSet }">
+                                        <div class="slds-grid slds-gutters">
+                                            <aura:iteration var="field" items="{! fields }">
+                                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                                    <lightning:inputField aura:id="topFieldSet" fieldName="{! field }"/>
+                                                </div>
+                                            </aura:iteration>
+                                        </div>
+                                    </aura:iteration>
+                                </aura:iteration>
+                            </aura:if>
+
+                            <!-- Loan Amount Settings -->
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_67 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Minimum_Loan_Amount__c" fieldName="sfims__Minimum_Loan_Amount__c"/>
+                                    <lightning:inputField aura:id="sfims__Maximum_Loan_Amount__c" fieldName="sfims__Maximum_Loan_Amount__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Default_Loan_Amount__c" fieldName="sfims__Default_Loan_Amount__c"/>
+                                    <lightning:inputField aura:id="sfims__CBO_Default_Loan_Amount__c" fieldName="sfims__CBO_Default_Loan_Amount__c"/>
+                                </div>
+                            </div>
+
+                            <!-- Interest Rate Settings -->
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_68 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Interest_Rate_Source__c"
+                                                          class="custom-required"
+                                                          fieldName="sfims__Interest_Rate_Source__c"
+                                                          onchange="{! c.onChangeInterestRateSource }"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Interest_Reference_Rate__c" fieldName="sfims__Interest_Reference_Rate__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Interest_Rate_Review_Frequency__c" fieldName="sfims__Interest_Rate_Review_Frequency__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Minimum_Interest_Rate__c" fieldName="sfims__Minimum_Interest_Rate__c"/>
+                                    <lightning:inputField aura:id="sfims__Maximum_Interest_Rate__c" fieldName="sfims__Maximum_Interest_Rate__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Default_Interest_Rate__c" fieldName="sfims__Default_Interest_Rate__c"/>
+                                    <lightning:inputField aura:id="sfims__CBO_Default_Interest_Rate__c" fieldName="sfims__CBO_Default_Interest_Rate__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Minimum_Interest_Bandwidth__c" fieldName="sfims__Minimum_Interest_Bandwidth__c"/>
+                                    <lightning:inputField aura:id="sfims__Maximum_Interest_Bandwidth__c" fieldName="sfims__Maximum_Interest_Bandwidth__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Default_Variable_Interest_Spread__c" fieldName="sfims__Default_Variable_Interest_Spread__c"/>
+                                    <lightning:inputField aura:id="sfims__CBO_Default_Variable_Interest_Spread__c" fieldName="sfims__CBO_Default_Variable_Interest_Spread__c"/>
+                                </div>
+                            </div>
+
+                            <!-- Instalment Settings -->
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_69 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Day_Count_Convention__c" fieldName="sfims__Day_Count_Convention__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Day_Count_Convention__c" fieldName="sfims__CBO_Day_Count_Convention__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Non_Working_Days_Rescheduling__c" fieldName="sfims__Non_Working_Days_Rescheduling__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Non_Working_Days_Rescheduling__c" fieldName="sfims__CBO_Non_Working_Days_Rescheduling__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Repayment_Frequency__c" fieldName="sfims__Repayment_Frequency__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Repayment_Frequency__c" fieldName="sfims__CBO_Repayment_Frequency__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Repayment_Frequency_Unit__c" fieldName="sfims__Repayment_Frequency_Unit__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Repayment_Frequency_Unit__c" fieldName="sfims__CBO_Repayment_Frequency_Unit__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Minimum_number_of_installments__c" fieldName="sfims__Minimum_number_of_installments__c"/>
+                                    <lightning:inputField aura:id="sfims__Maximum_number_of_installments__c" fieldName="sfims__Maximum_number_of_installments__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Default_number_of_installments__c" fieldName="sfims__Default_number_of_installments__c"/>
+                                    <lightning:inputField aura:id="sfims__CBO_Default_number_of_installments__c" fieldName="sfims__CBO_Default_number_of_installments__c"/>
+                                </div>
+                            </div>
+
+                            <!-- Grace Period Settings -->
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_70 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField class="custom-required" aura:id="sfims__Grace_Period_Types__c" fieldName="sfims__Grace_Period_Types__c" onchange="{! c.onChangeGracePeriodTypes }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left" style="padding-top: 24px;">
+                                    <lightning:inputField aura:id="sfims__Minimum_Grace_Period__c" fieldName="sfims__Minimum_Grace_Period__c"/>
+                                    <lightning:inputField aura:id="sfims__Maximum_Grace_Period__c" fieldName="sfims__Maximum_Grace_Period__c"/>
+                                    <lightning:inputField aura:id="sfims__Default_Grace_Period__c" fieldName="sfims__Default_Grace_Period__c"/>
+                                </div>
+                            </div>
+
+                            <!-- Fee Settings -->
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_48 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Minimum_Monitoring_Fee_Percentage__c" fieldName="sfims__Minimum_Monitoring_Fee_Percentage__c"/>
+                                    <lightning:inputField aura:id="sfims__Maximum_Monitoring_Fee_Percentage__c" fieldName="sfims__Maximum_Monitoring_Fee_Percentage__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Default_Monitoring_Fee_Percentage__c" fieldName="sfims__Default_Monitoring_Fee_Percentage__c"/>
+                                    <lightning:inputField aura:id="sfims__CBO_Default_Monitoring_Fee_Percentage__c" fieldName="sfims__CBO_Default_Monitoring_Fee_Percentage__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Setup_Fee_Charging_Method__c"
+                                                          fieldName="sfims__Setup_Fee_Charging_Method__c"
+                                                          onchange="{! c.onChangeSetupFeeChargingMethod }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Setup_Fee_Charging_Method__c"
+                                                          fieldName="sfims__CBO_Setup_Fee_Charging_Method__c"
+                                                          onchange="{! c.onChangeSetupFeeChargingMethod }"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Setup_Fee__c" fieldName="sfims__Setup_Fee__c"
+                                                          onchange="{! c.onChangeSetupFee }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Setup_Fee__c"
+                                                          fieldName="sfims__CBO_Setup_Fee__c"
+                                                          onchange="{! c.onChangeSetupFee }"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Percent_Of_Disbursement_Amount__c" fieldName="sfims__Percent_Of_Disbursement_Amount__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Percent_Of_Disbursement_Amount__c" fieldName="sfims__CBO_Percent_Of_Disbursement_Amount__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Flat_Amount__c" fieldName="sfims__Flat_Amount__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Flat_Amount__c" fieldName="sfims__CBO_Flat_Amount__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Setup_Fee_Cap__c" fieldName="sfims__Setup_Fee_Cap__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Setup_Fee_Cap__c" fieldName="sfims__CBO_Setup_Fee_Cap__c"/>
+                                </div>
+                            </div>
+
+                            <!-- Early and Late Repayment Settings -->
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_49 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Early_Payment_Method__c"
+                                                          fieldName="sfims__Early_Payment_Method__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Early_Payment_Method__c"
+                                                          fieldName="sfims__CBO_Early_Payment_Method__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Late_Repayment_Calculation_Method__c"
+                                                          fieldName="sfims__Late_Repayment_Calculation_Method__c"
+                                                          onchange="{! c.onChangeLateRepaymentCalculationMethod }"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Late_Repayment_Calculation_Method__c"
+                                                          fieldName="sfims__CBO_Late_Repayment_Calculation_Method__c"
+                                                          onchange="{! c.onChangeLateRepaymentCalculationMethod }"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Late_Repayment_Interest_Rate__c" fieldName="sfims__Late_Repayment_Interest_Rate__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Late_Repayment_Interest_Rate__c" fieldName="sfims__CBO_Late_Repayment_Interest_Rate__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Late_Repayment_Fixed_Fee__c" fieldName="sfims__Late_Repayment_Fixed_Fee__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Late_Repayment_Fixed_Fee__c" fieldName="sfims__CBO_Late_Repayment_Fixed_Fee__c"/>
+                                </div>
+                            </div>
+
+                            <!-- Arrears Tolerance Period Settings -->
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_71 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Minimum_Arrears_Tolerance_Period__c" fieldName="sfims__Minimum_Arrears_Tolerance_Period__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Late_Repayment_Tolerance_Period__c" fieldName="sfims__Default_Arrears_Tolerance_Period_days__c"/>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Maximum_Arrears_Tolerance_Period_days__c" fieldName="sfims__Maximum_Arrears_Tolerance_Period_days__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__CBO_Late_Repayment_Tolerance_Period__c" fieldName="sfims__CBO_Late_Repayment_Tolerance_Period__c"/>
+                                </div>
+                            </div>
+
+                            <!-- Repayment Allocation Settings -->
+                            <h3 class="slds-section__title slds-theme--shade metric-pad" style="margin: 0 0 10px 0;">
+                                <span class="section-header-title slds-p-horizontal--small">{! $Label.c.aura_label_72 }</span>
+                            </h3>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <lightning:inputField aura:id="sfims__Repayment_Allocation_Type__c" class="custom-required" fieldName="sfims__Repayment_Allocation_Type__c"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                    <div class="slds-form-element slds-form-element_stacked byner_required-field"
+                                         style="margin-bottom: -10px;">
+                                        <label class="slds-form-element__label">
+                                            {! $Label.c.loan_product_field_label_1 }
+                                        </label>
+                                        <div style="display: none;">
+                                            <lightning:inputField aura:id="sfims__Repayment_Allocation_Order__c" fieldName="sfims__Repayment_Allocation_Order__c"/>
+                                        </div>
+                                        <c:RepaymentAllocationOrder
+                                                disabled="{! v.isDisabledRepaymentAllocationOrder }"
+                                                initStringOptions="{! v.oldRepaymentAllocationOrder }"
+                                                isMoveButtons="true"
+                                                outputString="{! v.newRepaymentAllocationOrder }"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--bottom Field Set-->
+                            <aura:if isTrue="{! v.bottomSections.length > 0 }">
+                                <aura:iteration var="section" items="{! v.bottomSections }">
+                                    <h3 class="slds-section__title slds-theme--shade metric-pad"
+                                        style="margin: 0 0 10px 0;">
+                                        <span class="section-header-title slds-p-horizontal--small">{! section.Label }</span>
+                                    </h3>
+                                    <aura:iteration var="fields" items="{! section.FieldSet }">
+                                        <div class="slds-grid slds-gutters">
+                                            <aura:iteration var="field" items="{! fields }">
+                                                <div class="slds-col slds-size_1-of-2 slds-text-align_left">
+                                                    <lightning:inputField aura:id="bottomFieldSet" fieldName="{! field }"/>
+                                                </div>
+                                            </aura:iteration>
+                                        </div>
+                                    </aura:iteration>
+                                </aura:iteration>
+                            </aura:if>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" label="{! $Label.c.aura_label_12 }" title="{! $Label.c.aura_label_12 }" onclick="{! c.handleCancel }"/>
+                        <lightning:button type="submit" disabled="{! v.isLoading }" variant="brand" label="{! $Label.c.aura_label_16 }" title="{! $Label.c.aura_label_16 }"/>
+                    </footer>
+                </div>
+            </lightning:recordEditForm>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

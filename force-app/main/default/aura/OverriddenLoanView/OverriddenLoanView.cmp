@@ -1,0 +1,1051 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" controller="OverriddenLoanPageController" access="global">
+    <!-- Component global attributes -->
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="isRunning" type="Boolean" default="false"/>
+    <aura:attribute name="spinners" type="List" default="[]"/>
+    <!-- Component additional attributes -->
+    <aura:attribute name="sections" type="Map" default="{}"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="topSections" type="List" default="[]"/>
+    <aura:attribute name="bottomSections" type="List" default="[]"/>
+    <!-- Component methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <!-- Global styles -->
+    <aura:if isTrue="{! v.isLoading}">
+        <aura:html tag="style">
+            .slds-form-element_readonly {
+                border: 0;
+            }
+        </aura:html>
+    </aura:if>
+    <!-- Component body -->
+    <lightning:recordEditForm objectApiName="sfims__Investment__c" recordId="{! v.recordId }" onload="{! c.formLoad }">
+        <aura:if isTrue="{! v.isLoading }">
+            <lightning:spinner variant="inverse" alternativeText="{! $Label.sfims.aura_label_3 }"/>
+        </aura:if>
+        <div class="slds-grid slds-gutters_small cols-2">
+            <div class="slds-grid slds-size_1-of-1">
+                <div class="slds-grid slds-col slds-has-flexi-truncate">
+                    <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                        <lightning:outputField fieldName="Name"/>
+                    </div>
+                </div>
+                <div class="slds-grid slds-col slds-has-flexi-truncate">
+                    <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                        <lightning:outputField fieldName="sfims__Open_Ended_Loan__c"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters_small cols-2">
+            <div class="slds-grid slds-size_1-of-1">
+                <div class="slds-grid slds-col slds-has-flexi-truncate">
+                    <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                        <lightning:outputField fieldName="sfims__Disbursement_Method__c"/>
+                    </div>
+                </div>
+                <div class="slds-grid slds-col slds-has-flexi-truncate">
+                    <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                        <lightning:outputField fieldName="sfims__Status__c"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters_small cols-2">
+            <div class="slds-grid slds-size_1-of-1">
+                <div class="slds-grid slds-col slds-has-flexi-truncate">
+                    <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                        <lightning:outputField fieldName="sfims__Disbursement_Date__c"/>
+                    </div>
+                </div>
+                <div class="slds-grid slds-col slds-has-flexi-truncate">
+                    <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                        <lightning:outputField fieldName="sfims__Account__c"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters_small cols-2">
+            <div class="slds-grid slds-size_1-of-1">
+                <div class="slds-grid slds-col slds-has-flexi-truncate">
+                    <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                        <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                            <lightning:outputField fieldName="sfims__First_Repayment_Date__c"/>
+                        </div>
+                    </aura:if>
+                </div>
+                <div class="slds-grid slds-col slds-has-flexi-truncate">
+                    <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                        <lightning:outputField fieldName="sfims__Portfolio_At_Risk__c"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters_small cols-2">
+            <div class="slds-grid slds-size_1-of-1">
+                <div class="slds-grid slds-col slds-has-flexi-truncate">
+                    <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                        <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                            <lightning:outputField fieldName="sfims__Expected_End_Date__c"/>
+                        </div>
+                    </aura:if>
+                </div>
+                <div class="slds-grid slds-col slds-has-flexi-truncate">
+                    <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--top Field Set-->
+        <aura:if isTrue="{! v.topSections.length > 0 }">
+            <aura:iteration var="section" items="{! v.topSections }" indexVar="i">
+                <div class="{! section.isOpen ? 'slds-section slds-is-open' : 'slds-section' }">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <button onclick="{! c.handleTopFieldSetSectionClick }" id="{! i }" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                            <lightning:icon iconName="{! section.isOpen ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                            <span class="slds-truncate" title="{! section.Label }" style="margin-left: 5px;">{! section.Label }</span>
+                        </button>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <aura:iteration var="fields" items="{! section.FieldSet }">
+                            <div class="slds-grid slds-gutters_small cols-2">
+                                <div class="slds-grid slds-size_1-of-1">
+                                    <div class="slds-grid slds-col slds-has-flexi-truncate">
+                                        <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                            <lightning:outputField fieldName="{! fields[0] }"/>
+                                        </div>
+                                    </div>
+                                    <aura:if isTrue="{! fields[1] }">
+                                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                                <lightning:outputField fieldName="{! fields[1] }"/>
+                                            </div>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-grid slds-col slds-has-flexi-truncate">
+                                                
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>    
+                            </div>    
+                        </aura:iteration>   
+                    </div>
+                </div>
+            </aura:iteration>
+        </aura:if>
+        <!-- Amount section -->
+        <div class="{! not(v.sections.Amount) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="Amount" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.Amount) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_73 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_73 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Amount__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Capitalized_Amount__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Capitalized_Fee_Amount__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Disbursement section -->
+        <div class="{! not(v.sections.Disbursement) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="Disbursement" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.Disbursement) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_74 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_74 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Disbursed_Amount__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Planned_Disbursement_Amount__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Available_Disbursement_Amount__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Approval History section -->
+        <div class="{! not(v.sections.ApprovalHistory) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="ApprovalHistory" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.ApprovalHistory) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_75 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_75 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Application__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Loan_Fund__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Approval_Date__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Loan_Product__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Loan Parameters section -->
+        <div class="{! not(v.sections.LoanParameters) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="LoanParameters" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.LoanParameters) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_60 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_60 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! empty(v.simpleRecord.sfims__Variable_Interest_Spread__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Interest_Rate__c"/>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{! not(empty(v.simpleRecord.sfims__Variable_Interest_Spread__c.value)) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Variable_Interest_Spread__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Day_Count_Convention__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Number_of_Instalments__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Non_Working_Days_Rescheduling__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Repayment_Frequency_Unit__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Early_Payment_Method__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Repayment_Frequency__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Late_Repayment_Calculation_Method__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+                                <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                    <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                        <lightning:outputField fieldName="sfims__Grace_Period_Type__c"/>
+                                    </div>
+                                </aura:if>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! and(and(v.simpleRecord.sfims__Late_Repayment_Calculation_Method__c.value != 'No Penalty', v.simpleRecord.sfims__Late_Repayment_Calculation_Method__c.value != 'Fixed Fee'), not(v.simpleRecord.sfims__Open_Ended_Loan__c.value)) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Late_Repayment_Interest_Rate__c"/>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{! and(v.simpleRecord.sfims__Late_Repayment_Calculation_Method__c.value == 'Fixed Fee', not(v.simpleRecord.sfims__Open_Ended_Loan__c.value)) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Late_Repayment_Fixed_Fee__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! and(v.simpleRecord.sfims__Grace_Period_Type__c.value != 'None', not(v.simpleRecord.sfims__Open_Ended_Loan__c.value)) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Number_of_Grace_Periods__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+                                <aura:if isTrue="{! and(v.simpleRecord.sfims__Late_Repayment_Calculation_Method__c.value != 'No Penalty', not(v.simpleRecord.sfims__Open_Ended_Loan__c.value)) }">
+                                    <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                        <lightning:outputField fieldName="sfims__Late_Repayment_Tolerance_Period__c"/>
+                                    </div>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="{! not(v.sections.FeeParameters) ? 'slds-section slds-is-open' : 'slds-section' }">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <button onclick="{! c.handleSectionClick }" id="FeeParameters" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                        <lightning:icon iconName="{! not(v.sections.FeeParameters) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                        <span class="slds-truncate" title="{! $Label.sfims.aura_label_61 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_61 }</span>
+                    </button>
+                </h3>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Monitoring_Fee_Percentage__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Setup_Fee_Charging_Method__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Setup_Fee__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! v.simpleRecord.sfims__Setup_Fee__c.value == 'Flat Amount' }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Flat_Amount__c"/>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{! v.simpleRecord.sfims__Setup_Fee__c.value == '% of Disbursement Amount' }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Percent_of_Disbursement_Amount__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! v.simpleRecord.sfims__Setup_Fee__c.value == '% of Disbursement Amount' }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Setup_Fee_Cap__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Loan Repayment Status section -->
+        <div class="{! not(v.sections.LoanRepaymentStatus) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="LoanRepaymentStatus" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.LoanRepaymentStatus) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_76 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_76 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Repayment_Status__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Last_Instalment_Amount__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Days_Behind_Schedule__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Last_Payment_Date_Due__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <!-- Securities -->
+        <div class="{! not(v.sections.Securities) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="Securities" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.Securities) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_77 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_77 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Total_Collateral__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Total_Guarantee__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Health Check Status section -->
+        <div class="{! not(v.sections.HealthCheckStatus) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="HealthCheckStatus" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.HealthCheckStatus) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_78 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_78 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Health_Check_Fails__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Health_Check_Failures__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Recalculation Status section -->
+        <div class="{! not(v.sections.RecalculationStatus) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="RecalculationStatus" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.RecalculationStatus) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_79 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_79 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Recalculation_Status__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! v.simpleRecord.sfims__Recalculation_Status__c.value == 'Failed' }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Recalculation_Error_Message__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! or(v.simpleRecord.sfims__Recalculation_Status__c.value == 'Failed', v.simpleRecord.sfims__Recalculation_Status__c.value == 'Done') }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Last_Recalculation_Date__c"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Loan Breakdown section -->
+        <div class="{! not(v.sections.LoanBreakdown) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="LoanBreakdown" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.LoanBreakdown) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_80 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_80 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Total_Expected__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Fees_Expected__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Principal_Expected__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Setup_Fee_Expected__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Interest_Expected0__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Setup_Fees_Expected__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Late_Repayment_Fees_Expected0__c"/>
+                                </div>    
+                            </aura:if>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Monitoring_Fees_Expected__c"/>
+                                </div>    
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Repayment Due Analysis section -->
+        <div class="{! not(v.sections.RepaymentDueAnalysis) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="RepaymentDueAnalysis" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.RepaymentDueAnalysis) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_81 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_81 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Total_Due__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Fees_Due__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Principal_Due__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Late_Repayment_Fees_Due__c"/>
+                                </div>    
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Interest_Due__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Interest_Bonus__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Repayment Details section -->
+        <div class="{! not(v.sections.RepaymentDetails) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="RepaymentDetails" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.RepaymentDetails) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_82 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_82 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Total_Paid__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Fees_Paid__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Principal_Paid__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Late_Repayment_Fees_Paid__c"/>
+                                </div>    
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Interest_Paid__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Payments Overdue Details section -->
+        <div class="{! not(v.sections.PaymentsOverdueDetails) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="PaymentsOverdueDetails" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.PaymentsOverdueDetails) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_83 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_83 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Total_Overdue__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Fees_Overdue__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Principal_Overdue__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Late_Repayment_Fees_Overdue__c"/>
+                                </div>    
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Interest_Overdue__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Amounts Written Off section -->
+        <div class="{! not(v.sections.AmountsWrittenOff) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="AmountsWrittenOff" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.AmountsWrittenOff) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_84 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_84 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Total_Amount_Written_Off1__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Fees_Written_Off__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Principal_Written_Off__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Late_Repayment_Fees_Written_Off__c"/>
+                                </div>    
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Interest_Written_Off__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Payments Remaining Details section -->
+        <div class="{! not(v.sections.PaymentsRemainingDetails) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="PaymentsRemainingDetails" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.PaymentsRemainingDetails) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_85 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_85 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Total_Remaining__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Fees_Remaining__c"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Principal_Remaining__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(v.simpleRecord.sfims__Open_Ended_Loan__c.value) }">
+                                <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                    <lightning:outputField fieldName="sfims__Late_Repayment_Fees_Remaining__c"/>
+                                </div>    
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="sfims__Interest_Remaining__c"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--bottom Field Set-->
+        <aura:if isTrue="{! v.bottomSections.length > 0 }">
+            <aura:iteration var="section" items="{! v.bottomSections }" indexVar="i">
+                <div class="{! section.isOpen ? 'slds-section slds-is-open' : 'slds-section' }">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <button onclick="{! c.handleBottomFieldSetSectionClick }" id="{! i }" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                            <lightning:icon iconName="{! section.isOpen ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                            <span class="slds-truncate" title="{! section.Label }" style="margin-left: 5px;">{! section.Label }</span>
+                        </button>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <aura:iteration var="fields" items="{! section.FieldSet }">
+                            <div class="slds-grid slds-gutters_small cols-2">
+                                <div class="slds-grid slds-size_1-of-1">
+                                    <div class="slds-grid slds-col slds-has-flexi-truncate">
+                                        <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                            <lightning:outputField fieldName="{! fields[0] }"/>
+                                        </div>
+                                    </div>
+                                    <aura:if isTrue="{! fields[1] }">
+                                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                                <lightning:outputField fieldName="{! fields[1] }"/>
+                                            </div>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-grid slds-col slds-has-flexi-truncate">
+                                                
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>    
+                            </div>    
+                        </aura:iteration>   
+                    </div>
+                </div>
+            </aura:iteration>
+        </aura:if>
+        <!-- System Information section -->
+        <div class="{! not(v.sections.SystemInformation) ? 'slds-section slds-is-open' : 'slds-section' }">
+            <h3 class="slds-section__title slds-theme_shade">
+                <button onclick="{! c.handleSectionClick }" id="SystemInformation" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                    <lightning:icon iconName="{! not(v.sections.SystemInformation) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.sfims.aura_label_46 }"/>
+                    <span class="slds-truncate" title="{! $Label.sfims.aura_label_86 }" style="margin-left: 5px;">{! $Label.sfims.aura_label_86 }</span>
+                </button>
+            </h3>
+            <div aria-hidden="false" class="slds-section__content">
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="OwnerId"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="LastModifiedById"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters_small cols-2">
+                    <div class="slds-grid slds-size_1-of-1">
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_readonly slds-form-element_separator">
+                                <lightning:outputField fieldName="CreatedById"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-col slds-has-flexi-truncate">
+                            <div class="slds-form-element slds-grow slds-hint-parent slds-form-element_separator">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning:recordEditForm>
+</aura:component>

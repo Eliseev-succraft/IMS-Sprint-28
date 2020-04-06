@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Guarantor__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>For securities of type &#39;Guarantee&#39;, this is a link to the actual guarantor.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>For securities of type &#39;Guarantee&#39;, this is a link to the actual guarantor.</inlineHelpText>
+    <label>Guarantor</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Securities (Guarantor)</relationshipLabel>
+    <relationshipName>Securities</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>
