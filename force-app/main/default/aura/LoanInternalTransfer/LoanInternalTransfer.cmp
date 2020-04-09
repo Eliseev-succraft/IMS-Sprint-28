@@ -1,0 +1,324 @@
+<aura:component description="LoanInternalTransfer" controller="LoanInternalTransferController">
+    <!-- Global attributes -->
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <!-- Libraries -->
+    <c:lwcUtilityMessage aura:id="message" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilityModal aura:id="modal" isDebugLog="{# v.isDebugLog }" onupdatemodals="{! c.handleEventUpdateModals }"/>
+    <c:lwcUtilitySystem aura:id="system" isDebugLog="{# v.isDebugLog }"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="isReloadCustomMessage" type="Boolean" default="true"/>
+    <aura:attribute name="customValidityMessage" type="String" default="{! $Label.c.aura_label_64 }"/>
+    <aura:attribute name="modals" type="Map" default="{newTransaction: false}"/>
+    <aura:attribute name="sections" type="Map" default="{FromLoanInformation: true, ToLoanInformation: true}"/>
+    <aura:attribute name="amount" type="Double" default=""/>
+    <aura:attribute name="transactionDate" type="Date" default=""/>
+    <aura:attribute name="from" type="String" default=""/>
+    <aura:attribute name="to" type="String" default=""/>
+    <aura:attribute name="fromData" type="Map" default="{LoanName: '', AccountName: '', LoanStatus: '', LoanProduct: '', DisbursementDate: '', DisbursedAmount: '', LoanBalance: ''}"/>
+    <aura:attribute name="toData" type="Map" default="{LoanName: '', AccountName: '', LoanStatus: '', LoanProduct: '', DisbursementDate: '', DisbursedAmount: '', LoanBalance: ''}"/>
+    <!-- Component methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.from }" action="{! c.handleChangeFrom }"/>
+    <aura:handler name="change" value="{! v.to }" action="{! c.handleChangeTo }"/>
+    <aura:handler name="change" value="{! v.customValidityMessage }" action="{! c.handleChangeCustomValidityMessage }"/>
+    <!-- Body -->
+
+    <aura:if isTrue="{! v.isReloadCustomMessage }">
+        <aura:html tag="style">
+            .custom-required.error:after, .custom-required-label-date.error:after, .custom-required-field.error:after {
+            content: "{! v.customValidityMessage }";
+            font-size: .75rem;
+            margin-top: .125rem;
+            display: block;
+            color: rgb(194, 57, 52) !important;
+            }
+        </aura:html>
+    </aura:if>
+
+    <aura:html tag="style">
+        .toastMessage.forceActionsText {
+            white-space : pre-line !important;
+        }
+        .slds-modal__container{
+            transform: none !important;
+        }
+        .custom-modal .slds-modal__container {
+            max-width: none;
+            width: 50%;
+        }
+        .cuf-content {
+            padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }
+        .slds-modal__content{
+            height: unset !important;
+            max-height: unset !important;
+            overflow: visible !important;
+        }
+    </aura:html>
+
+    <div class="modal-header slds-modal__header">
+        <h4 class="title slds-text-heading--medium">Internal Transfer</h4>
+    </div>
+    <div class="slds-modal__content slds-grid" style="min-height: 150px; padding: 1rem; position: relative;">
+        <aura:if isTrue="{! v.modals.newTransaction }">
+            <aura:html tag="style">
+                .slds-backdrop {
+                    display: none !important;
+                }
+                .custom-modal .slds-backdrop {
+                    display: block !important;
+                }
+                .newTransaction .slds-modal__container{
+                    width: 30%;
+                }
+            </aura:html>
+            <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open newTransaction">
+                <div class="slds-modal__container">
+                    <div style="position: relative;">
+                        <c:lwcUtilitySpinner aura:id="spinner" delay="30000" isDebugLog="{# v.isDebugLog }"/>
+                        <header class="slds-modal__header">
+                            <lightning:buttonIcon iconName="utility:close" size="large" onclick="{! c.handleCancelNewTransaction }" alternativeText="{! $Label.c.aura_label_6 }" variant="bare-inverse" class="slds-modal__close"/>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Internal Transfer</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_2-of-4">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label custom-required-label">
+                                            Transaction Date
+                                        </div>
+                                        <lightning:input type="date" aura:id="transactionDate"
+                                                         class="custom-required-field"
+                                                         value="{! v.transactionDate }"
+                                                         variant="label-hidden"
+                                                         label="Transaction Date"
+                                                         autocomplete="off"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_2-of-4">
+                                    <div class="slds-form-element slds-form-element_stacked">
+                                        <div class="slds-form-element__label custom-required-label">
+                                            Amount
+                                        </div>
+                                        <lightning:input type="number" aura:id="amount"
+                                                         class="custom-required-field"
+                                                         formatter="currency"
+                                                         variant="label-hidden"
+                                                         label="Amount"
+                                                         value="{! v.amount }"
+                                                         autocomplete="off"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_neutral" onclick="{! c.handleCancelNewTransaction }">Cancel</button>
+                            <button class="slds-button slds-button_brand" onclick="{! c.handleSaveNewTransaction }">Save</button>
+                        </footer>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+        <div class="slds-col slds-size_1-of-2" aura:id="parent" style="padding-right: .75rem; padding-left: .75rem; line-height: 1.5; margin-bottom: .25rem;">
+            <c:CustomLookup aura:id="from"
+                    iconName="custom:custom41"
+                    placeholder="Search Loan..."
+                    helpText="You can only transfer from loans that have a remaining disbursement amount."
+                    label="From"
+                    objectName="sfims__Investment__c"
+                    fieldName="Name"
+                    required="true"
+                    fields="Name, Account__r.Name, Status__c, Loan_Product__r.Name, Disbursement_Date__c, Disbursed_Amount__c, sfims__Available_Disbursement_Amount__c"
+                    where="sfims__Available_Disbursement_Amount__c > 0 AND RecordType.Name = 'Loan'"
+                    selectedRecord="{! v.from }"
+            />
+            <div class="{! not(v.sections.FromLoanInformation) ? 'slds-section slds-is-open' : 'slds-section' }" style="margin-top: 15px;">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <button onclick="{! c.handleSectionClick }" id="FromLoanInformation" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                        <lightning:icon iconName="{! not(v.sections.FromLoanInformation) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.c.aura_label_46 }"/>
+                        <span class="slds-truncate" title="From Loan Information" style="margin-left: 5px;">From Loan Information</span>
+                    </button>
+                </h3>
+                <div aria-hidden="false" class="slds-section__content" style="padding-top: 0 !important;">
+                    <div class="slds-split-view_container slds-is-open">
+                        <article aria-hidden="false" id="split-view-id" class="slds-split-view slds-grid slds-grid_vertical slds-grow">
+                            <div class="slds-grid slds-grid_vertical">
+                                <div class="slds-split-view__list-header slds-grid slds-hide">
+                                    <span>Lead Score</span>
+                                </div>
+                                <ul aria-multiselectable="true" class="slds-scrollable_y" role="listbox" aria-label="Select an item to open it in a new workspace tab.">
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="0">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Loan Name</span>
+                                                <span class="slds-truncate slds-col_bump-left">{! v.fromData.LoanName }</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Account Name</span>
+                                                <span class="slds-truncate slds-col_bump-left">{! v.fromData.AccountName }</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Loan Status</span>
+                                                <span class="slds-truncate slds-col_bump-left">{! v.fromData.LoanStatus }</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Loan Product</span>
+                                                <span class="slds-truncate slds-col_bump-left">{! v.fromData.LoanProduct }</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Disbursement Date</span>
+                                                <span class="slds-truncate slds-col_bump-left">{! v.fromData.DisbursementDate }</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Disbursed Amount</span>
+                                                <span class="slds-truncate slds-col_bump-left">
+                                                    <lightning:formattedNumber value="{! v.fromData.DisbursedAmount }" style="currency"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Loan Balance</span>
+                                                <span class="slds-truncate slds-col_bump-left">
+                                                    <lightning:formattedNumber value="{! v.fromData.LoanBalance }" style="currency"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+            <c:CustomLookup aura:id="to"
+                    iconName="custom:custom41"
+                    placeholder="Search Loan..."
+                    helpText="You can only transfer to Active loans."
+                    label="To"
+                    objectName="sfims__Investment__c"
+                    fieldName="Name"
+                    required="true"
+                    fields="Name, Account__r.Name, Status__c, Loan_Product__r.Name, Disbursement_Date__c, Disbursed_Amount__c, sfims__Principal_Remaining__c"
+                    where="sfims__Status__c='Active' AND sfims__Principal_Remaining__c > 0 AND RecordType.Name = 'Loan'"
+                    selectedRecord="{! v.to }"
+            />
+            <div class="{! not(v.sections.ToLoanInformation) ? 'slds-section slds-is-open' : 'slds-section' }" style="margin-top: 15px;">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <button onclick="{! c.handleSectionClick }" id="ToLoanInformation" aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action">
+                        <lightning:icon iconName="{! not(v.sections.ToLoanInformation) ? 'utility:chevrondown' : 'utility:chevronright' }" size="x-small" alternativeText="{! $Label.c.aura_label_46 }"/>
+                        <span class="slds-truncate" title="From Loan Information" style="margin-left: 5px;">To Loan Information</span>
+                    </button>
+                </h3>
+                <div aria-hidden="false" class="slds-section__content" style="padding-top: 0 !important;">
+                    <div class="slds-split-view_container slds-is-open">
+                        <article aria-hidden="false" id="split-view-id" class="slds-split-view slds-grid slds-grid_vertical slds-grow">
+                            <div class="slds-grid slds-grid_vertical">
+                                <div class="slds-split-view__list-header slds-grid slds-hide">
+                                    <span>Lead Score</span>
+                                </div>
+                                <ul aria-multiselectable="true" class="slds-scrollable_y" role="listbox" aria-label="Select an item to open it in a new workspace tab.">
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="0">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Loan Name</span>
+                                                <span class="slds-truncate slds-col_bump-left">{! v.toData.LoanName }</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Account Name</span>
+                                                <span class="slds-truncate slds-col_bump-left">{! v.toData.AccountName }</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Loan Status</span>
+                                                <span class="slds-truncate slds-col_bump-left">{! v.toData.LoanStatus }</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Loan Product</span>
+                                                <span class="slds-truncate slds-col_bump-left">{! v.toData.LoanProduct }</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Disbursement Date</span>
+                                                <span class="slds-truncate slds-col_bump-left">{! v.toData.DisbursementDate }</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Disbursed Amount</span>
+                                                <span class="slds-truncate slds-col_bump-left">
+                                                    <lightning:formattedNumber value="{! v.toData.DisbursedAmount }" style="currency"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="slds-split-view__list-item" role="presentation">
+                                        <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
+                                            <div class="slds-grid slds-wrap">
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Loan Balance</span>
+                                                <span class="slds-truncate slds-col_bump-left">
+                                                    <lightning:formattedNumber value="{! v.toData.LoanBalance }" style="currency"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+        <lightning:button label="{! $Label.c.aura_label_12 }" onclick="{! c.handleCancel }"/>
+        <lightning:button label="Next" onclick="{! c.handleNext }" variant="brand"/>
+    </div>
+</aura:component>

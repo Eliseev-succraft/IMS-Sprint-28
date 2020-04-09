@@ -1,0 +1,62 @@
+.THIS .slds-listbox__item {
+    line-height: 30px;
+}
+
+.THIS .hide {
+    display: none !important;
+}
+
+.THIS .slds-pill__action {
+    border: 0 !important;
+}
+
+.THIS .verticalAlign {
+    cursor: pointer;
+    margin: 6px 0 0 6px !important;
+}
+
+.THIS .fullWidth {
+    width: 100% !important;
+}
+
+.THIS .recordListBox {
+    /* margin-top: 0 !important;
+    overflow-y: scroll; */
+}
+
+.THIS .inputBox input {
+    padding-left: 30px;
+}
+
+.THIS .inputIcon {
+    z-index: 99;
+}
+
+/* For Scrolling */
+.THIS ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+.THIS ::-webkit-scrollbar-track {
+    display: none !important;
+}
+
+.THIS ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.THIS .custom-required:before, .THIS .custom-required-label:before, .THIS .custom-required-label-date .slds-form-element__label:before {
+    content: "*";
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52) !important;
+    float: left;
+}
+
+.THIS .custom-required-field__error {
+    border-color: rgb(194, 57, 52) !important;
+    border: solid 2px;
+}

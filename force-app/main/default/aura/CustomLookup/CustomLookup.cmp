@@ -1,0 +1,123 @@
+<aura:component controller="CustomLookupController" description="CustomLookup">
+    <!-- Global attributes -->
+    <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <!-- Libraries -->
+    <c:lwcUtilityMessage aura:id="message" isDebugLog="{# v.isDebugLog }"/>
+    <c:lwcUtilitySystem aura:id="system" isDebugLog="{# v.isDebugLog }"/>
+    <!-- Additional attributes -->
+    <aura:attribute name="label" type="string" default="" description="Label will be displayed above input Box"/>
+    <aura:attribute name="required" type="Boolean" default="false" description=""/>
+    <aura:attribute name="isValid" type="Boolean" default="true" description=""/>
+    <aura:attribute name="customValidityMessage" type="String" default="Complete this field"/>
+    <aura:attribute name="helpText" type="String" default="" description=""/>
+    <aura:attribute name="iconName" type="String" default="standard:drafts" description="complete icon name eg. standard:account"/>
+    <aura:attribute name="allowShowRecordsByClick" type="Boolean" default="true"/>
+    <aura:attribute name="message" type="String" default=""/>
+    <aura:attribute name="objectName" type="String" default="" required="true"/>
+    <aura:attribute name="fieldName" type="String" default="" required="true"/>
+    <aura:attribute name="searchString" type="String" default="" description="String to search"/>
+    <aura:attribute name="placeholder" type="String" default="Search..." description="placeholder for input Box"/>
+    <aura:attribute name="recordsList" type="List" description="List of Records having data" access="private"/>
+    <aura:attribute name="selectedRecord" type="Object" default="" description="selected Record Details"/>
+    <aura:attribute name="value" type="String" default="" description="To pre-populate a value"/>
+    <aura:attribute name="maxRecordCount" type="String" default="10" description=""/>
+    <aura:attribute name="maxDisplayRecordCount" type="String" default="5" description="Records visible at once"/>
+    <aura:attribute name="fields" type="String" default="Name" description=""/>
+    <aura:attribute name="where" type="String" default="" description=""/>
+    <!-- Component methods -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:method name="validation" action="{! c.validation }"/>
+    <!-- Component Markup -->
+    <div class="slds-form-element">
+        <aura:if isTrue="{! v.label.length > 0 }">
+            <label class="{! v.required ? 'slds-form-element__label custom-required-label' : 'slds-form-element__label' }" for="combobox-id-1">{! v.label }</label>
+        </aura:if>
+        <aura:if isTrue="{! v.helpText.length > 0 }">
+            <lightning:helptext content="{! v.helpText }"/>
+        </aura:if>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div aura:id="resultsDiv" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <div aura:id="lookup-pill" class="{! 'custom-lookup, slds-pill-container ' + if(v.selectedRecord == '','slds-hide','') }">
+                            <!-- Selected Value Pill -->
+                            <lightning:pill class="fullWidth" label="{! v.selectedRecord.label }" name="{! v.selectedRecord.value }" onremove="{! c.handleRemoveItem }">
+                                <aura:set attribute="media">
+                                    <lightning:icon iconName="{! v.iconName }" size="x-small" alternativeText="icon"/>
+                                </aura:set>
+                            </lightning:pill>
+                        </div>
+                        <div aura:id="lookupField" class="{! if(v.selectedRecord == '','slds-show','slds-hide') }">
+                            <!-- Icon, Search Bar, Search Icon -->
+                            <input aura:id="inputLookup"
+                                   type="text"
+                                   onkeyup="{! c.handleSearchRecords }"
+                                   onclick="{! c.handleShowRecordsByClick }"
+                                   value="{! v.searchString }"
+                                   onblur="{! c.handleBlurEvent }"
+                                   class="slds-input slds-combobox__input slds-combobox__input-value custom-required-field error"
+                                   autoComplete="off"
+                                   role="textbox"
+                                   placeholder="{! v.placeholder }"/>
+                            <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+					            <lightning:icon iconName="utility:search" size="x-small" alternativeText="search"/>
+					        </span>
+                            <c:lwcUtilitySpinner aura:id="spinner" alternativeText="{! $Label.c.aura_label_3  + '...'}" size="small" variant="brand" delay="30000" isDebugLog="{# v.isDebugLog }" onloaded="{! c.afterLoadingLibraries }"/>
+                        </div>
+                    </div>
+                    <aura:if isTrue="{! and(v.required, not(v.isValid)) }">
+                        <ul class="has-error uiInputDefaultError uiInput uiInputText uiInput--default uiInput--input">
+                            <li class="form-element__help" data-aura-rendered-by="5460:0">{! v.customValidityMessage }</li>
+                        </ul>
+                    </aura:if>
+                    <!-- Dropdown List -->
+                    <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-7 slds-dropdown_fluid" role="listbox" style="{! 'max-height:' + (8 + (v.maxDisplayRecordCount * 40)) + 'px' }">
+                        <ul class="slds-listbox slds-listbox_vertical recordListBox" role="presentation">
+                            <aura:if isTrue="{! v.searchString }">
+                                <li role="presentation" class="slds-listbox__item">
+                                    <div aria-selected="true" id="option0" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus" role="option">
+                                         <span class="slds-media__figure slds-listbox__option-icon">
+                                             <span class="slds-icon_container slds-icon-utility-search" title="Search for term: ">
+                                                 <lightning:icon iconName="utility:search" size="x-small" alternativeText="search"/>
+                                             </span>
+                                         </span>
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">{! v.searchString }</span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </aura:if>
+                            <aura:if isTrue="{! v.message == '' }">
+                                <!-- To display Drop down List -->
+                                <aura:iteration items="{! v.recordsList }" var="rec">
+                                    <li onmousedown="{! c.handleSelectItem }" id="{! rec.value }" role="presentation" class="slds-listbox__item">
+                                        <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                            <span class="slds-media__figure" style="margin-top: 0;">
+                                                <span class="slds-icon_container">
+                                                       <lightning:icon size="small" iconName="{! v.iconName }" alternativeText="icon"/>
+                                                </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                      <span>{! rec.label }</span>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </aura:iteration>
+                                <!-- To display Error Message -->
+                                <aura:set attribute="else">
+                                    <li class="slds-listbox__item">
+                                        <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta">
+                                            <span class="slds-media__body">{! v.message }</span>
+                                        </div>
+                                    </li>
+                                </aura:set>
+                            </aura:if>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

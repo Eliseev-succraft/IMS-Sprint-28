@@ -59,6 +59,12 @@
                 label: 'Schedule Balloon Repayment',
                 actionAPI: 'ScheduleBalloonRepayment',
                 display: true
+            }, {
+                access: true,
+                messageNoAccess: 'You have insufficient privileges for this action.',
+                label: 'Internal Transfer',
+                actionAPI: 'InternalTransfer',
+                display: true
             }];
         helper.end();
     },
@@ -336,6 +342,24 @@
                     break;
                 case 'ScheduleBalloonRepayment':
                     $A.createComponent('c:ScheduleBalloonRepaymentButton', {
+                            recordId: cmp.get('v.recordId')
+                        },
+                        function (content, status) {
+                            if (status === 'SUCCESS') {
+                                modalBody = content;
+                                cmp.find('overlayLib').showCustomModal({
+                                    body: modalBody,
+                                    cssClass: 'custom-modal',
+                                    showCloseButton: true,
+                                    closeCallback: function () {
+                                    }
+                                });
+                                cmp.find('mainActionSpinner').hideSpinner(spinner);
+                            }
+                        });
+                    break;
+                    case 'InternalTransfer':
+                    $A.createComponent('c:LoanInternalTransfer', {
                             recordId: cmp.get('v.recordId')
                         },
                         function (content, status) {

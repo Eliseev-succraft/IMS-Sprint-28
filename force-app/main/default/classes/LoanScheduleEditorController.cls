@@ -10,7 +10,8 @@ public without sharing class LoanScheduleEditorController {
                 'EditSchedule' => FeatureManagement.checkPermission('Edit_Repayment_Schedule'),
                 'Reschedule' => FeatureManagement.checkPermission('Reschedule_Loans'),
                 'EarlyRepayment' => FeatureManagement.checkPermission('Pay_Off_Loans'),
-                'WriteOff' => FeatureManagement.checkPermission('Write_Off_Loans')
+                'WriteOff' => FeatureManagement.checkPermission('Write_Off_Loans'),
+                'InternalTransfer' => FeatureManagement.checkPermission('Enter_Internal_Transfers')
             },
             'visible' => new Map<String, Boolean>{
                 'EditSchedule' => (getSchedules(loanId, isDebugLog).size() > 0)

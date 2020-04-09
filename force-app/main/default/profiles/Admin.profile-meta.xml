@@ -46,6 +46,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CustomLookupController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CustomLookupControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DMLManager</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -75,6 +83,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LoanHealthCheckController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LoanInternalTransferController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -223,6 +235,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TestCreateRemainingScheduleBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TestCustomLookupController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -465,6 +481,10 @@
     <customPermissions>
         <enabled>true</enabled>
         <name>Edit_Repayment_Schedule</name>
+    </customPermissions>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Enter_Internal_Transfers</name>
     </customPermissions>
     <customPermissions>
         <enabled>true</enabled>

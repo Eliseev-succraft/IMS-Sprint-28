@@ -3,6 +3,7 @@ import {LightningElement, api, track} from 'lwc';
 export default class lwcUtilitySpinner extends LightningElement {
     @api alternativeText = 'Loading';
     @api size = 'medium';
+    @api variant = 'brand';
     @api delay = 60000;
     @api isDebugLog = false;
     runs = [];
@@ -27,6 +28,7 @@ export default class lwcUtilitySpinner extends LightningElement {
             that.queue.push(timeStamp);
             that.isLoading = true;
             if (that.runs.length === 0) {
+                that.dispatchEvent(new CustomEvent('started'));
                 that.runs.push(timeStamp);
                 setTimeout(() => {
                     that.log('getCallback hideSpinner');
@@ -34,6 +36,7 @@ export default class lwcUtilitySpinner extends LightningElement {
                         that.queue = [];
                         that.runs = [];
                         that.isLoading = false;
+                        that.dispatchEvent(new CustomEvent('stopped'));
                     }
                 }, delay);
             }
@@ -52,6 +55,7 @@ export default class lwcUtilitySpinner extends LightningElement {
                 that.runs = [];
                 that.queue = [];
                 that.isLoading = false;
+                that.dispatchEvent(new CustomEvent('stopped'));
             } else {
                 that.queue.splice(index, 1);
             }
