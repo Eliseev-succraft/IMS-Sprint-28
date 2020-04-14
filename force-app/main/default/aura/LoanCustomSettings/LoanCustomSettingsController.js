@@ -47,7 +47,8 @@
             'sfims__Repayment_Allocation_Order__c',
             'sfims__CBO_Repayment_Allocation_Order__c',
             'sfims__Monitoring_Fee_Percentage__c',
-            'sfims__CBO_Monitoring_Fee_Percentage__c'
+            'sfims__CBO_Monitoring_Fee_Percentage__c',
+            'sfims__Late_Repayment_Fees_Charging__c'
         ];
         helper['validation'] = [
             'sfims__Day_Count_Convention__c',

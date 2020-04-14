@@ -38,6 +38,14 @@
             err.push('To');
         }
         if (err.length === 0) {
+            // cmp.find('spinner').showSpinner('loadingRecordData');
+            cmp.set('v.simpleRecord', null);
+            cmp.set('v.totalPrincipalWrittenOff', 0);
+            cmp.set('v.totalInterestWrittenOff', 0);
+            cmp.set('v.totalFeesWrittenOff', 0);
+            cmp.set('v.totalPenaltiesWrittenOff', 0);
+            cmp.set('v.totalEarlyRepaymentAmount', 0);
+
             let today = $A.localizationService.formatDate(new Date(), "YYYY-MM-DD");
             cmp.set('v.transactionDate', today);
             let from = cmp.get('v.from');
@@ -70,10 +78,36 @@
         helper.end();
     },
 
-    handleSaveNewTransaction: function (cmp, event, helper) {
-        helper.begin('handleSaveNewTransaction');
+    handleExecuteInternalTransfer: function (cmp, event, helper) {
+        helper.begin('handleExecuteInternalTransfer');
+        if (cmp.get('v.isValidInvestmentWrittenOffUtilComponent')) {
+            let dataMap = {};
+            dataMap['recordId'] = cmp.get('v.recordId');
+            dataMap['totalPrincipalWrittenOff'] = Number(cmp.get('v.totalPrincipalWrittenOff'));
+            dataMap['totalInterestWrittenOff'] = Number(cmp.get('v.totalInterestWrittenOff'));
+            dataMap['totalFeesWrittenOff'] = Number(cmp.get('v.totalFeesWrittenOff'));
+            dataMap['totalPenaltiesWrittenOff'] = Number(cmp.get('v.totalPenaltiesWrittenOff'));
+            dataMap['totalEarlyRepaymentAmount'] = Number(cmp.get('v.totalEarlyRepaymentAmount'));
+            dataMap['internalTransferAmount'] = cmp.get('v.amount');
+            dataMap['transactionDate'] = cmp.get('v.transactionDate');
+            helper.log(dataMap);
+            helper.createTransferTransactions(cmp, dataMap);
+        }
+        /*
         cmp.set('v.customValidityMessage', $A.get('$Label.c.aura_label_64'));
         helper['errFields'] = [];
+        let isValid = true;
+        if ($A.util.isEmpty(cmp.get('v.transactionDate'))) {
+            isValid = false;
+            helper['errFields'].push('Transaction Date');
+        }
+        if ($A.util.isEmpty(cmp.get('v.amount'))) {
+            isValid = false;
+            helper['errFields'].push('Amount');
+        }
+        */
+
+        /*
         let validationFields = [
             {name: 'transactionDate'},
             {name: 'amount'}
@@ -113,7 +147,7 @@
             $A.util.removeClass(amount, 'error');
             $A.util.removeClass(amount, 'slds-has-error');
         }
-        helper.createTransferTransactions(cmp);
+        helper.createTransferTransactions(cmp);*/
         helper.end();
     },
 
@@ -123,6 +157,29 @@
         helper.end();
     },
 
+    handleRecordUpdated: function (cmp, event, helper) {
+        helper.begin('handleRecordUpdated');
+        let params = event.getParams();
+        helper.log('change type', params['changeType']);
+        if (params['changeType'] === 'LOADED') {
+            let simpleRecord = cmp.get('v.simpleRecord');
+            helper.log('simpleRecord', simpleRecord);
+            if (simpleRecord.sfims__Status__c !== 'Active') {
+                cmp.find('message').showErrorMessage('Only Loans with status \'Active\' can be Internal Transfer.');
+                cmp.find('modal').closeModal('newTransaction');
+                helper.end();
+                return;
+            }
+        }
+        else if (params['changeType'] === 'CHANGED') {
+            // helper.reloadRecordData(cmp);
+        }
+        else if (params['changeType'] === 'ERROR') {
+            cmp.find('message').showErrorMessage('RecordData has not been loaded.');
+        }
+        // cmp.find('spinner').hideSpinner('loadingRecordData');
+        helper.end();
+    },
 
     handleCancel: function (cmp, event, helper) {
         helper.begin('handleCancel');

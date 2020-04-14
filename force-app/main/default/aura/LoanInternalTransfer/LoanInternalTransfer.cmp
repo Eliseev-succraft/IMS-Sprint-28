@@ -6,6 +6,17 @@
     <c:lwcUtilityMessage aura:id="message" isDebugLog="{# v.isDebugLog }"/>
     <c:lwcUtilityModal aura:id="modal" isDebugLog="{# v.isDebugLog }" onupdatemodals="{! c.handleEventUpdateModals }"/>
     <c:lwcUtilitySystem aura:id="system" isDebugLog="{# v.isDebugLog }"/>
+    <!-- Force attributes -->
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+
+    <aura:attribute name="isValidInvestmentWrittenOffUtilComponent" type="Boolean" default="false"/>
+    <aura:attribute name="totalPrincipalWrittenOff" type="Double" default="0"/>
+    <aura:attribute name="totalInterestWrittenOff" type="Double"/>
+    <aura:attribute name="totalFeesWrittenOff" type="Double"/>
+    <aura:attribute name="totalPenaltiesWrittenOff" type="Double"/>
+    <aura:attribute name="totalEarlyRepaymentAmount" type="Double"/>
     <!-- Additional attributes -->
     <aura:attribute name="isReloadCustomMessage" type="Boolean" default="true"/>
     <aura:attribute name="customValidityMessage" type="String" default="{! $Label.c.aura_label_64 }"/>
@@ -77,15 +88,37 @@
                 }
             </aura:html>
             <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open newTransaction">
-                <div class="slds-modal__container">
+                <div class="slds-modal__container" style="max-width: 25rem !important;">
                     <div style="position: relative;">
                         <c:lwcUtilitySpinner aura:id="spinner" delay="30000" isDebugLog="{# v.isDebugLog }"/>
                         <header class="slds-modal__header">
                             <lightning:buttonIcon iconName="utility:close" size="large" onclick="{! c.handleCancelNewTransaction }" alternativeText="{! $Label.c.aura_label_6 }" variant="bare-inverse" class="slds-modal__close"/>
                             <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Internal Transfer</h2>
                         </header>
-                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                            <div class="slds-grid">
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="padding-top: 0;">
+                            <div class="">
+                                <force:recordData aura:id="recordData"
+                                                  fields="sfims__Status__c, sfims__Total_Remaining__c,  sfims__Principal_Remaining__c, sfims__Interest_Overdue__c, sfims__Interest_Remaining__c, sfims__Fees_Remaining__c, sfims__Late_Repayment_Fees_Remaining__c"
+                                                  recordId="{! v.to.fields.Id }"
+                                                  targetError="{! v.recordError }"
+                                                  targetFields="{! v.simpleRecord }"
+                                                  recordUpdated="{! c.handleRecordUpdated }"/>
+                                <aura:if isTrue="{! v.simpleRecord }">
+                                    <c:InvestmentWrittenOffUtilComponent
+                                            recordId="{! v.to.fields.Id }"
+                                            simpleRecord="{! v.simpleRecord }"
+                                            earlyRepayment="true"
+                                            isInternalTransfer="true"
+                                            isValid="{! v.isValidInvestmentWrittenOffUtilComponent }"
+                                            totalEarlyRepaymentAmount="{! v.totalEarlyRepaymentAmount }"
+                                            totalPrincipalWrittenOff="{! v.totalPrincipalWrittenOff }"
+                                            totalInterestWrittenOff="{! v.totalInterestWrittenOff }"
+                                            totalFeesWrittenOff="{! v.totalFeesWrittenOff }"
+                                            totalPenaltiesWrittenOff="{! v.totalPenaltiesWrittenOff }"
+                                            internalTransferAmount="{! v.amount }"
+                                            transactionDate="{! v.transactionDate }"/>
+                                </aura:if>
+                                <!--
                                 <div class="slds-col slds-size_2-of-4">
                                     <div class="slds-form-element slds-form-element_stacked">
                                         <div class="slds-form-element__label custom-required-label">
@@ -115,11 +148,12 @@
                                         />
                                     </div>
                                 </div>
+                                -->
                             </div>
                         </div>
                         <footer class="slds-modal__footer">
                             <button class="slds-button slds-button_neutral" onclick="{! c.handleCancelNewTransaction }">Cancel</button>
-                            <button class="slds-button slds-button_brand" onclick="{! c.handleSaveNewTransaction }">Save</button>
+                            <button class="slds-button slds-button_brand" onclick="{! c.handleExecuteInternalTransfer }">Save</button>
                         </footer>
                     </div>
                 </div>
@@ -131,7 +165,7 @@
                     iconName="custom:custom41"
                     placeholder="Search Loan..."
                     helpText="You can only transfer from loans that have a remaining disbursement amount."
-                    label="From"
+                    label="Loan to be disbursed from"
                     objectName="sfims__Investment__c"
                     fieldName="Name"
                     required="true"
@@ -207,7 +241,7 @@
                                     <li class="slds-split-view__list-item" role="presentation">
                                         <div aria-selected="false" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" tabindex="-1">
                                             <div class="slds-grid slds-wrap">
-                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Loan Balance</span>
+                                                <span class="slds-truncate slds-text-body_regular slds-text-color_default">Available Disbursement Amount</span>
                                                 <span class="slds-truncate slds-col_bump-left">
                                                     <lightning:formattedNumber value="{! v.fromData.LoanBalance }" style="currency"/>
                                                 </span>
@@ -226,7 +260,7 @@
                     iconName="custom:custom41"
                     placeholder="Search Loan..."
                     helpText="You can only transfer to Active loans."
-                    label="To"
+                    label="Loan to be repaid"
                     objectName="sfims__Investment__c"
                     fieldName="Name"
                     required="true"

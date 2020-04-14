@@ -1,8 +1,8 @@
 ({
-    createTransferTransactions: function (cmp) {
+    createTransferTransactions: function (cmp, dataMap) {
         this.begin('createTransferTransactions');
         let that = this;
-        if ($A.util.isEmpty(cmp.get('v.amount')) || $A.util.isEmpty(cmp.get('v.transactionDate')) || $A.util.isEmpty(that['fromLoanId']) || $A.util.isEmpty(that['toLoanId'])) {
+        if ($A.util.isEmpty(dataMap) || $A.util.isEmpty(cmp.get('v.amount')) || $A.util.isEmpty(cmp.get('v.transactionDate')) || $A.util.isEmpty(that['fromLoanId']) || $A.util.isEmpty(that['toLoanId'])) {
             cmp.find('message').showErrorMessage('Required parameters were not received.');
             that.end();
             return;
@@ -13,7 +13,8 @@
             amount: cmp.get('v.amount'),
             transactionDate: cmp.get('v.transactionDate'),
             fromLoanId: that['fromLoanId'],
-            toLoanId: that['toLoanId']
+            toLoanId: that['toLoanId'],
+            dataMap: dataMap
         });
         action.setCallback(this, function (response) {
             let state = response.getState();

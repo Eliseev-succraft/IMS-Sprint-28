@@ -3,6 +3,7 @@
         helper['isDebugLog'] = cmp.get('v.isDebugLog');
         helper['debugLogStyle'] = 'background: green; color: white;';
         helper['callBackObject'] = 'sfims__Loan_Product__c';
+        helper['setFirstDefaultValues'] = false;
         helper.begin('doInit');
         helper.log('initialization');
         helper.end();
@@ -49,35 +50,41 @@
     },
 
     formLoad: function (cmp, event, helper) {
-        helper.begin('formLoad');
-        let payload = event.getParams();
-        helper.setDefaultValuesFromCustomSettings(cmp);
-        helper.log('product', payload);
-        helper['recordUi'] = payload;
-        if (payload) {
-            if (payload.hasOwnProperty('recordUi')) {
-                if (payload['recordUi'].hasOwnProperty('record')) {
-                    if (payload['recordUi']['record'].hasOwnProperty('fields')) {
-                        let simpleRecord = JSON.parse(JSON.stringify(payload['recordUi']['record']['fields']));
-                        helper.log('simpleRecord', simpleRecord);
-                        if (simpleRecord.hasOwnProperty('Name') && cmp.get('v.recordId')) {
-                            cmp.set('v.loanProductName', simpleRecord['Name']['value']);
+        if (!helper['setFirstDefaultValues']) {
+            helper.begin('formLoad');
+            let payload = event.getParams();
+            helper.setDefaultValuesFromCustomSettings(cmp);
+            helper.log('product', payload);
+            helper['recordUi'] = payload;
+            if (payload) {
+                if (payload.hasOwnProperty('recordUi')) {
+                    if (payload['recordUi'].hasOwnProperty('record')) {
+                        if (payload['recordUi']['record'].hasOwnProperty('fields')) {
+                            let simpleRecord = JSON.parse(JSON.stringify(payload['recordUi']['record']['fields']));
+                            helper.log('simpleRecord', simpleRecord);
+                            if (simpleRecord.hasOwnProperty('Name') && cmp.get('v.recordId')) {
+                                cmp.set('v.loanProductName', simpleRecord['Name']['value']);
+                            }
+                            helper.isClone(cmp);
                         }
-                        helper.isClone(cmp);
                     }
                 }
             }
+            let currentOrder = cmp.find('sfims__Repayment_Allocation_Order__c').get('v.value');
+            if (currentOrder) {
+                cmp.set('v.oldRepaymentAllocationOrder', currentOrder);
+            }
+            cmp.find('spinner').hideSpinner('form');
+            helper['setFirstDefaultValues'] = true;
+            helper.end();
         }
-        let currentOrder = cmp.find('sfims__Repayment_Allocation_Order__c').get('v.value');
-        if (currentOrder) {
-            cmp.set('v.oldRepaymentAllocationOrder', currentOrder);
-        }
-        cmp.find('spinner').hideSpinner('form');
-        helper.end();
     },
 
     formError: function (cmp, event, helper) {
         helper.begin('formError');
+        if (cmp.get('v.isClone')) {
+            cmp.set('v.recordId', helper['recordId']);
+        }
         let errors = event.getParams();
         helper.log('errors', errors);
         let groupErr = {};
@@ -175,92 +182,93 @@
         helper['fieldErrors'] = [];
         event.preventDefault();
         cmp.find('spinner').showSpinner('form');
-/*
-        let validationFields = [
-            {name: 'Name'},
-            {name: 'sfims__Interest_Rate_Source__c'},
-            {name: 'sfims__Grace_Period_Types__c'},
-            {name: 'sfims__Repayment_Allocation_Type__c'}
-        ];
+        /*
+                let validationFields = [
+                    {name: 'Name'},
+                    {name: 'sfims__Interest_Rate_Source__c'},
+                    {name: 'sfims__Grace_Period_Types__c'},
+                    {name: 'sfims__Repayment_Allocation_Type__c'}
+                ];
 
-        let recordUiFields = {};
-        if (helper['recordUi']) {
-            if (helper['recordUi'].hasOwnProperty('recordUi')) {
-                if (helper['recordUi']['recordUi'].hasOwnProperty('objectInfo')) {
-                    if (helper['recordUi']['recordUi']['objectInfo'].hasOwnProperty('fields')) {
-                        recordUiFields = helper['recordUi']['recordUi']['objectInfo']['fields'];
+                let recordUiFields = {};
+                if (helper['recordUi']) {
+                    if (helper['recordUi'].hasOwnProperty('recordUi')) {
+                        if (helper['recordUi']['recordUi'].hasOwnProperty('objectInfo')) {
+                            if (helper['recordUi']['recordUi']['objectInfo'].hasOwnProperty('fields')) {
+                                recordUiFields = helper['recordUi']['recordUi']['objectInfo']['fields'];
+                            }
+                        }
                     }
+                }
+
+                validationFields.forEach(function (item) {
+                    if (!item.hasOwnProperty('label')) {
+                        item['label'] = '';
+                    }
+                    if (recordUiFields.hasOwnProperty(item.name)) {
+                        if (recordUiFields[item.name].hasOwnProperty('label')) {
+                            item['label'] = recordUiFields[item.name].label;
+                        }
+                    }
+                });
+
+
+                if (!helper.formValidation(cmp, validationFields)) {
+                    cmp.find('spinner').hideSpinner('form');
+                    if (helper['errFields']) {
+                        let size = helper['errFields'].length;
+                        let msg = '';
+                        if (size > 0) {
+                            for (let i = 0; i < size; i++) {
+                                msg += '- ' + helper['errFields'][i].label + '\n';
+                            }
+                        }
+                        if (msg !== '') {
+                            cmp.find('message').showErrorMessage('Please check and fill in the required fields' + ': \n' + msg);
+                        }
+                    } else {
+                        cmp.find('message').showErrorMessage('Please check and fill in the required fields.');
+                    }
+                } else {*/
+        let fields = event.getParam('fields');
+        if (cmp.get('v.isClone')) {
+            helper['recordId'] = cmp.get('v.recordId');
+            cmp.set('v.recordId', null);
+        }
+        fields['sfims__Repayment_Allocation_Order__c'] = cmp.get('v.newRepaymentAllocationOrder');
+
+        let topFieldSet = cmp.find('topFieldSet');
+        if (topFieldSet) {
+            if (Array.isArray(topFieldSet)) {
+                topFieldSet.forEach(function (element) {
+                    if (element.get('v.fieldName')) {
+                        fields[element.get('v.fieldName')] = element.get('v.value');
+                    }
+                });
+            } else {
+                if (topFieldSet.get('v.fieldName')) {
+                    fields[topFieldSet.get('v.fieldName')] = topFieldSet.get('v.value');
+                }
+            }
+        }
+        let bottomFieldSet = cmp.find('bottomFieldSet');
+        if (bottomFieldSet) {
+            if (Array.isArray(bottomFieldSet)) {
+                bottomFieldSet.forEach(function (element) {
+                    if (element.get('v.fieldName')) {
+                        fields[element.get('v.fieldName')] = element.get('v.value');
+                    }
+                });
+            } else {
+                if (bottomFieldSet.get('v.fieldName')) {
+                    fields[bottomFieldSet.get('v.fieldName')] = bottomFieldSet.get('v.value');
                 }
             }
         }
 
-        validationFields.forEach(function (item) {
-            if (!item.hasOwnProperty('label')) {
-                item['label'] = '';
-            }
-            if (recordUiFields.hasOwnProperty(item.name)) {
-                if (recordUiFields[item.name].hasOwnProperty('label')) {
-                    item['label'] = recordUiFields[item.name].label;
-                }
-            }
-        });
-
-
-        if (!helper.formValidation(cmp, validationFields)) {
-            cmp.find('spinner').hideSpinner('form');
-            if (helper['errFields']) {
-                let size = helper['errFields'].length;
-                let msg = '';
-                if (size > 0) {
-                    for (let i = 0; i < size; i++) {
-                        msg += '- ' + helper['errFields'][i].label + '\n';
-                    }
-                }
-                if (msg !== '') {
-                    cmp.find('message').showErrorMessage('Please check and fill in the required fields' + ': \n' + msg);
-                }
-            } else {
-                cmp.find('message').showErrorMessage('Please check and fill in the required fields.');
-            }
-        } else {*/
-            let fields = event.getParam('fields');
-            if (cmp.get('v.isClone')) {
-                cmp.set('v.recordId', null);
-            }
-            fields['sfims__Repayment_Allocation_Order__c'] = cmp.get('v.newRepaymentAllocationOrder');
-
-            let topFieldSet = cmp.find('topFieldSet');
-            if (topFieldSet) {
-                if (Array.isArray(topFieldSet)) {
-                    topFieldSet.forEach(function (element) {
-                        if (element.get('v.fieldName')) {
-                            fields[element.get('v.fieldName')] = element.get('v.value');
-                        }
-                    });
-                } else {
-                    if (topFieldSet.get('v.fieldName')) {
-                        fields[topFieldSet.get('v.fieldName')] = topFieldSet.get('v.value');
-                    }
-                }
-            }
-            let bottomFieldSet = cmp.find('bottomFieldSet');
-            if (bottomFieldSet) {
-                if (Array.isArray(bottomFieldSet)) {
-                    bottomFieldSet.forEach(function (element) {
-                        if (element.get('v.fieldName')) {
-                            fields[element.get('v.fieldName')] = element.get('v.value');
-                        }
-                    });
-                } else {
-                    if (bottomFieldSet.get('v.fieldName')) {
-                        fields[bottomFieldSet.get('v.fieldName')] = bottomFieldSet.get('v.value');
-                    }
-                }
-            }
-
-            helper.log('save', fields);
-            cmp.find('formLoanProduct').submit(fields);
-       // }
+        helper.log('save', fields);
+        cmp.find('formLoanProduct').submit(fields);
+        // }
         helper.end();
     },
 

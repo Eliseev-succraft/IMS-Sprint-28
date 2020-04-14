@@ -56,7 +56,7 @@
         </values>
         <values>
             <fullName>Interest Rollup</fullName>
-            <default>false</default> 
+            <default>false</default>
         </values>
         <values>
             <fullName>None</fullName>
@@ -66,11 +66,11 @@
     <picklistValues>
         <picklist>Late_Repayment_Calculation_Method__c</picklist>
         <values>
-            <fullName>No Penalty</fullName>
+            <fullName>Fixed Fee</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Fixed Fee</fullName>
+            <fullName>No Penalty</fullName>
             <default>false</default>
         </values>
         <values>
@@ -142,15 +142,15 @@
     <picklistValues>
         <picklist>Setup_Fee_Charging_Method__c</picklist>
         <values>
-            <fullName>No Setup Fee</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Capitalized</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Deducted From Principal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Setup Fee</fullName>
             <default>false</default>
         </values>
         <values>
@@ -180,6 +180,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Closed</fullName>
             <default>false</default>
         </values>
@@ -201,10 +205,6 @@
         </values>
         <values>
             <fullName>Pending Disbursal</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Cancelled</fullName>
             <default>false</default>
         </values>
     </picklistValues>

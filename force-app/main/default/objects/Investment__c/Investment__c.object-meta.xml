@@ -88,7 +88,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>New</actionName>
-        <content>OverriddenInvestmentNewEdit</content>
+        <content>NavigateToInvestment</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>true</skipRecordTypeSelect>
         <type>LightningComponent</type>

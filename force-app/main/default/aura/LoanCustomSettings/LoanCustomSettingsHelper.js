@@ -17,12 +17,12 @@
                 // that.log('profile', that['profile']);
                 that['customSettings'] = JSON.parse(map['getCustomSettings']);
                 that.log('custom settings', that['customSettings']);
-                
+
                 // if (that['customSettings'] && that['objectFields'] && that['profile']) {
-                if (that['customSettings'] && that['objectFields'] && map.hasOwnProperty('hasPermission')) {    
+                if (that['customSettings'] && that['objectFields'] && map.hasOwnProperty('hasPermission')) {
                     that['hasPermission'] = (map['hasPermission'] === 'true');
                     if (!that['hasPermission']) {
-                        that.run(that.showMessage, [null, $A.get("$Label.sfims.error_message_67"), 'info', 6000]);
+                        that.run(that.showMessage, [null, $A.get("$Label.c.error_message_67"), 'info', 6000]);
                         cmp.set('v.isDisabledRepaymentAllocationOrder', true);
                     }
                     that.run(that.setDefaultValues, [cmp]);
@@ -47,6 +47,7 @@
     checkForChanges: function (cmp) {
         this.group('checkForChanges');
         let that = this;
+        that.log(this['defaultValues']);
         if (this['defaultValues']) {
             let flag = false;
             if (this['fields']) {
@@ -226,19 +227,35 @@
             map['sfims__CBO_Repayment_Allocation_Type__c'] = {type: 'Boolean'};
             map['sfims__CBO_Repayment_Allocation_Order__c'] = {type: 'Boolean'};
             map['sfims__CBO_Monitoring_Fee_Percentage__c'] = {type: 'Boolean'};
+            map['sfims__Late_Repayment_Fees_Charging__c'] = {
+                type: 'CustomPicklist',
+                defaultValue: 'Add Late Repayment Fees to existing schedule',
+                options: [
+                    {
+                        label: 'Add Late Repayment Fees to existing schedule',
+                        value: 'Add Late Repayment Fees to existing schedule'
+                    },
+                    {
+                        label: 'Create extra schedule for Late Repayment Fees',
+                        value: 'Create extra schedule for Late Repayment Fees'
+                    }]
+            };
             let options = {};
             this['defaultValues'] = {};
             this['fields'].forEach(function (field) {
-                if (map.hasOwnProperty(field) || field === 'sfims__Late_Repayment_Tolerance_Period__c' || field === 'sfims__Monitoring_Fee_Percentage__c' || ignore.indexOf(field) !== -1) {
+                if (map.hasOwnProperty(field) || field === 'sfims__Late_Repayment_Tolerance_Period__c' || field === 'sfims__Monitoring_Fee_Percentage__c') {
+                    let defValue = '';
                     if (map.hasOwnProperty(field) && map[field]['type'] === 'Picklist') {
                         options[field] = [{
                             label: '--None--',
                             value: ''
                         }].concat(map[field]['options']);
+                    } else if (map.hasOwnProperty(field) && map[field]['type'] === 'CustomPicklist') {
+                        options[field] = map[field]['options'];
+                        defValue = map[field].defaultValue;
                     }
                     let element = cmp.find(field);
                     if (element) {
-                        let defValue = '';
                         if (that['customSettings']) {
                             if (that['customSettings'].hasOwnProperty(field)) {
                                 defValue = that['customSettings'][field];

@@ -132,6 +132,15 @@
                                 </div>
                             </div>
                         </li>
+
+                        <li class="slds-setup-assistant__item">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_6-of-6">
+                                    <lightning:combobox aura:id="sfims__Late_Repayment_Fees_Charging__c" name="sfims__Late_Repayment_Fees_Charging__c" label="Late Repayment Fees Charging" options="{! v.options.sfims__Late_Repayment_Fees_Charging__c }" onchange="{! c.handleChange }"/>
+                                </div>
+                            </div>
+                        </li>
+
                         <li class="slds-setup-assistant__item">
                             <div class="slds-grid slds-gutters">
                                 <div class="slds-col slds-size_1-of-2">

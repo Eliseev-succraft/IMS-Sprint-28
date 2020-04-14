@@ -47,26 +47,68 @@
 
     handleValidation: function (cmp, event, helper) {
         helper.begin('handleValidation');
+        let isValid = true;
+        if (cmp.get('v.isInternalTransfer')) {
+            let transactionDate = cmp.find('transactionDate');
+            if (transactionDate) {
+                if ($A.util.isEmpty(transactionDate.get('v.value'))) {
+                    transactionDate.setCustomValidity('Complete this field.');
+                    transactionDate.reportValidity();
+                    isValid = false;
+                } else {
+                    transactionDate.setCustomValidity('');
+                    transactionDate.reportValidity();
+                }
+            }
+            let internalTransferAmount = cmp.find('internalTransferAmount');
+            if (internalTransferAmount) {
+                if ($A.util.isEmpty(internalTransferAmount.get('v.value'))) {
+                    internalTransferAmount.setCustomValidity('Complete this field.');
+                    internalTransferAmount.reportValidity();
+                    isValid = false;
+                } else {
+                    internalTransferAmount.setCustomValidity('');
+                    internalTransferAmount.reportValidity();
+                    internalTransferAmount.showHelpMessageIfInvalid();
+                    if (isValid) {
+                        isValid = internalTransferAmount.get('v.validity').valid
+                    }
+                }
+            }
+        }
         let messages = [];
         if (Number(cmp.get('v.totalPrincipalWrittenOff')) > Number(cmp.get('v.simpleRecord').sfims__Principal_Remaining__c)) {
             messages.push($A.get('$Label.c.aura_label_27'));
+            isValid = false;
         }
         if (cmp.get('v.rescheduleLoan')) {
             if (Number(cmp.get('v.totalInterestWrittenOff')) > Number(cmp.get('v.simpleRecord').sfims__Interest_Overdue__c)) {
                 messages.push($A.get('$Label.c.aura_label_29'));
+                isValid = false;
             }
         }
         if (cmp.get('v.writeOff') || cmp.get('v.earlyRepayment')) {
             if (Number(cmp.get('v.totalInterestWrittenOff')) > Number(cmp.get('v.simpleRecord').sfims__Interest_Remaining__c)) {
                 messages.push($A.get('$Label.c.aura_label_30'));
+                isValid = false;
+            }
+            if (cmp.get('v.isInternalTransfer')) {
+                if (Number(cmp.get('v.internalTransferAmount')) > Number(cmp.get('v.totalEarlyRepaymentAmount'))) {
+                    messages.push('Amount cannot be more ' + Number(cmp.get('v.totalEarlyRepaymentAmount')) + '.');
+                    isValid = false;
+                }
             }
         }
         if (Number(cmp.get('v.totalFeesWrittenOff')) > Number(cmp.get('v.simpleRecord').sfims__Fees_Remaining__c)) {
             messages.push($A.get('$Label.c.aura_label_33'));
+            isValid = false;
         }
         if (Number(cmp.get('v.totalPenaltiesWrittenOff')) > Number(cmp.get('v.simpleRecord').sfims__Late_Repayment_Fees_Remaining__c)) {
             messages.push($A.get('$Label.c.aura_label_35'));
+            isValid = false;
         }
+        cmp.set('v.isValid', isValid);
+        helper.log('messages', messages);
         if (messages.length > 0) {
             let message = '';
             messages.forEach(function (msg) {

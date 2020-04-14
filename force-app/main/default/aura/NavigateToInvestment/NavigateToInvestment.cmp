@@ -1,0 +1,6 @@
+<aura:component implements="lightning:actionOverride,lightning:hasPageReference" description="NavigateToInvestment">
+    <c:OverriddenInvestmentNewEdit
+            pageReference="{! v.pageReference }"
+            defaultFieldValues="Name=Test123, sfims__Status__c=Inactive"
+    />
+</aura:component>

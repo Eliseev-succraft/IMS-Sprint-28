@@ -3,6 +3,11 @@
     <c:lwcUtilityMessage aura:id="message" isDebugLog="{# v.isDebugLog }"/>
     <!-- Global attributes -->
     <aura:attribute name="isDebugLog" type="Boolean" default="true"/>
+    <!-- InternalTransfer attributes -->
+    <aura:attribute name="isValid" type="Boolean" default="true"/>
+    <aura:attribute name="isInternalTransfer" type="Boolean" default="false"/>
+    <aura:attribute name="transactionDate" type="Date" default=""/>
+    <aura:attribute name="internalTransferAmount" type="Double"/>
     <!-- Additional attributes -->
     <aura:attribute name="recordId" type="String"/>
     <aura:attribute name="simpleRecord" type="Object"/>
@@ -182,7 +187,7 @@
                              autocomplete="off"/>
         </aura:if>
 
-        <aura:if isTrue="{! v.earlyRepayment }">
+        <aura:if isTrue="{! and(v.earlyRepayment, not(v.isInternalTransfer)) }">
             <div class="slds-form-element" style="margin-bottom: 10px;">
                 <span data-aria="true" class="slds-assistive-text"></span>
                 <label class="slds-form-element__label slds-no-flex">{! $Label.c.aura_label_40 }</label>
@@ -195,6 +200,39 @@
                              label="{! $Label.c.aura_label_41 }"
                              value="{! v.actionDate }"
                              autocomplete="off"/>
+        </aura:if>
+
+        <aura:if isTrue="{! v.isInternalTransfer }">
+            <div class="slds-form-element slds-form-element_stacked">
+                <div class="slds-form-element__label custom-required-label">
+                    Transaction Date
+                </div>
+                <lightning:input type="date" aura:id="transactionDate"
+                                 class="custom-required-field"
+                                 value="{! v.transactionDate }"
+                                 variant="label-hidden"
+                                 label="Transaction Date"
+                                 onblur="{! c.handleValidation }"
+                                 autocomplete="off"
+                />
+            </div>
+            <div class="slds-form-element slds-form-element_stacked">
+                <div class="slds-form-element__label custom-required-label">
+                    Amount  (Allowed range: 0 - {! v.totalEarlyRepaymentAmount ? v.totalEarlyRepaymentAmount : 0 })
+                </div>
+                <lightning:input type="number" aura:id="internalTransferAmount"
+                                 class="custom-required-field"
+                                 formatter="currency"
+                                 step="0.01"
+                                 min="0"
+                                 max="{! v.totalEarlyRepaymentAmount }"
+                                 onblur="{! c.handleValidation }"
+                                 variant="label-hidden"
+                                 label="Amount"
+                                 value="{! v.internalTransferAmount }"
+                                 autocomplete="off"
+                />
+            </div>
         </aura:if>
     </lightning:recordEditForm>
 </aura:component>

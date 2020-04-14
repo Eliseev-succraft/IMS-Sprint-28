@@ -3,6 +3,40 @@
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>
+                <name>customObjectFields</name>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>customTaskFields</name>
+                <value>Subject, WhatId, OwnerId, ActivityDate, Status, Start</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>environmentType</name>
+                <value>Standard</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>isDebugLog</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>isOnlyMyTasks</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>isShowPaginationBar</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>numberOfResults</name>
+                <value>10</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>showTasks</name>
+                <value>All Users</value>
+            </componentInstanceProperties>
+            <componentName>TaskActionList</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
                 <name>dashboardName</name>
                 <value>KkqzUIhXmdeTdvqpkqQxVuoffRUWJB</value>
             </componentInstanceProperties>

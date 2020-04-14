@@ -1,0 +1,11 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader" access="global" description="ObsoleteButtonComponent">
+    <aura:html tag="style">
+        .modal-container {
+            display: none;
+        }
+        .slds-backdrop--open {
+            display: none;
+        }
+    </aura:html>
+    <c:lwcUtilityMessage aura:id="message" onloaded="{! c.showMessage }"/>
+</aura:component>
